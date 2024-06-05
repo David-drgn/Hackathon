@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consulta</title>
+    <link rel="icon" type="image/x-icon" href="./assets/icon/logo.ico" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+    <script src="https://unpkg.com/imask"></script>
+
+    <script src="./controller/index.js"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="header"></div>
+    <div id="content"></div>
+    <div id="dialog"></div>
+    <div id="alert"></div>
+    <script>
+      $(document).ready(function () {
+        $("#header").load("./assets/includes/header.html");
+        $("#content").load("./pages/heroPage.html");
+      });
+    </script>
+  </body>
+</html>

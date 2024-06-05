@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="../../css/cssHeader.css" />
+<div class="header">
+  <div class="title_header">
+    <img
+      class="logo_cell_header image_header"
+      src="../assets/icon/cardapio.png"
+      onclick="showMenu(this)"
+    />
+  </div>
+  <div class="button_group_header">
+    <button class="button_header">Como funciona?</button>
+    <button class="button_header" onclick="sobreNos()">Sobre nós</button>
+    <button
+      class="button_header"
+      style="display: none"
+      onclick="paginaInicial()"
+    >
+      Início
+    </button>
+    <button class="button_header" onclick="closeRegister()">Cadastrar-se</button>
+    <button class="strong_header button_header" onclick="loginOpen()">
+      Entrar
+    </button>
+  </div>
+  <div class="button_group_enter_header">
+    <button class="strong_header button_header" onclick="loginOpen()">
+      Entrar
+    </button>
+  </div>
+</div>
+<div id="background_header">
+  <div class="menu_header">
+    <button class="button_header" onclick="sobreNos()">Sobre nós</button>
+    <button
+      class="button_header"
+      style="display: none"
+      onclick="paginaInicial()"
+    >
+      Início
+    </button>
+    <button class="button_header">Cadastre-se</button>
+  </div>
+</div>
+<script src="../../controller/header.js"></script>

@@ -1,0 +1,235 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container_main {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+}
+
+.sobre_main {
+  height: 100vh;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: end;
+}
+
+.text_sobre_main {
+  font-size: 22px;
+  display: none;
+  text-align: left;
+  overflow: auto;
+}
+
+.wrapper_sobre_main {
+  height: 75%;
+  background-image: linear-gradient(
+    rgb(127, 155, 205, 0.5),
+    rgba(127, 156, 205, 0.25)
+  );
+  backdrop-filter: blur(3px);
+  color: white;
+  padding: 20px;
+  width: 85%;
+  gap: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.active {
+  border-bottom: 2px solid #7f9bcd !important;
+}
+
+.wrapper_sobre_buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.wrapper_sobre_buttons > button {
+  background-color: transparent;
+  color: white;
+  font-weight: 600;
+  border: 0px;
+  cursor: pointer;
+  font-size: clamp(20px, 4vw, 30px);
+  transition: all 1s;
+}
+
+.wrapper_sobre_buttons > button:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.title_main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.image_main {
+  width: 100px;
+}
+
+.title_main > span {
+  font-size: 60px;
+  color: white;
+  text-shadow: -1px -1px 0 #7f9bcd, 1px -1px 0 #7f9bcd, -1px 1px 0 #7f9bcd,
+    1px 1px 0 #7f9bcd, -2px -2px 0 #7f9bcd, 2px -2px 0 #7f9bcd,
+    -2px 2px 0 #7f9bcd, 2px 2px 0 #7f9bcd;
+  font-weight: 200;
+}
+
+.background_main {
+  background-image: url("../assets/images/backEscritorio.jfif");
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  filter: brightness(0.4);
+}
+
+.text_main {
+  min-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  padding: 20px;
+  gap: 20px;
+}
+
+.text_main > span {
+  color: white;
+  text-align: end;
+  max-width: 500px;
+}
+
+.styling_main {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+}
+
+.styling_main > img {
+  max-width: 680px;
+  max-height: 700px;
+  height: 80%;
+}
+
+.title_main {
+  font-weight: bold;
+  font-size: clamp(55px, 4vw, 80px);
+}
+
+.button_main {
+  color: white;
+  border: 0px solid;
+  font-size: clamp(20px, 3.5vw, 25px);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: all 1s;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  background: #7f9bcd;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.button_main:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.strong_main {
+  font-size: clamp(20px, 4vw, 30px);
+}
+
+.button_main > span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.button_main > span.options:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.options > img {
+  width: clamp(20px, 4vw, 40px);
+}
+
+object {
+  width: 100vw;
+  height: auto;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
+
+@media only screen and (max-width: 1115px) {
+  .container_main {
+    flex-direction: column;
+    justify-content: end;
+    margin-top: 70px;
+  }
+
+  .styling_main > img {
+    max-width: 700px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .styling_main {
+    display: flex;
+    justify-content: center;
+    max-height: 65%;
+  }
+
+  .text_main {
+    min-width: unset;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50px;
+    left: 0px;
+    width: calc(100vw - 40px);
+  }
+
+  .strong_main {
+    border-bottom-left-radius: 30px !important;
+    border-bottom-right-radius: 30px !important;
+  }
+
+  .text_main > span {
+    text-align: center;
+  }
+
+  .wrapper_sobre_main {
+    position: fixed;
+    bottom: 0px;
+    height: auto;
+    max-height: 80%;
+  }
+}

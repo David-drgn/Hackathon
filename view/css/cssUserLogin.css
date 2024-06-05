@@ -1,0 +1,151 @@
+.background_login {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.erro_login {
+  display: none;
+  color: red;
+  font-style: italic;
+}
+
+.wrapper_login {
+  background-color: #cbcbcb;
+  padding: 20px;
+  max-width: 50%;
+  max-height: 50%;
+  min-width: 40%;
+  min-height: 30%;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.checkbox_login {
+  width: 80%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: #7f9bcd;
+  font-size: large;
+}
+
+.wrapper_header_login {
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  align-items: center;
+}
+
+.close_login {
+  width: 40px;
+  cursor: pointer;
+  transition: all 1s;
+  height: 40px;
+}
+
+.eye {
+  cursor: pointer;
+  transition: all 1s;
+  cursor: pointer;
+}
+
+.eye:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.close_login:hover {
+  transform: scale(1.1, 1.1) rotate(90deg);
+}
+
+.title_login {
+  color: #7f9bcd;
+  font-size: clamp(20px, 3.5vw, 35px);
+}
+
+.password_login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  border: 1px solid;
+  padding: 14px;
+  border-radius: 50px;
+  background-color: white;
+}
+
+.password_login > input {
+  border: 0px solid;
+  width: 100%;
+}
+
+input.login {
+  width: 80%;
+  border: 1px solid;
+  padding: 14px;
+  border-radius: 50px;
+  background-color: white;
+}
+
+input {
+  outline: none;
+}
+
+.button_login {
+  color: white;
+  border: 0px solid;
+  font-size: clamp(20px, 3.5vw, 25px);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: all 1s;
+  display: flex;
+  flex-direction: column;
+  background: #7f9bcd;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.button_login:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.forget_login {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.link_login {
+  color: #7f9bcd;
+  font-size: clamp(15px, 4vw, 20px);
+  cursor: pointer;
+  transition: all 1s;
+}
+
+.link_login:hover {
+  transform: scale(1.1, 1.1);
+}
+
+@media only screen and (max-width: 840px) {
+  .wrapper_login {
+    width: 90%;
+    max-width: unset;
+  }
+}

@@ -1,0 +1,19 @@
+function login() {
+  const email = document.getElementById("email_login").value;
+  const password = document.getElementById("password_login").value;
+
+  console.log({
+    email,
+    password,
+  });
+  if (email == "" || password == "") {
+    if (email == "")
+      document.getElementsByClassName("erro_login")[0].style.display = "block";
+    else
+      document.getElementsByClassName("erro_login")[0].style.display = "none";
+    if (password == "")
+      document.getElementsByClassName("erro_login")[1].style.display = "block";
+    else
+      document.getElementsByClassName("erro_login")[1].style.display = "none";
+  }
+}

@@ -1,0 +1,161 @@
+.background_register {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.erro_register {
+  color: red;
+  font-style: italic;
+}
+
+.wrapper_register {
+  background-color: #cbcbcb;
+  padding: 20px;
+  max-width: 50%;
+  min-width: 40%;
+  min-height: 30%;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.cancel_button_register {
+  background-color: red !important;
+}
+
+.button_group_register {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 80%;
+}
+
+.checkbox_register {
+  width: 80%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: #7f9bcd;
+  font-size: large;
+}
+
+.close_register {
+  width: 40px;
+  cursor: pointer;
+  transition: all 1s;
+  height: 40px;
+}
+
+.eye {
+  cursor: pointer;
+  transition: all 1s;
+  cursor: pointer;
+}
+
+.eye:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.close_register:hover {
+  transform: scale(1.1, 1.1) rotate(90deg);
+}
+
+.title_register {
+  color: #7f9bcd;
+  font-size: clamp(20px, 3.5vw, 35px);
+  width: 100%;
+}
+
+.wrapper_header_register {
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  align-items: center;
+}
+
+.password_register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  border: 1px solid;
+  padding: 14px;
+  border-radius: 50px;
+  background-color: white;
+}
+
+.password_register > input {
+  border: 0px solid;
+  width: 100%;
+}
+
+input.register {
+  width: 80%;
+  border: 1px solid;
+  padding: 14px;
+  border-radius: 50px;
+  background-color: white;
+}
+
+input {
+  outline: none;
+}
+
+.button_register {
+  color: white;
+  border: 0px solid;
+  font-size: clamp(20px, 3.5vw, 25px);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: all 1s;
+  display: flex;
+  flex-direction: column;
+  background: #7f9bcd;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.button_register:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.forget_register {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.link_register {
+  color: #7f9bcd;
+  font-size: clamp(15px, 4vw, 20px);
+  cursor: pointer;
+  transition: all 1s;
+}
+
+.link_register:hover {
+  transform: scale(1.1, 1.1);
+}
+
+@media only screen and (max-width: 840px) {
+  .wrapper_register {
+    width: 90%;
+    max-width: unset;
+  }
+}
