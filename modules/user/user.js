@@ -2,7 +2,6 @@ const rp = require("request-promise-native");
 
 const Token = require("../security/token.js");
 const Crypto = require("../security/cryptography.js");
-const e = require("express");
 
 const bytesToBase64 = async (bytes) => {
   let binary = "";
@@ -16,7 +15,7 @@ const bytesToBase64 = async (bytes) => {
 const HashPasword = async (password) => {
   const crypto = await new Crypto();
   let salt = await bytesToBase64(await crypto.newSalt());
-  var hash = await crypto.crypto(password, salt);
+  let hash = await crypto.crypto(password, salt);
   return {
     salt,
     hash,
@@ -30,9 +29,59 @@ class User {
     this.token = token;
   }
 
-  async create(password) {
-    let passwordObj = await HashPasword(password);
-    console.log(passwordObj);
+  async create(name, email, password, telephone, document) {
+    try {
+      let passwordObj = await HashPasword(password);
+      console.log(passwordObj);
+
+      let record = {};
+
+      record.name = name;
+      record.emailaddress1 = email;
+      record.new_password = passwordObj.hash;
+      record.new_salt = passwordObj.salt;
+      record.telephone1 = telephone;
+      record.new_document = document;
+
+      return new Promise((resolve, reject) => {
+        fetch(`https://newproject.crm.dynamics.com/api/data/v9.2/accounts`, {
+          method: "POST",
+          headers: {
+            "OData-MaxVersion": "4.0",
+            "OData-Version": "4.0",
+            "Content-Type": "application/json; charset=utf-8",
+            Accept: "application/json",
+            Prefer: "odata.include-annotations=*",
+            Authorization: "Bearer " + this.token,
+          },
+          body: JSON.stringify(record),
+        })
+          .then(function success(response) {
+            if (response.ok) {
+              resolve({
+                erro: false,
+                message: "Cadastro realizado com sucesso",
+              });
+            } else {
+              resolve({
+                erro: true,
+                message:
+                  "Ocorreu algum erro inesperado, por favor, tente novamente",
+              });
+            }
+          })
+          .catch(function (e) {
+            resolve({
+              erro: true,
+              message:
+                "Ocorreu algum erro inesperado, por favor, tente novamente",
+              e,
+            });
+          });
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   login() {}
@@ -41,7 +90,7 @@ class User {
 
   async getByEmail(email) {
     try {
-      var options = {
+      let options = {
         method: "GET",
         headers: {
           "OData-MaxVersion": "4.0",
