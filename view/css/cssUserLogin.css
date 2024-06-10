@@ -74,6 +74,7 @@
 .title_login {
   color: #7f9bcd;
   font-size: clamp(20px, 3.5vw, 35px);
+  width: 100%;
 }
 
 .password_login {

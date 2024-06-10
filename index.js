@@ -135,6 +135,31 @@ app.post("/api/sendMail", async (req, res) => {
   }
 });
 
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try{
+    const connect = await new Connect();
+    await connect.initialize();
+  
+    const user = await new User(connect.token);
+  
+    const login = await user.login(email, password);
+  
+    return res.json({
+      erro: false,
+      message: "Login realizado com sucesso",
+      token: login,
+    });
+  }
+  catch(e){
+    return res.json({
+      erro: true,
+      message: "Login ou senha incorretas",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Rodando, porta: ${port}`);
 });

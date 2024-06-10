@@ -44,7 +44,7 @@ function paginaInicial() {
   document.getElementsByClassName("button_header")[6].style.display = "unset";
 }
 
-function closeRegister() {
+function register() {
   $("#dialog").empty();
   $(document).ready(function () {
     $("#dialog").load("./pages/userRegister.html");

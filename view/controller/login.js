@@ -1,4 +1,4 @@
-function login() {
+async function login() {
   const email = document.getElementById("email_login").value;
   const password = document.getElementById("password_login").value;
 
@@ -6,6 +6,7 @@ function login() {
     email,
     password,
   });
+
   if (email == "" || password == "") {
     if (email == "")
       document.getElementsByClassName("erro_login")[0].style.display = "block";
@@ -16,4 +17,23 @@ function login() {
     else
       document.getElementsByClassName("erro_login")[1].style.display = "none";
   }
+
+  const request = await fetch(`${location.origin}/api/login`, {
+    method: "POST",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  });
+
+  const response = await request.json();
+
+  console.log(response);
 }

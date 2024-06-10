@@ -22,6 +22,12 @@ const HashPasword = async (password) => {
   };
 };
 
+const Descrypto = async (hash, salt) => {
+  const crypto = await new Crypto();
+  let password = await crypto.decrypt(hash, salt);
+  return password;
+};
+
 class User {
   token;
 
@@ -84,7 +90,23 @@ class User {
     }
   }
 
-  login() {}
+  async login(email, password) {
+    const user = await this.getByEmail(email);
+
+    if (!user) {
+      throw new Error("Login não encontrado");
+    }
+
+    if ((await Descrypto(user.new_password, user.new_salt)) == password) {
+      delete user.new_salt;
+      delete user.new_password;
+      const returnToken = await new Token().createToken({
+        user,
+      });
+      const verifyToken = await new Token().verifyToken(returnToken);
+      return returnToken;
+    } else throw new Error("Login ou senha incorretos");
+  }
 
   forgetPassword(email) {}
 
@@ -99,7 +121,7 @@ class User {
           Accept: "application/json",
           Prefer: "odata.include-annotations=*",
         },
-        url: `https://newproject.crm.dynamics.com/api/data/v9.2/accounts?$select=emailaddress1,name&$filter=emailaddress1 eq '${email}'`,
+        url: `https://newproject.crm.dynamics.com/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,new_salt&$filter=emailaddress1 eq '${email}'`,
         headers: {
           Authorization: "Bearer " + this.token,
         },
