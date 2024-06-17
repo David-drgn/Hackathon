@@ -19,7 +19,7 @@ app.use(bodyParser.json({ limit: "9mb" }));
 
 app.use("/", router);
 
-app.get("/", async (req, res) => {
+app.get("", async (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "view", "index.html"));
 });
 
