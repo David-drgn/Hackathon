@@ -19,10 +19,6 @@ app.use(bodyParser.json({ limit: "9mb" }));
 
 app.use("/", router);
 
-app.get("", async (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "..", "view", "index.html"));
-});
-
 router.get("/:id", async (req, res) => {
   var id = req.params.id;
   let select = verifyEmail.find((e) => e.id === id);

@@ -10,9 +10,9 @@ router.use(express.json());
 router.use(cors());
 router.use(bodyParser.json({ limit: "9mb" }));
 
-// router.get("/", async (req, res) => {
-//   res.sendFile(path.join(__dirname, "..", "..", "view", "index.html"));
-// });
+router.get("/", async (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "..", "view", "index.html"));
+});
 
 router.use("/assets", express.static(path.join(__dirname, "..", "..", "view", "assets")));
 router.use("/css", express.static(path.join(__dirname, "..", "..", "view", "css")));
