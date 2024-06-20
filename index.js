@@ -7,6 +7,7 @@ const Chat = require("./modules/chat/chatRequest.js");
 const Connect = require("./modules/crm/connect.js");
 const Mailler = require("./modules/mail/email.js");
 const User = require("./modules/user/user.js");
+const Validator = require("./modules/security/documentValidator.js");
 
 let verifyEmail = [];
 
@@ -17,11 +18,27 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json({ limit: "9mb" }));
 
+async function codeTrigger(select) {
+  if (select.type == 1) {
+    const connect = await new Connect();
+    await connect.initialize();
+
+    const user = await new User(connect.token);
+    let response = await user.create(...Object.values(select.new_user));
+
+    if (!response.erro) verifyEmail = verifyEmail.filter((e) => e !== select);
+
+    return response;
+  } else if (select.type == 2) {
+    // if (!response.erro) verifyEmail = verifyEmail.filter((e) => e !== select);
+  }
+}
+
 app.use("/", router);
 
-router.get("/:id", async (req, res) => {
-  var id = req.params.id;
-  let select = verifyEmail.find((e) => e.id === id);
+router.get("/:code", async (req, res) => {
+  var code = req.params.code;
+  let select = verifyEmail.find((e) => e.code === code);
 
   if (!select) {
     res.json({
@@ -32,7 +49,6 @@ router.get("/:id", async (req, res) => {
   } else {
     const diferencaEmMilissegundos = new Date(select.createat) - new Date();
 
-    verifyEmail = verifyEmail.filter((e) => e !== select);
     if (diferencaEmMilissegundos > 5 * 60 * 1000) {
       res.json({
         erro: true,
@@ -40,21 +56,14 @@ router.get("/:id", async (req, res) => {
           "O código fornecido já tem mais de 5 minutos, por favor, faça a requisição do código novamente",
       });
     } else {
-      if (select.type == 1) {
-        const connect = await new Connect();
-        await connect.initialize();
-
-        const user = await new User(connect.token);
-        user.create(...Object.values(select.new_user));
-      } else if (select.type == 2) {
-      }
+      res.json(await codeTrigger(select));
     }
   }
 });
 
 app.post("/api/requestChat", async (req, res) => {
   try {
-    const chat = await Chat.chatQuery("OI");
+    const chat = await Chat.chatQuery(req.body.question);
     res.json({
       erro: false,
       anwser: chat,
@@ -67,9 +76,19 @@ app.post("/api/requestChat", async (req, res) => {
   }
 });
 
+app.post("/api/validaCPF", async (req, res) => {
+  try {
+    const valid = await new Validator().validaCpf(req.body.cpf);
+    if (valid) res.json(true);
+    else res.json(false);
+  } catch {
+    res.json(false);
+  }
+});
+
 app.post("/api/sendMail", async (req, res) => {
   try {
-    const { email, name, dataUser } = req.body;
+    const { email, name, dataUser, type } = req.body;
 
     const connect = await new Connect();
     await connect.initialize();
@@ -79,7 +98,7 @@ app.post("/api/sendMail", async (req, res) => {
     const getUser = await user.getByEmail(email);
 
     const mailer = new Mailler(connect.token);
-    if (!getUser) {
+    if (!getUser && type == 0) {
       const mail = await mailer.sendMail(
         "Código de verificação para a criação da sua conta, lembre que o código só é válido por 5 minutos, após esse tempo, ele será anulado",
         name,
@@ -97,11 +116,10 @@ app.post("/api/sendMail", async (req, res) => {
         type: 1,
         code: mail.new_code,
         email: mail.new_email,
-        id: mail.new_url,
         new_user: dataUser,
         createat: new Date().toISOString(),
       });
-    } else {
+    } else if (type == 1) {
       const mail = await mailer.sendMail(
         "Código de verificação para a mudança de senha, lembre que o código só é válido por 5 minutos, após esse tempo, ele será anulado",
         name,
@@ -119,13 +137,20 @@ app.post("/api/sendMail", async (req, res) => {
         type: 2,
         code: mail.new_code,
         email: mail.new_email,
-        id: mail.new_url,
         createat: new Date().toISOString(),
       });
+    } else {
+      res.json({
+        erro: true,
+        message:
+          "O motivo do envio não foi compreendido, talvez esse usuário já exista",
+      });
+      return;
     }
     res.json({
       erro: false,
-      message: "Código enviado com sucesso!!",
+      message:
+        "Código enviado com sucesso!! Verifique a sua caixa de email, lembre que o acesso é permitido apenas após 5 minutos",
     });
   } catch {
     res.json({
@@ -136,23 +161,22 @@ app.post("/api/sendMail", async (req, res) => {
 });
 
 app.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, check } = req.body;
 
-  try{
+  try {
     const connect = await new Connect();
     await connect.initialize();
-  
+
     const user = await new User(connect.token);
-  
-    const login = await user.login(email, password);
-  
+
+    const login = await user.login(email, password, check);
+
     return res.json({
       erro: false,
       message: "Login realizado com sucesso",
       token: login,
     });
-  }
-  catch(e){
+  } catch (e) {
     return res.json({
       erro: true,
       message: "Login ou senha incorretas",

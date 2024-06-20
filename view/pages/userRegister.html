@@ -15,6 +15,14 @@
   crossorigin="anonymous"
 ></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Incluir jQuery UI (se estiver usando os efeitos slideUp/slideDown) -->
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"
+/>
+
 <link rel="stylesheet" href="./css/cssUserRegister.css" />
 <div class="background_register">
   <div class="wrapper_register">
@@ -27,44 +35,87 @@
       />
     </div>
 
-    <input class="register" id="nome_register" type="text" placeholder="Nome" />
+    <input
+      class="register"
+      id="nome_register"
+      type="text"
+      placeholder="Nome*"
+      title="Coloque o seu nome"
+    />
+    <span class="erro_register" id="span_nome"
+      >Pior favor, coloque o seu nome</span
+    >
 
-    <input class="register" id="cpf_register" type="text" placeholder="CPF" />
+    <input
+      class="register"
+      id="cpf_register"
+      type="text"
+      placeholder="CPF*"
+      title="Digite o seu CPF"
+    />
+    <span class="erro_register" id="span_cpf">Digite um CPF válido</span>
 
     <input
       class="register"
       id="email_register"
       type="text"
-      placeholder="Email"
+      placeholder="Email*"
+      title="Digite o seu email"
     />
+    <span class="erro_register" id="span_email">Coloque o seu email</span>
 
     <input
       class="register"
       id="tel_register"
       type="text"
-      placeholder="Telefone"
+      placeholder="Telefone*"
+      title="Digite o seu telefone"
     />
+    <span class="erro_register" id="span_tel">Coloque um telefone</span>
 
-    <input
-      class="register"
-      id="senha_register"
-      type="text"
-      placeholder="Senha"
-    />
+    <div class="password_register" title="">
+      <input
+        class="register"
+        type="password"
+        id="senha_register"
+        placeholder="Senha*"
+      />
+      <img src="./assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
+    </div>
+    <span class="erro_register" id="span_senha"
+      >Coloque a senha, com os requisitos pedidos</span
+    >
 
-    <input
-      class="register"
-      id="senhaConfirm_register"
-      type="text"
-      placeholder="Confirmar Senha"
-    />
-    <span class="erro_register"></span>
+    <div
+      class="password_register"
+      title="Coloque o confirmar senha com os mesmos valor que a senha"
+    >
+      <input
+        class="register"
+        type="password"
+        id="senhaConfirm_register"
+        placeholder="Confirme a senha*"
+      />
+      <img src="./assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
+    </div>
+    <span class="erro_register" id="span_senhaConfirm"
+      >Coloque o confirmar senha com os dados pedidos</span
+    >
+
+    <span class="erro_register" id="alert_required"
+      >* sinaliza os campos obrigatórios</span
+    >
 
     <div class="button_group_register">
-      <button class="button_register" onclick="closeRegister()">
+      <button class="button_register" onclick="register()">
         Cadastrar
       </button>
-      <button class="button_register cancel_button_register">Cancelar</button>
+      <button
+        class="button_register cancel_button_register"
+        onclick="$('#dialog').empty()"
+      >
+        Cancelar
+      </button>
     </div>
   </div>
 </div>
@@ -76,4 +127,34 @@
   IMask(document.getElementById("cpf_register"), {
     mask: "000.000.000-**",
   });
+
+  $("[title]").tooltip({
+    show: {
+      effect: "slideDown",
+      delay: 100,
+    },
+    hide: {
+      effect: "slideUp",
+    },
+  });
+  $("#senha_register").tooltip({
+    show: {
+      effect: "slideDown",
+      delay: 100,
+    },
+    hide: {
+      effect: "slideUp",
+    },
+    content: `
+        <b>A senha deve ter:</b>
+        <ul>
+          <li>Caracteres especiais</li>
+          <li>Mínimo de 8 caracteres</li>
+          <li>Caracteres maiúsculos</li>
+          <li>Caracteres minúsculos</li>
+        </ul>
+        `,
+  });
+
+  loadRegister();
 </script>

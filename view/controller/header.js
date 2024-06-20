@@ -24,6 +24,13 @@ function loginOpen() {
   });
 }
 
+function registerOpen() {
+  $("#dialog").empty();
+  $(document).ready(function () {
+    $("#dialog").load("./pages/userRegister.html");
+  });
+}
+
 function sobreNos() {
   document.getElementsByClassName("sobre_main")[0].style.display = "flex";
   document.getElementsByClassName("text_main")[0].style.display = "none";
@@ -42,13 +49,6 @@ function paginaInicial() {
 
   document.getElementsByClassName("button_header")[7].style.display = "none";
   document.getElementsByClassName("button_header")[6].style.display = "unset";
-}
-
-function register() {
-  $("#dialog").empty();
-  $(document).ready(function () {
-    $("#dialog").load("./pages/userRegister.html");
-  });
 }
 
 function openDialog(title, message, next = null) {

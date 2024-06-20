@@ -5,26 +5,21 @@ const gerarPalavraAleatoria = () => {
   const letrasMinusculas = "abcdefghijklmnopqrstuvwxyz";
   const letrasMaiusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const numeros = "0123456789";
-
-  // Função para pegar um caractere aleatório de uma string
   function pegarCaractereAleatorio(str) {
     const indiceAleatorio = Math.floor(Math.random() * str.length);
     return str[indiceAleatorio];
   }
 
-  // Garantir que temos pelo menos uma letra maiúscula, um número e letras minúsculas
   let palavra = pegarCaractereAleatorio(letrasMaiusculas);
   palavra += pegarCaractereAleatorio(numeros);
   for (let i = 0; i < 6; i++) {
     palavra += pegarCaractereAleatorio(letrasMinusculas);
   }
 
-  // Embaralhar os caracteres para distribuir aleatoriamente
   palavra = palavra
     .split("")
     .sort(() => 0.5 - Math.random())
     .join("");
-
   return palavra;
 };
 
@@ -44,7 +39,7 @@ class Mailler {
       record.new_subject = subject;
       record.new_button = button;
 
-      record.new_url = uuidv4();
+      record.new_url = record.new_code;
 
       return new Promise((resolve, reject) => {
         fetch(
@@ -74,7 +69,6 @@ class Mailler {
           .then(function (responseObjects) {
             var responseBody = responseObjects[1];
             var result = responseBody;
-            console.log(result);
             resolve(result);
           })
           .catch(function (error) {

@@ -37,7 +37,6 @@
   border-top: 3px solid #7f9bcd;
   z-index: 1;
   transform: translateY(-100%);
-  transition: all 1s;
 }
 
 .menu_header > button {
@@ -48,6 +47,7 @@
 }
 
 .menu_header > button:hover {
+  transition: all 1s;
   color: #7f9bcd;
 }
 
@@ -59,7 +59,6 @@
   font-weight: bold;
   cursor: pointer;
   padding: 10px 20px;
-  transition: all 1s;
 }
 
 .strong_header {
@@ -75,12 +74,12 @@
 .logo_cell_header {
   display: none;
   cursor: pointer;
-  transition: all 1s;
   width: 50px;
 }
 
 .logo_cell_header:hover,
 .button_header:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 

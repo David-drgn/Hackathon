@@ -10,9 +10,9 @@ const cpfSchema = Joi.document().cpf();
 
 class Validator {
   async validaCpf(cpf) {
-    const validator = await cpfSchema.validate("187.044.327-62");
-    if (!validator.error) console.log(true);
-    else console.log(false);
+    const validator = await cpfSchema.validate(cpf);
+    if (!validator.error) return true;
+    return false;
   }
 }
 

@@ -38,7 +38,6 @@ class User {
   async create(name, email, password, telephone, document) {
     try {
       let passwordObj = await HashPasword(password);
-      console.log(passwordObj);
 
       let record = {};
 
@@ -90,7 +89,7 @@ class User {
     }
   }
 
-  async login(email, password) {
+  async login(email, password, check) {
     const user = await this.getByEmail(email);
 
     if (!user) {
@@ -100,9 +99,12 @@ class User {
     if ((await Descrypto(user.new_password, user.new_salt)) == password) {
       delete user.new_salt;
       delete user.new_password;
-      const returnToken = await new Token().createToken({
-        user,
-      });
+      const returnToken = await new Token().createToken(
+        {
+          user,
+        },
+        check
+      );
       const verifyToken = await new Token().verifyToken(returnToken);
       return returnToken;
     } else throw new Error("Login ou senha incorretos");

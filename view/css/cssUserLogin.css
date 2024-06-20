@@ -53,22 +53,22 @@
 .close_login {
   width: 40px;
   cursor: pointer;
-  transition: all 1s;
   height: 40px;
 }
 
 .eye {
   cursor: pointer;
-  transition: all 1s;
   cursor: pointer;
 }
 
 .eye:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
 .close_login:hover {
   transform: scale(1.1, 1.1) rotate(90deg);
+  transition: all 1s;
 }
 
 .title_login {
@@ -137,10 +137,10 @@ input {
   color: #7f9bcd;
   font-size: clamp(15px, 4vw, 20px);
   cursor: pointer;
-  transition: all 1s;
 }
 
 .link_login:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 

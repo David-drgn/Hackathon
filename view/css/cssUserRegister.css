@@ -13,8 +13,15 @@
 }
 
 .erro_register {
+  display: none;
   color: red;
   font-style: italic;
+  width: 80%;
+}
+
+#alert_required {
+  text-align: end;
+  display: block;
 }
 
 .wrapper_register {
@@ -55,21 +62,21 @@
 .close_register {
   width: 40px;
   cursor: pointer;
-  transition: all 1s;
   height: 40px;
 }
 
 .eye {
   cursor: pointer;
-  transition: all 1s;
   cursor: pointer;
 }
 
 .eye:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
 .close_register:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1) rotate(90deg);
 }
 
@@ -122,7 +129,6 @@ input {
   cursor: pointer;
   padding: 10px 20px;
   border-radius: 30px;
-  transition: all 1s;
   display: flex;
   flex-direction: column;
   background: #7f9bcd;
@@ -132,6 +138,7 @@ input {
 }
 
 .button_register:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
@@ -146,11 +153,28 @@ input {
   color: #7f9bcd;
   font-size: clamp(15px, 4vw, 20px);
   cursor: pointer;
-  transition: all 1s;
 }
 
 .link_register:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1);
+}
+
+.password_register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  border: 1px solid;
+  padding: 14px;
+  border-radius: 50px;
+  background-color: white;
+}
+
+.password_register > input {
+  border: 0px solid;
+  width: 100%;
+  padding: 0px;
 }
 
 @media only screen and (max-width: 840px) {

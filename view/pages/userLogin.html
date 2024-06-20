@@ -15,6 +15,15 @@
   crossorigin="anonymous"
 ></script>
 <link rel="stylesheet" href="./css/cssUserLogin.css" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Incluir jQuery UI (se estiver usando os efeitos slideUp/slideDown) -->
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"
+/>
+
 <div class="background_login">
   <div class="wrapper_login">
     <div class="wrapper_header_login">
@@ -33,14 +42,14 @@
     </div>
     <span class="erro_login">*Campo obrigatório</span>
     <div class="checkbox_login">
-      <input type="checkbox" />
+      <input type="checkbox" id="safe" />
       <span>Manter login</span>
     </div>
     <div class="forget_login">
       <a class="link_login">Esqueci a minha senha</a>
     </div>
     <button class="button_login" onclick="login()">Entrar</button>
-    <a class="link_login" onclick="closeRegister()">Cadastrar-se</a>
+    <a class="link_login" onclick="registerOpen()">Cadastrar-se</a>
   </div>
 </div>
 <script src="./controller/login.js"></script>

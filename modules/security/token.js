@@ -3,20 +3,22 @@ const jwt = require("jsonwebtoken");
 const secretKey = "z5j8e7KrTX";
 
 class Token {
-  async createToken(data, ) {
+  async createToken(data, check) {
     return await jwt.sign(
       {
         data,
       },
       secretKey,
-      { expiresIn: "1h" }
+      { expiresIn: check ? "1 year" : "1h" }
     );
   }
 
   async verifyToken(token) {
-    jwt.verify(token, secretKey, function (err, decoded) {
-      console.log(decoded.data);
+    let user;
+    await jwt.verify(token, secretKey, function (err, decoded) {
+      user = decoded.data.user;
     });
+    return user;
   }
 }
 

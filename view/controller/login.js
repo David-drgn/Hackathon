@@ -2,11 +2,6 @@ async function login() {
   const email = document.getElementById("email_login").value;
   const password = document.getElementById("password_login").value;
 
-  console.log({
-    email,
-    password,
-  });
-
   if (email == "" || password == "") {
     if (email == "")
       document.getElementsByClassName("erro_login")[0].style.display = "block";
@@ -16,7 +11,12 @@ async function login() {
       document.getElementsByClassName("erro_login")[1].style.display = "block";
     else
       document.getElementsByClassName("erro_login")[1].style.display = "none";
+
+    return;
   }
+
+  document.getElementsByClassName("erro_login")[0].style.display = "none";
+  document.getElementsByClassName("erro_login")[1].style.display = "none";
 
   const request = await fetch(`${location.origin}/api/login`, {
     method: "POST",
@@ -30,6 +30,7 @@ async function login() {
     body: JSON.stringify({
       email,
       password,
+      check: document.getElementById("safe").checked,
     }),
   });
 
