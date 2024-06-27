@@ -46,7 +46,7 @@
 }
 
 .active {
-  border-bottom: 2px solid #7f9bcd !important;
+  border-bottom: 2px solid var(--main-color) !important;
 }
 
 .wrapper_sobre_buttons {
@@ -86,9 +86,9 @@
 .title_main > span {
   font-size: 60px;
   color: white;
-  text-shadow: -1px -1px 0 #7f9bcd, 1px -1px 0 #7f9bcd, -1px 1px 0 #7f9bcd,
-    1px 1px 0 #7f9bcd, -2px -2px 0 #7f9bcd, 2px -2px 0 #7f9bcd,
-    -2px 2px 0 #7f9bcd, 2px 2px 0 #7f9bcd;
+  text-shadow: -1px -1px 0 var(--main-color), 1px -1px 0 var(--main-color), -1px 1px 0 var(--main-color),
+    1px 1px 0 var(--main-color), -2px -2px 0 var(--main-color), 2px -2px 0 var(--main-color),
+    -2px 2px 0 var(--main-color), 2px 2px 0 var(--main-color);
   font-weight: 200;
 }
 
@@ -149,7 +149,7 @@
   margin-right: 20px;
   display: flex;
   flex-direction: column;
-  background: #7f9bcd;
+  background: var(--main-color);
   justify-content: space-around;
   align-items: center;
   gap: 10px;

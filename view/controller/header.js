@@ -31,6 +31,13 @@ function registerOpen() {
   });
 }
 
+function forgetOpen() {
+  $("#dialog").empty();
+  $(document).ready(function () {
+    $("#dialog").load("./pages/userForget.html");
+  });
+}
+
 function sobreNos() {
   document.getElementsByClassName("sobre_main")[0].style.display = "flex";
   document.getElementsByClassName("text_main")[0].style.display = "none";

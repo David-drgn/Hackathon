@@ -1,4 +1,4 @@
-.background_register {
+.background_forget {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -12,24 +12,18 @@
   z-index: 1;
 }
 
-.erro_register {
+.erro_forget {
   display: none;
   color: red;
   font-style: italic;
-  width: 80%;
 }
 
-#alert_required {
-  text-align: end;
-  display: block;
-}
-
-.wrapper_register {
+.wrapper_forget {
   background-color: var(--back-color);
   padding: 20px;
   max-width: 50%;
+  max-height: 50%;
   min-width: 40%;
-  min-height: 30%;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -37,18 +31,7 @@
   gap: 15px;
 }
 
-.cancel_button_register {
-  background-color: red !important;
-}
-
-.button_group_register {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 80%;
-}
-
-.checkbox_register {
+.checkbox_forget {
   width: 80%;
   background-color: transparent;
   display: flex;
@@ -59,7 +42,14 @@
   font-size: large;
 }
 
-.close_register {
+.wrapper_header_forget {
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  align-items: center;
+}
+
+.close_forget {
   width: 40px;
   cursor: pointer;
   height: 40px;
@@ -75,25 +65,18 @@
   transform: scale(1.1, 1.1);
 }
 
-.close_register:hover {
-  transition: all 1s;
+.close_forget:hover {
   transform: scale(1.1, 1.1) rotate(90deg);
+  transition: all 1s;
 }
 
-.title_register {
+.title_forget {
   color: var(--main-color);
   font-size: clamp(20px, 3.5vw, 35px);
   width: 100%;
 }
 
-.wrapper_header_register {
-  display: flex;
-  justify-content: space-around;
-  width: 80%;
-  align-items: center;
-}
-
-.password_register {
+.password_forget {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,12 +87,12 @@
   background-color: white;
 }
 
-.password_register > input {
+.password_forget > input {
   border: 0px solid;
   width: 100%;
 }
 
-input.register {
+input.forget {
   width: 80%;
   border: 1px solid;
   padding: 14px;
@@ -121,7 +104,7 @@ input {
   outline: none;
 }
 
-.button_register {
+.button_forget {
   color: white;
   border: 0px solid;
   font-size: clamp(20px, 3.5vw, 25px);
@@ -137,48 +120,31 @@ input {
   gap: 10px;
 }
 
-.button_register:hover {
+.button_forget:hover {
   transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
-.forget_register {
+.forget_forget {
   width: 80%;
   display: flex;
   align-items: center;
   justify-content: end;
 }
 
-.link_register {
+.link_forget {
   color: var(--main-color);
   font-size: clamp(15px, 4vw, 20px);
   cursor: pointer;
 }
 
-.link_register:hover {
+.link_forget:hover {
   transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
-.password_register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: white;
-}
-
-.password_register > input {
-  border: 0px solid;
-  width: 100%;
-  padding: 0px;
-}
-
 @media only screen and (max-width: 840px) {
-  .wrapper_register {
+  .wrapper_forget {
     width: 90%;
     max-width: unset;
   }

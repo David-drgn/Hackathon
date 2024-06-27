@@ -14,7 +14,7 @@
   integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
   crossorigin="anonymous"
 ></script>
-<link rel="stylesheet" href="./css/cssUserLogin.css" />
+<link rel="stylesheet" href="./css/cssUserForget.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Incluir jQuery UI (se estiver usando os efeitos slideUp/slideDown) -->
@@ -24,32 +24,20 @@
   href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"
 />
 
-<div class="background_login">
-  <div class="wrapper_login">
-    <div class="wrapper_header_login">
-      <span class="title_login">Entrar</span>
+<div class="background_forget">
+  <div class="wrapper_forget">
+    <div class="wrapper_header_forget">
+      <span class="title_forget">Digite o seu email</span>
       <img
         src="./assets/icon/excluir.png"
-        class="close_login"
+        class="close_forget"
         onclick="$('#dialog').empty();"
       />
     </div>
-    <input class="login" id="email_login" type="email" placeholder="Email" />
-    <span class="erro_login">*Campo obrigatório</span>
-    <div class="password_login">
-      <input type="password" id="password_login" placeholder="Senha" />
-      <img src="./assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
-    </div>
-    <span class="erro_login">*Campo obrigatório</span>
-    <div class="checkbox_login">
-      <input type="checkbox" id="safe" />
-      <span>Manter login</span>
-    </div>
-    <div class="forget_login">
-      <a class="link_login" onclick="forgetOpen()">Esqueci a minha senha</a>
-    </div>
-    <button class="button_login" onclick="login()">Entrar</button>
-    <a class="link_login" onclick="registerOpen()">Cadastrar-se</a>
+    <input class="forget" id="email_forget" type="email" placeholder="Email" />
+    <span class="erro_forget">*Campo obrigatório</span>
+
+    <button class="button_forget" onclick="forgetSendMail()">Enviar</button>
   </div>
 </div>
-<script src="./controller/login.js"></script>
+<script src="./controller/forget.js"></script>

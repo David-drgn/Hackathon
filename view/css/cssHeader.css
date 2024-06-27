@@ -34,7 +34,7 @@
   display: flex;
   flex-direction: column;
   min-height: 400px;
-  border-top: 3px solid #7f9bcd;
+  border-top: 3px solid var(--main-color);
   z-index: 1;
   transform: translateY(-100%);
 }
@@ -42,13 +42,13 @@
 .menu_header > button {
   background-color: transparent;
   color: white;
-  border-bottom: 3px solid #7f9bcd;
+  border-bottom: 3px solid var(--main-color);
   font-size: x-large;
 }
 
 .menu_header > button:hover {
   transition: all 1s;
-  color: #7f9bcd;
+  color: var(--main-color);
 }
 
 .button_header {
@@ -63,7 +63,7 @@
 
 .strong_header {
   color: white;
-  background-color: #7f9bcd;
+  background-color: var(--main-color);
   border-radius: 30px;
 }
 

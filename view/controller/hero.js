@@ -22,7 +22,7 @@ document.getElementById("consultar").addEventListener("click", function () {
     this.style.borderBottomRightRadius = "30px";
     this.style.height = "auto";
     this.children[1].style.display = "none";
-    this.style.background = "#7F9BCD";
+    this.style.background = "var(--main-color)";
     this.children[2].style.display = "none";
   }
 });

@@ -1,0 +1,11 @@
+body.clinc {
+  --main-color: #7f9bcd;
+  --back-color: #bbbbbb;
+  --back-sec-color: #e2e2e2;
+}
+
+body.restaurant {
+  --main-color: #cd7f7f;
+  --back-color: #bbbbbb;
+  --back-sec-color: #e2e2e2;
+}

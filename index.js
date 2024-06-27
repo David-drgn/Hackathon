@@ -122,7 +122,7 @@ app.post("/api/sendMail", async (req, res) => {
     } else if (type == 1) {
       const mail = await mailer.sendMail(
         "Código de verificação para a mudança de senha, lembre que o código só é válido por 5 minutos, após esse tempo, ele será anulado",
-        name,
+        getUser.name,
         email,
         "Troca de senha",
         "Clique para trocar de senha"
@@ -137,6 +137,7 @@ app.post("/api/sendMail", async (req, res) => {
         type: 2,
         code: mail.new_code,
         email: mail.new_email,
+        id: getUser.accountid,
         createat: new Date().toISOString(),
       });
     } else {

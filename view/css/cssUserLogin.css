@@ -19,7 +19,7 @@
 }
 
 .wrapper_login {
-  background-color: #cbcbcb;
+  background-color: var(--back-color);
   padding: 20px;
   max-width: 50%;
   max-height: 50%;
@@ -39,7 +39,7 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
-  color: #7f9bcd;
+  color: var(--main-color);
   font-size: large;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .title_login {
-  color: #7f9bcd;
+  color: var(--main-color);
   font-size: clamp(20px, 3.5vw, 35px);
   width: 100%;
 }
@@ -113,16 +113,16 @@ input {
   cursor: pointer;
   padding: 10px 20px;
   border-radius: 30px;
-  transition: all 1s;
   display: flex;
   flex-direction: column;
-  background: #7f9bcd;
+  background: var(--main-color);
   justify-content: space-around;
   align-items: center;
   gap: 10px;
 }
 
 .button_login:hover {
+  transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
@@ -134,7 +134,7 @@ input {
 }
 
 .link_login {
-  color: #7f9bcd;
+  color: var(--main-color);
   font-size: clamp(15px, 4vw, 20px);
   cursor: pointer;
 }
