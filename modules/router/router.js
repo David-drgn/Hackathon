@@ -14,6 +14,10 @@ router.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "view", "index.html"));
 });
 
+router.get("/home", async (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "..", "view", "pages", "homePage.html"));
+});
+
 router.use("/assets", express.static(path.join(__dirname, "..", "..", "view", "assets")));
 router.use("/css", express.static(path.join(__dirname, "..", "..", "view", "css")));
 router.use("/controller", express.static(path.join(__dirname, "..", "..", "view", "controller")));
