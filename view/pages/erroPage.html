@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Erro</title>
+    <link rel="stylesheet" href="../assets/includes/colors.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+      * {
+        font-family: "Inter", sans-serif !important;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      .background {
+        background-image: url("../assets/images/backEscritorio.jfif");
+        position: fixed;
+        top: -1vh;
+        left: -1vw;
+        background-repeat: no-repeat;
+        width: 102vw;
+        height: 102vh;
+        background-position: center;
+        background-size: cover;
+        filter: brightness(0.4) blur(5px);
+      }
+
+      .container {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        color: white;
+      }
+
+      .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      h1 {
+        color: var(--main-color);
+        font-size: 10vw;
+      }
+
+      h3 {
+        font-size: 2.5vw;
+      }
+
+      button {
+        background-color: var(--main-color);
+        color: white;
+        padding: 10px 20px;
+        border: 0px;
+        border-radius: 10px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body class="clinc">
+    <div class="container">
+      <div class="wrapper">
+        <h1 class="erro">400</h1>
+        <h3 class="erro">Bad Request</h3>
+        <span class="text">OIII</span>
+        <button>Voltar</button>
+      </div>
+    </div>
+    <div class="background"></div>
+  </body>
+  <script>
+    const errosDeCarregamento = {
+      400: [
+        "Bad Request",
+        "A solicitação não pode ser processada devido a um erro do cliente.",
+      ],
+      401: [
+        "Unauthorized",
+        "Autenticação necessária e falhou ou ainda não fornecida.",
+      ],
+      403: [
+        "Forbidden",
+        "O servidor entendeu a solicitação, mas se recusa a autorizá-la.",
+      ],
+      404: ["Not Found", "O servidor não encontra a página solicitada."],
+      408: [
+        "Request Timeout",
+        "O servidor atingiu o tempo limite enquanto aguardava a solicitação.",
+      ],
+      429: [
+        "Too Many Requests",
+        "O usuário enviou muitas solicitações em um determinado tempo.",
+      ],
+      500: ["Internal Server Error", "Erro genérico no servidor."],
+      501: [
+        "Not Implemented",
+        "O servidor não tem a funcionalidade para atender a solicitação.",
+      ],
+      502: [
+        "Bad Gateway",
+        "O servidor recebeu uma resposta inválida do servidor upstream.",
+      ],
+      503: [
+        "Service Unavailable",
+        "O servidor está temporariamente indisponível.",
+      ],
+      504: [
+        "Gateway Timeout",
+        "O servidor não recebeu uma resposta a tempo do servidor upstream.",
+      ],
+      505: [
+        "HTTP Version Not Supported",
+        "A versão do HTTP usada na solicitação não é suportada pelo servidor.",
+      ],
+    };
+
+    window.addEventListener("load", () => {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+
+      console.table(errosDeCarregamento[urlParams.get("erro")]);
+
+      
+    });
+  </script>
+</html>
