@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const router = require("./modules/router/router.js");
+require("dotenv").config();
 
-const Chat = require("./modules/chat/chatRequest.js");
+const router = require("./modules/router/router.js");
+const chat = require("./modules/chat/chatRoute.js");
+
 const Connect = require("./modules/crm/connect.js");
 const Mailler = require("./modules/mail/email.js");
 const User = require("./modules/user/user.js");
@@ -12,7 +14,7 @@ const Validator = require("./modules/security/documentValidator.js");
 let verifyEmail = [];
 
 const app = express();
-const port = 3300;
+const port = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
@@ -35,8 +37,9 @@ async function codeTrigger(select) {
 }
 
 app.use("/", router);
+app.use("/chat", chat);
 
-router.get("/:code", async (req, res) => {
+app.get("/:code", async (req, res) => {
   var code = req.params.code;
   let select = verifyEmail.find((e) => e.code === code);
 
@@ -58,21 +61,6 @@ router.get("/:code", async (req, res) => {
     } else {
       res.json(await codeTrigger(select));
     }
-  }
-});
-
-app.post("/api/requestChat", async (req, res) => {
-  try {
-    const chat = await Chat.chatQuery(req.body.question);
-    res.json({
-      erro: false,
-      anwser: chat,
-    });
-  } catch {
-    res.json({
-      erro: true,
-      anwser: "Algo deu errado, por favor, tente novamente",
-    });
   }
 });
 

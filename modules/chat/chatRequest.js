@@ -1,7 +1,7 @@
 const { OpenAI } = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: process.env.CHAT_API_KEY,
 });
 
 class ChatGptRequest {
