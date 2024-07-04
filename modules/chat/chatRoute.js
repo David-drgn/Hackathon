@@ -25,14 +25,14 @@ chat.post("/request", async (req, res) => {
   }
 });
 
-const dados = [];
+const teste = [];
 
 chat.get("", async (req, res) => {
-  res.json(dados);
+  res.json(teste);
 });
 
 chat.post("/realize", async (req, res) => {
-  dados.push(req.body);
+  teste.push(req.body);
   res.json({
     mesage: "realizado",
   });
