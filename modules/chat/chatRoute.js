@@ -25,17 +25,17 @@ chat.post("/request", async (req, res) => {
   }
 });
 
-const teste = [];
+// const teste = [];
 
-chat.get("", async (req, res) => {
-  res.json(teste);
-});
+// chat.get("", async (req, res) => {
+//   res.json(teste);
+// });
 
-chat.post("/realize", async (req, res) => {
-  teste.push(req.body);
-  res.json({
-    mesage: "realizado",
-  });
-});
+// chat.post("/realize", async (req, res) => {
+//   teste.push(req.body);
+//   res.json({
+//     mesage: "realizado",
+//   });
+// });
 
 module.exports = chat;
