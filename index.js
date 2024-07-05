@@ -47,7 +47,7 @@ async function codeTrigger(select) {
 
 app.use("/", router);
 app.use("/chat", chat);
-app.use("", appWhatsapp);
+app.use("/whatsappRoute", appWhatsapp);
 
 app.get("/:code", async (req, res) => {
   var code = req.params.code;
