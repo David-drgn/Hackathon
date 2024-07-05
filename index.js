@@ -1,10 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+
+const { baseWebhookURL } = require('./src/config')
+
+// if (!baseWebhookURL) {
+//   console.error('BASE_WEBHOOK_URL environment variable is not available. Exiting...')
+//   process.exit(1) // Terminate the application with an error code
+// }
+
 require("dotenv").config();
 
 const router = require("./modules/router/router.js");
 const chat = require("./modules/chat/chatRoute.js");
+const appWhatsapp = require("./src/app");
 
 const Connect = require("./modules/crm/connect.js");
 const Mailler = require("./modules/mail/email.js");
@@ -38,6 +47,7 @@ async function codeTrigger(select) {
 
 app.use("/", router);
 app.use("/chat", chat);
+app.use("", appWhatsapp);
 
 app.get("/:code", async (req, res) => {
   var code = req.params.code;

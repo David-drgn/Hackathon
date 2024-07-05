@@ -21,6 +21,12 @@
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
     "uuid": "^9.0.1",
-    "vercel": "^34.3.0"
+    "vercel": "^34.3.0",
+    "axios": "^1.5.0",
+    "express-rate-limit": "^6.10.0",
+    "qr-image": "^3.2.0",
+    "qrcode-terminal": "^0.12.0",
+    "swagger-ui-express": "^4.6.3",
+    "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#webpack-exodus"
   }
 }
