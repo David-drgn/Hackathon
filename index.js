@@ -47,32 +47,32 @@ async function codeTrigger(select) {
 
 app.use("/", router);
 app.use("/chat", chat);
-app.use("/whatsappRoute", appWhatsapp);
+app.use("", appWhatsapp);
 
-app.get("/:code", async (req, res) => {
-  var code = req.params.code;
-  let select = verifyEmail.find((e) => e.code === code);
+// app.get("/:code", async (req, res) => {
+//   var code = req.params.code;
+//   let select = verifyEmail.find((e) => e.code === code);
 
-  if (!select) {
-    res.json({
-      erro: true,
-      message:
-        "O código fornecido não existe ou foi excluído, por favor, faça a requisição novamente",
-    });
-  } else {
-    const diferencaEmMilissegundos = new Date(select.createat) - new Date();
+//   if (!select) {
+//     res.json({
+//       erro: true,
+//       message:
+//         "O código fornecido não existe ou foi excluído, por favor, faça a requisição novamente",
+//     });
+//   } else {
+//     const diferencaEmMilissegundos = new Date(select.createat) - new Date();
 
-    if (diferencaEmMilissegundos > 5 * 60 * 1000) {
-      res.json({
-        erro: true,
-        message:
-          "O código fornecido já tem mais de 5 minutos, por favor, faça a requisição do código novamente",
-      });
-    } else {
-      res.json(await codeTrigger(select));
-    }
-  }
-});
+//     if (diferencaEmMilissegundos > 5 * 60 * 1000) {
+//       res.json({
+//         erro: true,
+//         message:
+//           "O código fornecido já tem mais de 5 minutos, por favor, faça a requisição do código novamente",
+//       });
+//     } else {
+//       res.json(await codeTrigger(select));
+//     }
+//   }
+// });
 
 app.post("/api/validaCPF", async (req, res) => {
   try {
