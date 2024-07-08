@@ -49,31 +49,62 @@ class User {
       record.new_document = document;
 
       return new Promise((resolve, reject) => {
-        fetch(`https://newproject.crm.dynamics.com/api/data/v9.2/accounts`, {
-          method: "POST",
-          headers: {
-            "OData-MaxVersion": "4.0",
-            "OData-Version": "4.0",
-            "Content-Type": "application/json; charset=utf-8",
-            Accept: "application/json",
-            Prefer: "odata.include-annotations=*",
-            Authorization: "Bearer " + this.token,
-          },
-          body: JSON.stringify(record),
-        })
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_tipodaconta`,
+          {
+            method: "POST",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Prefer: "odata.include-annotations=*,return=representation",
+              Authorization: "Bearer " + this.token,
+            },
+            body: JSON.stringify(record),
+          }
+        )
           .then(function success(response) {
-            if (response.ok) {
-              resolve({
-                erro: false,
-                message: "Cadastro realizado com sucesso",
-              });
-            } else {
-              resolve({
-                erro: true,
-                message:
-                  "Ocorreu algum erro inesperado, por favor, tente novamente",
-              });
-            }
+            return response.json().then((json) => {
+              if (response.ok) {
+                return [response, json];
+              } else {
+                throw json.error;
+              }
+            });
+          })
+          .then(async function (responseObjects) {
+            var response = responseObjects[0];
+            var responseBody = responseObjects[1];
+            var result = responseBody;
+            console.log(result);
+            // Columns
+            var accountid = result["accountid"]; // Guid
+            var emailaddress1 = result["emailaddress1"]; // Text
+            var name = result["name"]; // Text
+            var new_tipodaconta = result["new_tipodaconta"]; // Choice
+            var new_tipodaconta_formatted =
+              result[
+                "new_tipodaconta@OData.Community.Display.V1.FormattedValue"
+              ];
+
+            let token = await new Token().createToken(
+              {
+                user: {
+                  accountid,
+                  emailaddress1,
+                  name,
+                  new_tipodaconta,
+                  new_tipodaconta_formatted,
+                },
+              },
+              false
+            );
+            resolve({
+              erro: false,
+              message: "Cadastro realizado com sucesso",
+              token,
+            });
           })
           .catch(function (e) {
             resolve({
@@ -105,7 +136,6 @@ class User {
         },
         check
       );
-      const verifyToken = await new Token().verifyToken(returnToken);
       return returnToken;
     } else throw new Error("Login ou senha incorretos");
   }
@@ -123,7 +153,32 @@ class User {
           Accept: "application/json",
           Prefer: "odata.include-annotations=*",
         },
-        url: `https://newproject.crm.dynamics.com/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,new_salt&$filter=emailaddress1 eq '${email}'`,
+        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,new_salt,new_tipodaconta&$filter=emailaddress1 eq '${email}'`,
+        headers: {
+          Authorization: "Bearer " + this.token,
+        },
+      };
+      const response = JSON.parse(await rp(options));
+
+      if (response.value.length == 0) return null;
+      else return response.value[0];
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getByDocument(doc) {
+    try {
+      let options = {
+        method: "GET",
+        headers: {
+          "OData-MaxVersion": "4.0",
+          "OData-Version": "4.0",
+          "Content-Type": "application/json; charset=utf-8",
+          Accept: "application/json",
+          Prefer: "odata.include-annotations=*",
+        },
+        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,new_salt&$filter=new_document eq '${doc}'`,
         headers: {
           Authorization: "Bearer " + this.token,
         },

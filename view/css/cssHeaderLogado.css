@@ -1,24 +1,44 @@
-.header_logado{
-    position: absolute;
-    top: 0px;
-    right: 10px;
-    display: flex;
-    justify-content: end;
-    height: 40px;
-    padding: 10px;
-    gap: 10px;
-    align-items: center;
-    width: 100vw;
+.header_logado {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  display: flex;
+  justify-content: end;
+  height: 40px;
+  padding: 10px;
+  gap: 10px;
+  align-items: center;
+  width: 100vw;
 }
 
-.name_logado{
-    font-weight: 600;
+.name_logado {
+  font-weight: 600;
+  font-size: 25px;
 }
 
-.image_perfil{
-    padding: 10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100%;
-    background-color: #7f9bcd;
+.image_perfil {
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: #7f9bcd;
+}
+
+.menu_lateral_logado {
+  position: fixed;
+  left: -10px;
+  padding: 20px 20px 20px 10px;
+  top: 7.5%;
+  width: 100px;
+  height: 85%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
 }

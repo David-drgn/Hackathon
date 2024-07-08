@@ -43,7 +43,7 @@ class Mailler {
 
       return new Promise((resolve, reject) => {
         fetch(
-          `https://newproject.crm.dynamics.com/api/data/v9.2/new_emailverifications?$select=new_code,new_email,new_url`,
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_emailverifications?$select=new_code,new_email,new_url`,
           {
             method: "POST",
             headers: {

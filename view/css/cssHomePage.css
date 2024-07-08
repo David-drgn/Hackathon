@@ -1,0 +1,45 @@
+@import url("./style.css");
+
+body {
+  background-color: var(--main-color);
+}
+
+.container {
+  position: absolute;
+  top: 9%;
+  left: 200px;
+  width: calc(75% - 120px);
+  padding: 20px;
+  height: 85%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+}
+
+.help_doctor {
+  position: absolute;
+  right: 10px;
+  height: 70%;
+  bottom: 0px;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid white !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today{
+    background-color: var(--main-color) !important;
+}
+
+.fc-h-event .fc-event-title-container, .fc .fc-daygrid-day-frame{
+    cursor: pointer !important;
+    transition: all 1s;
+}
+
+.fc-h-event .fc-event-title-container:hover, .fc .fc-daygrid-day-frame:hover{
+    background-color: var(--main-color-transparent);
+}
+
+.fc .fc-highlight{
+    background-color: var(--main-color-transparent);
+}

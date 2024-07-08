@@ -1,13 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const path = require("path");
 
-const { baseWebhookURL } = require('./src/config')
+const { baseWebhookURL } = require("./src/config");
 
-// if (!baseWebhookURL) {
-//   console.error('BASE_WEBHOOK_URL environment variable is not available. Exiting...')
-//   process.exit(1) // Terminate the application with an error code
-// }
+if (!baseWebhookURL) {
+  console.error(
+    "BASE_WEBHOOK_URL environment variable is not available. Exiting..."
+  );
+  process.exit(1); // Terminate the application with an error code
+}
 
 require("dotenv").config();
 
@@ -19,6 +23,7 @@ const Connect = require("./modules/crm/connect.js");
 const Mailler = require("./modules/mail/email.js");
 const User = require("./modules/user/user.js");
 const Validator = require("./modules/security/documentValidator.js");
+const Token = require("./modules/security/token.js");
 
 let verifyEmail = [];
 
@@ -28,6 +33,10 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json({ limit: "9mb" }));
+app.use(cookieParser());
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "view", "pages"));
 
 async function codeTrigger(select) {
   if (select.type == 1) {
@@ -49,30 +58,26 @@ app.use("/", router);
 app.use("/chat", chat);
 app.use("", appWhatsapp);
 
-// app.get("/:code", async (req, res) => {
-//   var code = req.params.code;
-//   let select = verifyEmail.find((e) => e.code === code);
+app.get("/:code", async (req, res) => {
+  var code = req.params.code;
+  let select = verifyEmail.find((e) => e.code === code);
 
-//   if (!select) {
-//     res.json({
-//       erro: true,
-//       message:
-//         "O código fornecido não existe ou foi excluído, por favor, faça a requisição novamente",
-//     });
-//   } else {
-//     const diferencaEmMilissegundos = new Date(select.createat) - new Date();
+  if (!select) {
+    return res.redirect("/systemErro?erro=400");
+  } else {
+    const diferencaEmMilissegundos = new Date(select.createat) - new Date();
 
-//     if (diferencaEmMilissegundos > 5 * 60 * 1000) {
-//       res.json({
-//         erro: true,
-//         message:
-//           "O código fornecido já tem mais de 5 minutos, por favor, faça a requisição do código novamente",
-//       });
-//     } else {
-//       res.json(await codeTrigger(select));
-//     }
-//   }
-// });
+    if (diferencaEmMilissegundos > 5 * 60 * 1000) {
+      return res.redirect("/systemErro?erro=400");
+    } else {
+      let code = await codeTrigger(select);
+      if (!code.erro) {
+        res.cookie("token", code.token, { httpOnly: true });
+        res.redirect("/home");
+      }
+    }
+  }
+});
 
 app.post("/api/validaCPF", async (req, res) => {
   try {
@@ -105,10 +110,7 @@ app.post("/api/sendMail", async (req, res) => {
         "Entrar na sua conta"
       );
       if (mail.erro) {
-        res.json({
-          erro: true,
-          message: "Ocorreu um erro inesperado, tente novamente",
-        });
+        return res.redirect("/systemErro?erro=400");
       }
       verifyEmail.push({
         type: 1,
@@ -126,10 +128,7 @@ app.post("/api/sendMail", async (req, res) => {
         "Clique para trocar de senha"
       );
       if (mail.erro) {
-        res.json({
-          erro: true,
-          message: "Ocorreu um erro inesperado, tente novamente",
-        });
+        return res.redirect("/systemErro?erro=400");
       }
       verifyEmail.push({
         type: 2,
@@ -139,12 +138,7 @@ app.post("/api/sendMail", async (req, res) => {
         createat: new Date().toISOString(),
       });
     } else {
-      res.json({
-        erro: true,
-        message:
-          "O motivo do envio não foi compreendido, talvez esse usuário já exista",
-      });
-      return;
+      return res.redirect("/systemErro?erro=400");
     }
     res.json({
       erro: false,
@@ -152,10 +146,7 @@ app.post("/api/sendMail", async (req, res) => {
         "Código enviado com sucesso!! Verifique a sua caixa de email, lembre que o acesso é permitido apenas após 5 minutos",
     });
   } catch {
-    res.json({
-      erro: true,
-      message: "Ocorreu um erro inesperado, tente novamente",
-    });
+    return res.redirect("/systemErro?erro=400");
   }
 });
 
@@ -170,17 +161,15 @@ app.post("/api/login", async (req, res) => {
 
     const login = await user.login(email, password, check);
 
-    return res.json({
-      erro: false,
-      message: "Login realizado com sucesso",
-      token: login,
-    });
+    res.cookie("token", login, { httpOnly: true });
+    return res.redirect("/home");
   } catch (e) {
-    return res.json({
-      erro: true,
-      message: "Login ou senha incorretas",
-    });
+    return res.redirect("/systemErro?erro=400");
   }
+});
+
+app.post("/api/verifyToken", async (req, res) => {
+  res.json(await new Token().verifyToken(req.cookies.token));
 });
 
 app.listen(port, () => {

@@ -71,67 +71,17 @@
   <body class="clinc">
     <div class="container">
       <div class="wrapper">
-        <h1 class="erro">400</h1>
-        <h3 class="erro">Bad Request</h3>
-        <span class="text">OIII</span>
+        <h1 class="erro"><%= erroCode %></h1>
+        <h3 class="erro"><%= erro %></h3>
+        <span class="text"><%= message %></span>
         <button>Voltar</button>
       </div>
     </div>
     <div class="background"></div>
   </body>
   <script>
-    const errosDeCarregamento = {
-      400: [
-        "Bad Request",
-        "A solicitação não pode ser processada devido a um erro do cliente.",
-      ],
-      401: [
-        "Unauthorized",
-        "Autenticação necessária e falhou ou ainda não fornecida.",
-      ],
-      403: [
-        "Forbidden",
-        "O servidor entendeu a solicitação, mas se recusa a autorizá-la.",
-      ],
-      404: ["Not Found", "O servidor não encontra a página solicitada."],
-      408: [
-        "Request Timeout",
-        "O servidor atingiu o tempo limite enquanto aguardava a solicitação.",
-      ],
-      429: [
-        "Too Many Requests",
-        "O usuário enviou muitas solicitações em um determinado tempo.",
-      ],
-      500: ["Internal Server Error", "Erro genérico no servidor."],
-      501: [
-        "Not Implemented",
-        "O servidor não tem a funcionalidade para atender a solicitação.",
-      ],
-      502: [
-        "Bad Gateway",
-        "O servidor recebeu uma resposta inválida do servidor upstream.",
-      ],
-      503: [
-        "Service Unavailable",
-        "O servidor está temporariamente indisponível.",
-      ],
-      504: [
-        "Gateway Timeout",
-        "O servidor não recebeu uma resposta a tempo do servidor upstream.",
-      ],
-      505: [
-        "HTTP Version Not Supported",
-        "A versão do HTTP usada na solicitação não é suportada pelo servidor.",
-      ],
-    };
-
-    window.addEventListener("load", () => {
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-
-      console.table(errosDeCarregamento[urlParams.get("erro")]);
-
-      
+    document.getElementsByTagName("button")[0].addEventListener("click", () => {
+      window.location.href = "/";
     });
   </script>
 </html>

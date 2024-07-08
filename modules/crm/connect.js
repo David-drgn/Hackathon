@@ -2,7 +2,6 @@ const rp = require("request-promise-native");
 
 class Connect {
   token;
-  urlRequest = "https://newproject.crm.dynamics.com";
 
   async initialize() {
     let requestNow = await this.connect();
@@ -23,7 +22,7 @@ class Connect {
         client_id: "d2611b85-13b9-440c-a029-2f86a24ad48b",
         client_secret: "y.u8Q~Xj3laOa6IHra1gKxZlCvpjozLx1PSIgcuN",
         grant_type: "client_credentials",
-        resource: "https://newproject.crm.dynamics.com",
+        resource: `${process.env.BASE_REQUEST_URL}`,
       },
     };
     try {

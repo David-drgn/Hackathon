@@ -1,5 +1,6 @@
 body.clinc {
   --main-color: #7f9bcd;
+  --main-color-transparent: rgba(127, 156, 205, 0.500);
   --back-color: #bbbbbb;
   --back-sec-color: #e2e2e2;
 }
