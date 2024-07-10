@@ -34,7 +34,15 @@ async function login() {
     }),
   });
 
-  const response = await request.json();
-
-  console.log(response);
+  debugger;
+  if (request.ok) {
+    let response = await request.json();
+    localStorage.setItem("token", response.token);
+    location.href = "/home";
+  } else {
+    openDialog(
+      "Erro no login",
+      "Ocorreu um erro ao realizar o login, tente novamente mais tarde"
+    );
+  }
 }

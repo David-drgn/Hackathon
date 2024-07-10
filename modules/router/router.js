@@ -14,30 +14,11 @@ router.use(express.json());
 router.use(cors());
 router.use(bodyParser.json({ limit: "9mb" }));
 
-const acess = async (req, res, next) => {
-  const token = req.cookies.token;
-
-  if (!token) return res.redirect("/systemErro?erro=401");
-
-  if (!(await new Token().verifyToken(token))) {
-    return res.redirect("/systemErro?erro=401");
-  }
-
-  next();
-};
-
-const logado = async (req, res, next) => {
-  const token = req.cookies.token;
-
-  if (!token || !(await new Token().verifyToken(token))) next();
-  else return res.redirect("/home");
-};
-
-router.get("/", logado, async (req, res) => {
+router.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "view", "index.html"));
 });
 
-router.get("/home", acess, async (req, res) => {
+router.get("/home", async (req, res) => {
   res.sendFile(
     path.join(__dirname, "..", "..", "view", "pages", "homePage.html")
   );

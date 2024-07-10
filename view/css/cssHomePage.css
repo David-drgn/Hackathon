@@ -43,3 +43,7 @@ body {
 .fc .fc-highlight{
     background-color: var(--main-color-transparent);
 }
+
+.fc-today-button .fc-button .fc-button-primary{
+  display: none;
+}

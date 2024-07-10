@@ -72,8 +72,10 @@ app.get("/:code", async (req, res) => {
     } else {
       let code = await codeTrigger(select);
       if (!code.erro) {
-        res.cookie("token", code.token, { httpOnly: true });
-        res.redirect("/home");
+        res.cookie("token", login);
+        return res.json({
+          token: login,
+        });
       }
     }
   }
@@ -161,15 +163,17 @@ app.post("/api/login", async (req, res) => {
 
     const login = await user.login(email, password, check);
 
-    res.cookie("token", login, { httpOnly: true });
-    return res.redirect("/home");
+    res.cookie("token", login);
+    return res.json({
+      token: login,
+    });
   } catch (e) {
     return res.redirect("/systemErro?erro=400");
   }
 });
 
 app.post("/api/verifyToken", async (req, res) => {
-  res.json(await new Token().verifyToken(req.cookies.token));
+  res.json(await new Token().verifyToken(req.body.token));
 });
 
 app.listen(port, () => {

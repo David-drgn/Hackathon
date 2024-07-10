@@ -31,6 +31,27 @@
         $("#header").load("./assets/includes/header.html");
         $("#content").load("./pages/heroPage.html");
       });
+
+      window.addEventListener("load", () => {
+        if (localStorage.getItem("token")) {
+          fetch(`${location.origin}/api/verifyToken`, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify({
+              token: localStorage.getItem("token"),
+            }),
+          })
+            .then((response) => response.json())
+            .then((json) => {
+              console.log(json);
+            })
+            .catch(function (error) {
+              console.log(error.message);
+            });
+        }
+      });
     </script>
   </body>
 </html>

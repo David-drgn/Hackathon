@@ -14,11 +14,15 @@ class Token {
   }
 
   async verifyToken(token) {
-    let user;
-    await jwt.verify(token, secretKey, function (err, decoded) {
-      user = decoded.data.user;
-    });
-    return user;
+    try {
+      let user;
+      await jwt.verify(token, secretKey, function (err, decoded) {
+        user = decoded.data.user;
+      });
+      return user;
+    } catch {
+      return null;
+    }
   }
 }
 

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../assets/includes/colors.css" />
     <link rel="stylesheet" href="../css/cssHomePage.css" />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
-    <script src="fullcalendar/core/locales/es.global.js"></script>
+    <!-- <script src="fullcalendar/core/locales/es.global.js"></script> -->
     <title>Agendamentos</title>
   </head>
 
@@ -23,35 +23,81 @@
       $("#header").load("../assets/includes/headerLogado.html");
     });
 
-    window.addEventListener("load", () => {
-      var calendarEl = document.getElementById("calendar");
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+    let view = 1;
+    window.addEventListener("load", async () => {
+      let calendarEl = document.getElementById("calendar");
+      let calendar = new FullCalendar.Calendar(calendarEl, {
         timeZone: "UTC",
-        // initialView: "multiMonthYear",
         initialView: "dayGridMonth",
+        // initialView: "dayGridMonth",
         titleFormat: { year: "numeric", month: "long" },
         customButtons: {
-          // myCustomButton: {
-          //   text: "custom!",
-          //   click: function () {
-          //     alert("clicked the custom button!");
-          //   },
-          // },
+          view: {
+            text: "Trocar visualização",
+            click: function () {
+              switch (view) {
+                case 0:
+                  calendar.changeView("dayGridMonth");
+                  view++;
+                  break;
+                case 1:
+                  calendar.changeView("timeGridWeek");
+                  view++;
+                  break;
+                case 2:
+                  calendar.changeView("listWeek");
+                  view++;
+                  break;
+                case 3:
+                  calendar.changeView("dayGridWeek");
+                  view++;
+                  break;
+                case 4:
+                  calendar.changeView("multiMonthYear");
+                  view++;
+                  break;
+                case 5:
+                  calendar.changeView("timeGridDay");
+                  view = 0;
+                  break;
+              }
+            },
+          },
+          today: {
+            text: "Hoje",
+            click: function () {
+              calendar.today();
+            },
+          },
+          prox: {
+            text: "Próximo",
+            icon: "chevron-right",
+            click: function () {
+              calendar.next();
+            },
+          },
+          ant: {
+            text: "Anterior",
+            icon: "chevron-left",
+            click: function () {
+              calendar.prev();
+            },
+          },
         },
         events: [
-          {
-            id: "id",
-            title: "The Title", // a property!
-            start: "2024-07-01", // a property!
-            end: "2024-07-02", // a property! ** see important note below about 'end' **
-          },
+          // {
+          //   id: "id",
+          //   title: "The Title", // a property!
+          //   start: "2024-07-01", // a property!
+          //   end: "2024-07-02", // a property! ** see important note below about 'end' **
+          // },
         ],
         locale: "pt-br",
         selectable: true,
         headerToolbar: {
-          left: "prev today",
+          left: "ant today prox",
           center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay next",
+          right: "view",
         },
         // footerToolbar: {
         //   left: "prev today",

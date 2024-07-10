@@ -29,7 +29,7 @@
   left: -10px;
   padding: 20px 20px 20px 10px;
   top: 7.5%;
-  width: 100px;
+  width: 80px;
   height: 85%;
   background-color: white;
   display: flex;
@@ -37,8 +37,92 @@
   align-items: center;
   justify-content: space-between;
   border-top-right-radius: 50px;
+  gap: 25px;
   border-bottom-right-radius: 50px;
   box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
+  transition: all 1s;
+  z-index: 1111111111111;
+}
+
+#cliente,
+#empresa {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 30px;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.opIcons {
+  width: 35px;
+}
+
+.opSpan {
+  display: flex;
+  padding-left: 15px;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  gap: 10px;
+}
+
+.opSpan > span {
+  font-size: 25px;
+  display: none;
+  transition: all 1s;
+}
+
+.menu_lateral_logado:hover {
+  width: 25vw;
+  display: flex;
+}
+
+.menu_lateral_logado:hover .opSpan {
+  justify-content: start;
+}
+
+.menu_lateral_logado:hover .opSpan > span {
+  display: flex;
+}
+
+.opSpan:hover {
+  cursor: pointer;
+  color: var(--main-color);
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+@media only screen and (max-width: 1000px) {
+  .help_doctor {
+    display: none;
+  }
+  .container {
+    top: 9%;
+    left: 150px;
+    width: calc(95% - 150px);
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .container {
+    left: 0px;
+    width: 100%;
+    height: 91%;
+    border-radius: 0px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+
+  .menu_lateral_logado {
+    display: none;
+  }
 }
