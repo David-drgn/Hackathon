@@ -14,6 +14,7 @@ async function login() {
 
     return;
   }
+  loading(true);
 
   document.getElementsByClassName("erro_login")[0].style.display = "none";
   document.getElementsByClassName("erro_login")[1].style.display = "none";
@@ -34,7 +35,7 @@ async function login() {
     }),
   });
 
-  debugger;
+  loading(false);
   if (request.ok) {
     let response = await request.json();
     localStorage.setItem("token", response.token);

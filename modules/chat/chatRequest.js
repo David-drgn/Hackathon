@@ -5,31 +5,14 @@ const openai = new OpenAI({
 });
 
 class ChatGptRequest {
-  async chatQuery(message, prompt) {
+  async chatQuery(requestScope) {
     try {
       const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo-0125",
-        messages: [
-          { role: "system", content: prompt == undefined ? "" : prompt },
-          { role: "user", content: message },
-        ],
-        temperature: 0.1
-      });
-
-      const answer = response.choices[0].message.content.trim();
-
-      return answer;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  async chatBot(messages){
-    try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo-0125",
-        messages,
-        temperature: 0.1
+        messages: Array.isArray(requestScope)
+          ? requestScope
+          : [{ role: "user", content: requestScope }],
+        temperature: 0.1,
       });
 
       const answer = response.choices[0].message.content.trim();

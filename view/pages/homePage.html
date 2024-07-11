@@ -7,6 +7,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../assets/includes/colors.css" />
     <link rel="stylesheet" href="../css/cssHomePage.css" />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
     <!-- <script src="fullcalendar/core/locales/es.global.js"></script> -->
     <title>Agendamentos</title>
@@ -14,108 +18,43 @@
 
   <body class="clinc">
     <div id="header"></div>
-    <!-- <div class="container" id="appointment"></div> -->
     <div class="container" id="calendar"></div>
-    <img class="help_doctor" src="../assets/icon/Help.png" />
+    <div class="container" id="chat">
+      <div class="chatContainer">
+        <div class="chatHeader">
+          <span>Oswald</span>
+        </div>
+        <div class="chatConversation" id="chatConversation"></div>
+        <div class="chatMessage">
+          <input type="text" id="inputUser" />
+          <img src="../assets/icon/send.svg" onclick="chatQuest()" />
+        </div>
+      </div>
+    </div>
+    <div class="container" id="archive">archive</div>
+    <div class="container" id="plan">plan</div>
+    <div class="container" id="settings">
+      <div class="profile_itens profile_info">
+        <img
+          src="../assets/icon/person.svg"
+          id="userImage"
+          title="Clique aqui para trocar a foto de perfil"
+          onclick=""
+        />
+      </div>
+      <div class="profile_itens profile_events">
+        <div>oi1</div>
+        <div>oi2</div>
+      </div>
+    </div>
+    <img
+      class="help_doctor"
+      src="../assets/icon/Help.png"
+      onclick="changeView(1)"
+    />
+    <input type="file" style="display: none;" id="fileInput" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../controller/homePage.js"></script>
   </body>
-  <script>
-    $(document).ready(function () {
-      $("#header").load("../assets/includes/headerLogado.html");
-    });
-
-    let view = 1;
-    window.addEventListener("load", async () => {
-      let calendarEl = document.getElementById("calendar");
-      let calendar = new FullCalendar.Calendar(calendarEl, {
-        timeZone: "UTC",
-        initialView: "dayGridMonth",
-        // initialView: "dayGridMonth",
-        titleFormat: { year: "numeric", month: "long" },
-        customButtons: {
-          view: {
-            text: "Trocar visualização",
-            click: function () {
-              switch (view) {
-                case 0:
-                  calendar.changeView("dayGridMonth");
-                  view++;
-                  break;
-                case 1:
-                  calendar.changeView("timeGridWeek");
-                  view++;
-                  break;
-                case 2:
-                  calendar.changeView("listWeek");
-                  view++;
-                  break;
-                case 3:
-                  calendar.changeView("dayGridWeek");
-                  view++;
-                  break;
-                case 4:
-                  calendar.changeView("multiMonthYear");
-                  view++;
-                  break;
-                case 5:
-                  calendar.changeView("timeGridDay");
-                  view = 0;
-                  break;
-              }
-            },
-          },
-          today: {
-            text: "Hoje",
-            click: function () {
-              calendar.today();
-            },
-          },
-          prox: {
-            text: "Próximo",
-            icon: "chevron-right",
-            click: function () {
-              calendar.next();
-            },
-          },
-          ant: {
-            text: "Anterior",
-            icon: "chevron-left",
-            click: function () {
-              calendar.prev();
-            },
-          },
-        },
-        events: [
-          // {
-          //   id: "id",
-          //   title: "The Title", // a property!
-          //   start: "2024-07-01", // a property!
-          //   end: "2024-07-02", // a property! ** see important note below about 'end' **
-          // },
-        ],
-        locale: "pt-br",
-        selectable: true,
-        headerToolbar: {
-          left: "ant today prox",
-          center: "title",
-          right: "view",
-        },
-        // footerToolbar: {
-        //   left: "prev today",
-        //   center: "title",
-        //   right: "next",
-        // },
-        select: function (info) {
-          alert("selected " + info.startStr + " to " + info.endStr);
-        },
-        eventClick: function (info) {
-          alert("Event: " + info.event.title);
-          alert(
-            "Coordinates: " + info.jsEvent.pageX + "," + info.jsEvent.pageY
-          );
-          alert("View: " + info.view.type);
-        },
-      });
-      calendar.render();
-    });
-  </script>
 </html>

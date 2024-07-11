@@ -77,7 +77,16 @@ function openDialog(title, message, next = null) {
             location.href = `${location.origin}/${next}`;
             break;
         }
-      }, 2000);
+      }, 2800);
     });
   });
+}
+
+$(document).ready(function () {
+  $("#loader").load("./assets/includes/load.html");
+});
+
+function loading(view) {
+  if (view) $("#loader").css("display", "flex");
+  else $("#loader").css("display", "none");
 }

@@ -19,7 +19,7 @@ const sendMessage = async (chatMessages, chatId, options = undefined) => {
   try {
     const client = sessions.get("bot");
 
-    let chatRes = await Chat.chatBot(chatMessages);
+    let chatRes = await Chat.chatQuery(chatMessages);
 
     if (chatRes.includes("CPF VÁLIDO")) {
       chatRes = chatRes.split("\n")[0];
@@ -86,9 +86,38 @@ const sendMessage = async (chatMessages, chatId, options = undefined) => {
   }
 };
 
+let chatWeb = {};
 chat.post("/request", async (req, res) => {
   try {
-    const chat = await Chat.chatQuery(req.body.question);
+    if (chatWeb[req.body.id]) {
+      chatWeb[req.body.id].push({
+        role: "user",
+        content: req.body.question,
+      });
+    } else {
+      chatWeb[req.body.id] = [];
+
+      chatWeb[req.body.id].push({
+        role: "system",
+        content: `
+          Você é o Oswald, sempre se apresente por esse nome e não responda perguntas que não sejam relacionadas ao agendamento de consultas (médicas, em restaurante e etc);
+          Você é feito somente para tirar dúvidas sobre o sistema de agendamentos do aplicativo e ser gentil com o usuário (Dando oi, falando tudo bem e tendo as etiquetas de educação básica)
+        `,
+      });
+
+      chatWeb[req.body.id].push({
+        role: "user",
+        content: req.body.question,
+      });
+    }
+
+    const chat = await Chat.chatQuery(chatWeb[req.body.id]);
+
+    chatWeb[req.body.id].push({
+      role: "system",
+      content: chat,
+    });
+
     res.json({
       erro: false,
       anwser: chat,

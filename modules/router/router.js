@@ -24,6 +24,12 @@ router.get("/home", async (req, res) => {
   );
 });
 
+router.get("/chat", async (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "..", "..", "view", "pages", "homePage.html")
+  );
+});
+
 router.get("/systemErro", async (req, res) => {
   let erro = req.query.erro;
 

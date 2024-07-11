@@ -1,49 +1,37 @@
 <link rel="stylesheet" href="../../css/cssHeaderLogado.css" />
 
 <div class="header_logado">
-  <span class="name_logado">Nome do meliante</span>
+  <span class="name_logado">Olá, User!</span>
   <img class="image_perfil" src="../assets/icon/person.svg" />
 </div>
 <div class="menu_lateral_logado">
-  <!-- <div id="cliente">
+  <div class="mainContainer">
     <span class="opSpan">
       <img class="opIcons" src="../assets/icon/event.svg" />
-      <span>Calendário</span>
+      <span onclick="changeView(0)">Calendário</span>
     </span>
     <span class="opSpan">
       <img class="opIcons" src="../assets/icon/chat.svg" />
-      <span>Dúvidas?</span>
+      <span onclick="changeView(1)">Dúvidas?</span>
     </span>
     <span class="opSpan">
       <img class="opIcons" src="../assets/icon/folder.svg" />
-      <span>Anexar arquivos</span>
-    </span>
-  </div> -->
-  <div id="empresa">
-    <span class="opSpan">
-      <img class="opIcons" src="../assets/icon/event.svg" />
-      <span>Calendário</span>
-    </span>
-    <span class="opSpan">
-      <img class="opIcons" src="../assets/icon/chat.svg" />
-      <span>Dúvidas?</span>
-    </span>
-    <span class="opSpan">
-      <img class="opIcons" src="../assets/icon/folder.svg" />
-      <span>Anexar arquivos</span>
+      <span onclick="changeView(2)">Anexar arquivos</span>
     </span>
     <span class="opSpan">
       <img class="opIcons" src="../assets/icon/credit.svg" />
-      <span>Ver planos</span>
+      <span onclick="changeView(3)">Ver planos</span>
     </span>
   </div>
   <span class="opSpan">
     <img class="opIcons" src="../assets/icon/settings.svg" />
-    <span>Configurações</span>
+    <span onclick="changeView(4)">Configurações</span>
   </span>
   <span class="opSpan">
     <img class="opIcons" src="../assets/icon/logout.svg" />
     <span>Sair</span>
   </span>
 </div>
+<div id="loader"></div>
+<div id="dialog"></div>
 <script src="../../controller/headerLogado.js"></script>
