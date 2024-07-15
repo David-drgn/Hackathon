@@ -106,9 +106,18 @@ window.addEventListener("load", async () => {
 
 function changeView(view) {
   let containers = document.getElementsByClassName("container");
+  let icons = document.getElementsByClassName("opIconsCell");
   let img = document.getElementsByClassName("help_doctor")[0];
-  img.style.display = "block";
 
+  if (
+    document.getElementsByClassName("search_view")[0].style.display == "none" ||
+    document.getElementsByClassName("search_view")[0].style.display == ""
+  )
+    img.style.display = "block";
+
+  for (let i = 0; i < icons.length; i++) {
+    icons[i].classList.remove("active");
+  }
   for (let i = 0; i < containers.length; i++) {
     containers[i].style.display = "none";
   }
@@ -116,18 +125,33 @@ function changeView(view) {
   switch (view) {
     case 0:
       document.getElementById("calendar").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
       break;
     case 1:
       document.getElementById("chat").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
       break;
     case 2:
       document.getElementById("archive").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
       break;
     case 3:
       document.getElementById("plan").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
       break;
     case 4:
       document.getElementById("settings").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
       img.style.display = "none";
       break;
   }
