@@ -93,34 +93,6 @@
   align-items: center;
 }
 
-.password_register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: white;
-}
-
-.password_register > input {
-  border: 0px solid;
-  width: 100%;
-}
-
-input.register {
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: white;
-}
-
-input {
-  outline: none;
-}
-
 .button_register {
   color: white;
   border: 0px solid;
@@ -158,23 +130,6 @@ input {
 .link_register:hover {
   transition: all 1s;
   transform: scale(1.1, 1.1);
-}
-
-.password_register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: white;
-}
-
-.password_register > input {
-  border: 0px solid;
-  width: 100%;
-  padding: 0px;
 }
 
 @media only screen and (max-width: 840px) {

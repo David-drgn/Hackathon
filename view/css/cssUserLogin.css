@@ -21,11 +21,11 @@
 .wrapper_login {
   background-color: var(--back-color);
   padding: 20px;
-  max-width: 50%;
+  max-width: 39%;
   max-height: 50%;
-  min-width: 40%;
+  min-width: 500px;
   min-height: 30%;
-  border-radius: 30px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,16 +56,6 @@
   height: 40px;
 }
 
-.eye {
-  cursor: pointer;
-  cursor: pointer;
-}
-
-.eye:hover {
-  transition: all 1s;
-  transform: scale(1.1, 1.1);
-}
-
 .close_login:hover {
   transform: scale(1.1, 1.1) rotate(90deg);
   transition: all 1s;
@@ -75,34 +65,6 @@
   color: var(--main-color);
   font-size: clamp(20px, 3.5vw, 35px);
   width: 100%;
-}
-
-.password_login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: white;
-}
-
-.password_login > input {
-  border: 0px solid;
-  width: 100%;
-}
-
-input.login {
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: white;
-}
-
-input {
-  outline: none;
 }
 
 .button_login {

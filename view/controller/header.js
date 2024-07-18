@@ -20,14 +20,43 @@ function showMenu(father) {
 function loginOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./pages/userLogin.html");
+    $("#dialog").load("./pages/userLogin.html", function () {});
   });
 }
 
 function registerOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./pages/userRegister.html");
+    $("#dialog").load("./pages/userRegister.html", function () {
+      $("[title]").tooltip({
+        show: {
+          effect: "slideDown",
+          delay: 100,
+        },
+        hide: {
+          effect: "slideUp",
+        },
+      });
+      
+      $("#senha_register").tooltip({
+        show: {
+          effect: "slideDown",
+          delay: 100,
+        },
+        hide: {
+          effect: "slideUp",
+        },
+        content: `
+          <b>A senha deve ter:</b>
+          <ul>
+            <li>Caracteres especiais</li>
+            <li>Mínimo de 8 caracteres</li>
+            <li>Caracteres maiúsculos</li>
+            <li>Caracteres minúsculos</li>
+          </ul>
+        `,
+      });
+    });
   });
 }
 

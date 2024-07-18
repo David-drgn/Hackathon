@@ -25,7 +25,7 @@
 />
 
 <div class="background_login">
-  <div class="wrapper_login">
+  <form class="wrapper_login" autocomplete="off">
     <div class="wrapper_header_login">
       <span class="title_login">Entrar</span>
       <img
@@ -34,10 +34,11 @@
         onclick="$('#dialog').empty();"
       />
     </div>
-    <input class="login" id="email_login" type="email" placeholder="Email" />
+    <!-- <span>Email:</span> -->
+    <input class="initial" id="email_login" type="email" placeholder="Email"/>
     <span class="erro_login">*Campo obrigatório</span>
-    <div class="password_login">
-      <input type="password" id="password_login" placeholder="Senha" />
+    <div class="password_div">
+      <input type="password" id="password_login" placeholder="Senha"/>
       <img src="./assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
     </div>
     <span class="erro_login">*Campo obrigatório</span>
@@ -50,6 +51,6 @@
     </div>
     <button class="button_login" onclick="login()">Entrar</button>
     <a class="link_login" onclick="registerOpen()">Cadastrar-se</a>
-  </div>
+  </form>
 </div>
 <script src="./controller/login.js"></script>
