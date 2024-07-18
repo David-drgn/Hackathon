@@ -13,6 +13,7 @@ body {
   height: 85%;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 50px;
+  transition: all 1s;
 }
 
 .chatContainer {
@@ -118,22 +119,79 @@ body {
   border-radius: 30px;
   padding: 10px;
   display: flex;
-  gap: 10px;
-  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.user_info_text {
+  width: 100%;
+  color: white;
+  padding-left: 20px;
+  text-align: center;
+  font-size: calc(17px + 0.390625vw);
+  padding-right: 20px;
 }
 
 #userImage {
-  width: 60%;
+  width: 48%;
   height: fit-content;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 100%;
   cursor: pointer;
 }
 
+#username {
+  color: var(--main-color);
+  font-weight: bolder;
+  font-size: calc(30px + 0.390625vw);
+}
+
+#usertype {
+  background-color: var(--main-color);
+  padding: 0px;
+  width: 80%;
+  border-radius: 10px;
+}
+
+.title_events {
+  color: var(--main-color);
+  font-weight: bolder;
+  font-size: calc(20px + 0.390625vw);
+}
+
+.edit_button {
+  margin-top: auto;
+  width: 50%;
+  border: 0px solid;
+  background-color: var(--main-color);
+  color: white;
+  font-size: calc(17px + 0.390625vw);
+  transition: all 1s;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.edit_button:hover {
+  width: 60%;
+}
+
 .profile_events {
-  width: calc(50% - 5px);
+  background-color: transparent;
+  gap: 1%;
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+}
+
+.event_itens {
   background-color: rgba(255, 255, 255, 0.5);
-  height: 100%;
+  flex: 1 1 49%;
+  border-radius: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .help_doctor {

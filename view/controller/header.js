@@ -93,18 +93,20 @@ function openDialog(title, message, next = null) {
     $("#dialog").load("./assets/includes/alert.html", function () {
       document.getElementById("title_alert").textContent = title;
       document.getElementById("message_alert").textContent = message;
+      debugger;
       setTimeout(() => {
-        $("#dialog").empty();
-        switch (next) {
-          case "login":
-            $("#dialog").load("./pages/userLogin.html");
-            break;
-          case "register":
-            $("#dialog").load("./pages/userRegister.html");
-            break;
-          case !null:
-            location.href = `${location.origin}/${next}`;
-            break;
+        if (next != null) {
+          switch (next) {
+            case "login":
+              $("#dialog").load("./pages/userLogin.html");
+              break;
+            case "register":
+              $("#dialog").load("./pages/userRegister.html");
+              break;
+            default:
+              location.href = `/${next}`;
+              break;
+          }
         }
       }, 2800);
     });

@@ -39,7 +39,11 @@ async function login() {
   if (request.ok) {
     let response = await request.json();
     localStorage.setItem("token", response.token);
-    location.href = "/home";
+    openDialog(
+      "Bem vindo ao nosso sistema",
+      "Login realizado com exito, é muito bom ter você por aqui",
+      "home"
+    );
   } else {
     openDialog(
       "Erro no login",
