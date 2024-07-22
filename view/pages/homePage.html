@@ -12,6 +12,7 @@
       href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
     <!-- <script src="fullcalendar/core/locales/es.global.js"></script> -->
     <title>Agendamentos</title>
   </head>
@@ -34,34 +35,108 @@
     <div class="container" id="archive">
       <div class="archive_itens filter">
         <div class="search_input_files">
-          <input type="text" class="input_body" placeholder="Pesquisar por arquivos">
-          <img src="../assets/icon/search.svg">
+          <input
+            type="text"
+            class="input_body"
+            placeholder="Pesquisar por arquivos"
+          />
+          <img src="../assets/icon/search.svg" />
         </div>
-        <div class="files_view"></div>
-        <button class="archive_anexer">Anexar arquivo (0/5)</button>
+        <div class="files_view">
+          <span class="title_files" onclick="openSection('favorite_files')"
+            >Favoritos <img src="../assets/icon/arrow_drop.svg"
+          /></span>
+          <div class="category" id="favorite_files">
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="../assets/icon/image_type.svg" />
+              </div>
+              <div class="archive_info">
+                <span>Nome.jpg</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>7MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="../assets/icon/favorite_fill.svg" />
+                  <img src="../assets/icon/bookmark.svg" />
+                  <img src="../assets/icon/delete.svg" />
+                </div>
+              </div>
+            </div>
+
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="../assets/icon/file_type.svg" />
+              </div>
+              <div class="archive_info">
+                <span>Nome.pdf</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>9MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="../assets/icon/favorite_fill.svg" />
+                  <img src="../assets/icon/bookmark.svg" />
+                  <img src="../assets/icon/delete.svg" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="title_files" onclick="openSection('every_files')"
+            >Todos os arquivos<img src="../assets/icon/arrow_drop.svg"
+          /></span>
+          <div class="category" id="every_files">
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="../assets/icon/image_type.svg" />
+              </div>
+              <div class="archive_info">
+                <span>Nome.jpg</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>7MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="../assets/icon/favorite_fill.svg" />
+                  <img src="../assets/icon/bookmark.svg" />
+                  <img src="../assets/icon/delete.svg" />
+                </div>
+              </div>
+            </div>
+
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="../assets/icon/file_type.svg" />
+              </div>
+              <div class="archive_info">
+                <span>Nome.pdf</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>9MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="../assets/icon/favorite_fill.svg" />
+                  <img src="../assets/icon/bookmark.svg" />
+                  <img src="../assets/icon/delete.svg" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="archive_anexer" onclick="enviarArquivo()">
+          Anexar arquivo
+        </button>
       </div>
       <div class="archive_itens every">
-        <div class="fovorite">
-          <span>Favoritos</span>
+        <div class="options_file_view">
+          <span>Nome arquivo.png</span>
+          <img src="../assets/icon/favorite_fill.svg" />
+          <img src="../assets/icon/bookmark.svg" />
+          <img src="../assets/icon/delete.svg" />
         </div>
-        <div class=""></div>
-        <!-- <div class="archive">
-          <div>
-            <img>
-          </div>
-          <div>
-            <span>Nome.jpg</span>
-            <div>
-              <span>Data de modificação</span>
-              <span>Tamanho</span>
-            </div>
-            <div>
-              <img src="" alt="">
-              <img src="" alt="">
-              <img src="" alt="">
-            </div>
-          </div>
-        </div> -->
+        <iframe src="../assets/Teste 1.pdf" id="iframe_view"></iframe>
+        <input type="file" style="display: none;" id="file_manager_input">
       </div>
     </div>
     <div class="container" id="plan">plan</div>

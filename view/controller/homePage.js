@@ -289,3 +289,89 @@ document.getElementById("fileInput").addEventListener("change", function () {
     reader.readAsDataURL(file);
   }
 });
+
+function openSection(id) {
+  let element = document.getElementById(id);
+  if (element.style.display === "none" || element.style.display === "") {
+    element.style.display = "flex";
+  } else {
+    element.style.display = "none";
+  }
+}
+
+function enviarArquivo() {
+  document.getElementById("file_manager_input").click();
+}
+
+document
+  .getElementById("file_manager_input")
+  .addEventListener("change", (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const fileType = file.type;
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const base64 = event.target.result.split(",")[1];
+        // const iframe = document.getElementById("fileIframe");
+        let mimeType = "";
+
+        if (fileType === "application/pdf") {
+          mimeType = "application/pdf";
+        } else if (
+          fileType ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ) {
+          mimeType =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+          convertFile("excel", base64);
+        } else if (
+          fileType ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ) {
+          mimeType =
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+          // convertAndDisplay(base64);
+        } else if (fileType.startsWith("image/")) {
+          mimeType = fileType;
+        } else {
+          openDialog(
+            "Arquivo incorreto",
+            "O tipo de arquivo não é suportado! Por favor, forneça imagens, pdf ou excel"
+          );
+          return;
+        }
+
+        // iframe.src = `data:${mimeType};base64,${base64}`;
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      openDialog("Selecione um arquivo", "Por favor, selecione um arquivo.");
+    }
+  });
+
+async function convertFile(mimeType, base64) {
+  loading(true);
+  await fetch(`${location.origin}/api/fileConvert`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ mimeType, base64 }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      loading(false);
+      console.log(json);
+      if (!json.erro) {
+        const pdfDataUri = `data:application/pdf;base64,${json.file}`;
+        document.getElementById("iframe_view").src = pdfDataUri;
+      }
+    })
+    .catch(function (error) {
+      loading(false);
+      console.log(error.message);
+    });
+}

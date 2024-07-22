@@ -38,9 +38,9 @@
   right: -10px;
   font-size: larger;
   font-weight: bold;
-  color: white;
+  color: var(--main-light);
   top: -10px;
-  border: 1px solid white;
+  border: 1px solid var(--main-light);
   z-index: 1;
 }
 
@@ -54,7 +54,7 @@
 
 .alert_button:hover {
   color: var(--main-color);
-  background-color: white;
+  background-color: var(--main-light);
   border: 1px solid var(--main-color);
 }
 
@@ -67,7 +67,7 @@
 
 #message_alert {
   font-size: clamp(15px, 4vw, 20px);
-  color: white;
+  color: var(--main-light);
   z-index: 1;
   width: 73%;
 }

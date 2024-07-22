@@ -41,7 +41,7 @@
 
 .menu_header > button {
   background-color: transparent;
-  color: white;
+  color: var(--main-light);
   border-bottom: 3px solid var(--main-color);
   font-size: x-large;
 }
@@ -54,7 +54,7 @@
 .button_header {
   border: 0px solid;
   background-color: transparent;
-  color: white;
+  color: var(--main-light);
   font-size: clamp(15px, 4vw, 20px);
   font-weight: bold;
   cursor: pointer;
@@ -62,7 +62,7 @@
 }
 
 .strong_header {
-  color: white;
+  color: var(--main-light);
   background-color: var(--main-color);
   border-radius: 30px;
 }

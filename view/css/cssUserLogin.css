@@ -71,7 +71,7 @@
 }
 
 .button_login {
-  color: white;
+  color: var(--main-light);
   border: 0px solid;
   font-size: clamp(20px, 3.5vw, 25px);
   font-weight: bold;

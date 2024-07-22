@@ -19,6 +19,7 @@ const router = require("./modules/router/router.js");
 const chat = require("./modules/chat/chatRoute.js");
 const appWhatsapp = require("./src/app");
 
+const { FileExcel, FileDocx } = require("./modules/files/fileParser.js");
 const Connect = require("./modules/crm/connect.js");
 const Mailler = require("./modules/mail/email.js");
 const User = require("./modules/user/user.js");
@@ -78,6 +79,29 @@ app.get("/:code", async (req, res) => {
         });
       }
     }
+  }
+});
+
+app.post("/api/fileConvert", async (req, res) => {
+  try {
+    const base64 = req.body.base64;
+    if (!base64) {
+      return res
+        .status(400)
+        .json({ erro: true, mensagem: "Base64 não fornecido" });
+    }
+
+    const pdfBase64 = await new FileExcel().initialize(base64);
+    res.json({
+      file: pdfBase64,
+      erro: false,
+    });
+  } catch (error) {
+    console.error("Erro ao processar o arquivo:", error);
+    res.status(500).json({
+      erro: true,
+      mensagem: "Erro ao processar o arquivo",
+    });
   }
 });
 

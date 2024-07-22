@@ -84,7 +84,7 @@
   border: 1px solid;
   padding: 14px;
   border-radius: 50px;
-  background-color: white;
+  background-color: var(--main-light);
 }
 
 .password_forget > input {
@@ -97,7 +97,7 @@ input.forget {
   border: 1px solid;
   padding: 14px;
   border-radius: 50px;
-  background-color: white;
+  background-color: var(--main-light);
 }
 
 input {
@@ -105,7 +105,7 @@ input {
 }
 
 .button_forget {
-  color: white;
+  color: var(--main-light);
   border: 0px solid;
   font-size: clamp(20px, 3.5vw, 25px);
   font-weight: bold;

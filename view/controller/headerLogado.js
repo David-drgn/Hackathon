@@ -88,7 +88,7 @@ function deactiveSearch() {
   document.getElementById("search_text").classList.remove("active");
   document.getElementsByClassName("search_view")[0].style.display = "none";
 
-  if (document.getElementById("settings").style.display != "flex")
+  if (document.getElementById("settings").style.display != "flex" && document.getElementById("archive").style.display != "flex")
     document.getElementsByClassName("help_doctor")[0].style.display = "block";
 
   let container = document.getElementsByClassName("container");

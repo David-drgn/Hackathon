@@ -34,7 +34,7 @@
     rgba(127, 156, 205, 0.25)
   );
   backdrop-filter: blur(3px);
-  color: white;
+  color: var(--main-light);
   padding: 20px;
   width: 85%;
   gap: 20px;
@@ -59,7 +59,7 @@
 
 .wrapper_sobre_buttons > button {
   background-color: transparent;
-  color: white;
+  color: var(--main-light);
   font-weight: 600;
   border: 0px;
   cursor: pointer;
@@ -85,7 +85,7 @@
 
 .title_main > span {
   font-size: 60px;
-  color: white;
+  color: var(--main-light);
   text-shadow: -1px -1px 0 var(--main-color), 1px -1px 0 var(--main-color), -1px 1px 0 var(--main-color),
     1px 1px 0 var(--main-color), -2px -2px 0 var(--main-color), 2px -2px 0 var(--main-color),
     -2px 2px 0 var(--main-color), 2px 2px 0 var(--main-color);
@@ -116,7 +116,7 @@
 }
 
 .text_main > span {
-  color: white;
+  color: var(--main-light);
   text-align: end;
   max-width: 500px;
 }
@@ -139,7 +139,7 @@
 }
 
 .button_main {
-  color: white;
+  color: var(--main-light);
   border: 0px solid;
   font-size: clamp(20px, 3.5vw, 25px);
   font-weight: bold;
