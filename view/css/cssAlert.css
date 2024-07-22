@@ -24,27 +24,50 @@
   gap: 15px;
   background: linear-gradient(145deg, #e3e3e3, #a5a5a5);
   box-shadow: 20px 20px 60px #949494, -20px -20px 60px #94949400;
+  position: absolute;
 }
 
-.alert_button{
-  background: linear-gradient(145deg, var(--main-color), var(--main-color-transparent));
+.alert_button {
+  background: var(--main-color);
   border: 0px solid;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: -10px;
+  font-size: larger;
+  font-weight: bold;
+  color: white;
+  top: -10px;
+  border: 1px solid white;
+  z-index: 1;
 }
 
-.alert_button:hover{
-  background: linear-gradient(90deg, var(--main-color), var(--main-color-transparent));
+.oswald_image {
+  position: absolute;
+  width: 50%;
+  right: 0;
+  border-bottom-right-radius: inherit;
+  bottom: 0;
+}
+
+.alert_button:hover {
+  color: var(--main-color);
+  background-color: white;
+  border: 1px solid var(--main-color);
 }
 
 #title_alert {
   color: var(--main-color);
   font-size: clamp(20px, 4vw, 30px);
   font-weight: 700;
-  width: 100%;
+  width: 80%;
 }
 
 #message_alert {
   font-size: clamp(15px, 4vw, 20px);
   color: white;
+  z-index: 1;
+  width: 73%;
 }

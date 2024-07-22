@@ -140,6 +140,7 @@ function changeView(view) {
       document
         .getElementsByClassName("opIconsCell")
         [view].classList.add("active");
+      img.style.display = "none";
       break;
     case 3:
       document.getElementById("plan").style.display = "flex";

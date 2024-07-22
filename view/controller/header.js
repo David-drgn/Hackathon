@@ -20,7 +20,19 @@ function showMenu(father) {
 function loginOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./pages/userLogin.html", function () {});
+    $("#dialog").load("./pages/userLogin.html", function () {
+      const formGroups = document.querySelectorAll(".form__group");
+
+      formGroups.forEach((formGroup) => {
+        const inputField = formGroup.querySelector(".form__field");
+        const labels = formGroup.querySelectorAll(".form__label, .icon__label");
+        labels.forEach((label) => {
+          label.addEventListener("click", () => {
+            if (!label.classList.contains("eye")) inputField.focus();
+          });
+        });
+      });
+    });
   });
 }
 
@@ -37,7 +49,7 @@ function registerOpen() {
           effect: "slideUp",
         },
       });
-      
+
       $("#senha_register").tooltip({
         show: {
           effect: "slideDown",
@@ -93,7 +105,6 @@ function openDialog(title, message, next = null) {
     $("#dialog").load("./assets/includes/alert.html", function () {
       document.getElementById("title_alert").textContent = title;
       document.getElementById("message_alert").textContent = message;
-      debugger;
       setTimeout(() => {
         if (next != null) {
           switch (next) {
@@ -104,7 +115,9 @@ function openDialog(title, message, next = null) {
               $("#dialog").load("./pages/userRegister.html");
               break;
             default:
-              location.href = `/${next}`;
+              console.log(next)
+              debugger;
+              location.href = `${location.origin}/${next}`;
               break;
           }
         }

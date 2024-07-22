@@ -163,7 +163,7 @@ app.post("/api/login", async (req, res) => {
 
     const login = await user.login(email, password, check);
 
-    res.cookie("token", login);
+    // res.cookie("token", login);
     return res.json({
       token: login,
     });
