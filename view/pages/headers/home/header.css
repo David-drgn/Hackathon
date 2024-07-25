@@ -63,7 +63,6 @@
 
 .opSpan {
   display: flex;
-  padding-left: 15px;
   justify-content: center;
   align-items: center;
   white-space: nowrap;
@@ -74,6 +73,22 @@
   font-size: 25px;
   display: none;
   transition: all 1s;
+}
+
+.opSpan.active {
+  padding: 10px;
+  border-radius: 10px;
+  justify-content: center;
+  border: 2px solid var(--main-color);
+}
+
+.menu_lateral_logado:hover .opSpan.active {
+  border: 0px;
+  border-left: 5px solid var(--main-color);
+  padding-left: 10px;
+  margin-left: -15px;
+  border-radius: 0px;
+  width: fit-content;
 }
 
 .menu_lateral_logado:hover {
@@ -210,8 +225,9 @@ input {
   transition: all 1s;
 }
 
-.active {
-  background-color: var(--main-color);
+.opIconsCell.active {
+  /* background-color: var(--main-color); */
+  border: 2px solid var(--main-color);
   margin-top: -10px;
 }
 

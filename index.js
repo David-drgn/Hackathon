@@ -91,11 +91,13 @@ app.post("/api/fileConvert", async (req, res) => {
         .json({ erro: true, mensagem: "Base64 não fornecido" });
     }
 
-    const pdfBase64 = await new FileExcel().initialize(base64);
-    res.json({
-      file: pdfBase64,
-      erro: false,
-    });
+    if (req.body.type == "excel") {
+      const pdfBase64 = await new FileExcel().initialize(base64);
+      res.json({
+        file: pdfBase64,
+        erro: false,
+      });
+    }
   } catch (error) {
     console.error("Erro ao processar o arquivo:", error);
     res.status(500).json({

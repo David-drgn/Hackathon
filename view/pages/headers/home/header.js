@@ -1,44 +1,49 @@
 var user;
 
+window.addEventListener("load", () => {
+  if (localStorage.getItem("token")) {
+    loading(true);
+    fetch(`${location.origin}/api/verifyToken`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem("token"),
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        loading(false);
+        user = json;
+        if (!json) {
+          localStorage.removeItem("token");
+          location.href = "/";
+        }
+        document.getElementsByClassName(
+          "name_logado"
+        )[0].innerHTML = `Olá, <b>${json.name}</b>`;
+        chatResponse(
+          `Olá, quem é você? e qual o seu objetivo? Me chame de ${json.name}`
+        );
+        console.log(user);
+      })
+      .catch(function (error) {
+        loading(false);
+        console.log("Erro: " + error.message);
+      });
+  } else {
+    location.href = "/";
+  }
+});
+
 $(document).ready(function () {
-  $("#loader").load("./assets/includes/load.html");
+  $("#loader").load("./pages/load/load.html");
 });
 
 function loading(view) {
   if (view) $("#loader").css("display", "flex");
   else $("#loader").css("display", "none");
-}
-
-if (localStorage.getItem("token")) {
-  loading(true);
-  fetch(`${location.origin}/api/verifyToken`, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem("token"),
-    }),
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      loading(false);
-      user = json;
-      if (!json) {
-        localStorage.removeItem("token");
-        location.href = "/";
-      }
-      document.getElementsByClassName(
-        "name_logado"
-      )[0].innerHTML = `Olá, <b>${json.name}</b>`;
-      chatResponse(
-        `Olá, quem é você? e qual o seu objetivo? Me chame de ${json.name}`
-      );
-    })
-    .catch(function (error) {
-      loading(false);
-      console.log(error.message);
-    });
 }
 
 function logout() {
@@ -88,7 +93,10 @@ function deactiveSearch() {
   document.getElementById("search_text").classList.remove("active");
   document.getElementsByClassName("search_view")[0].style.display = "none";
 
-  if (document.getElementById("settings").style.display != "flex" && document.getElementById("archive").style.display != "flex")
+  if (
+    document.getElementById("settings").style.display != "flex" &&
+    document.getElementById("archive").style.display != "flex"
+  )
     document.getElementsByClassName("help_doctor")[0].style.display = "block";
 
   let container = document.getElementsByClassName("container");

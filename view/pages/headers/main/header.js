@@ -1,3 +1,5 @@
+alert("Header")
+
 function showMenu(father) {
   let menu = document.getElementById("background_header");
   if (menu.style.display == "" || menu.style.display == "none") {
@@ -75,7 +77,7 @@ function registerOpen() {
 function forgetOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./pages/userForget.html");
+    $("#dialog").load("./pages/PopUp/forget.html");
   });
 }
 
@@ -127,7 +129,7 @@ function openDialog(title, message, next = null) {
 }
 
 $(document).ready(function () {
-  $("#loader").load("./assets/includes/load.html");
+  $("#loader").load("./pages/load/load.html");
 });
 
 function loading(view) {

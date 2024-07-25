@@ -15,18 +15,14 @@ router.use(cors());
 router.use(bodyParser.json({ limit: "9mb" }));
 
 router.get("/", async (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "..", "view", "index.html"));
+  res.sendFile(
+    path.join(__dirname, "..", "..", "view", "pages", "index", "index.html")
+  );
 });
 
 router.get("/home", async (req, res) => {
   res.sendFile(
-    path.join(__dirname, "..", "..", "view", "pages", "homePage.html")
-  );
-});
-
-router.get("/chat", async (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "..", "..", "view", "pages", "homePage.html")
+    path.join(__dirname, "..", "..", "view", "pages", "home", "home.html")
   );
 });
 
@@ -58,8 +54,13 @@ router.use(
 );
 
 router.use(
-  "/css",
-  express.static(path.join(__dirname, "..", "..", "view", "css"))
+  "/assets/icon",
+  express.static(path.join(__dirname, "..", "..", "view", "assets", "icon"))
+);
+
+router.use(
+  "/assets/images",
+  express.static(path.join(__dirname, "..", "..", "view", "assets", "images"))
 );
 
 router.use(
@@ -68,8 +69,85 @@ router.use(
 );
 
 router.use(
+  "/css",
+  express.static(path.join(__dirname, "..", "..", "view", "css"))
+);
+
+router.use(
   "/pages",
   express.static(path.join(__dirname, "..", "..", "view", "pages"))
+);
+
+router.use(
+  "/pages/headers",
+  express.static(path.join(__dirname, "..", "..", "view", "pages", "headers"))
+);
+
+router.use(
+  "/pages/headers/home",
+  express.static(
+    path.join(__dirname, "..", "..", "view", "pages", "headers", "home")
+  )
+);
+
+router.use(
+  "/pages/headers/main",
+  express.static(
+    path.join(__dirname, "..", "..", "view", "pages", "headers", "main")
+  )
+);
+
+router.use(
+  "/pages/hero",
+  express.static(path.join(__dirname, "..", "..", "view", "pages", "hero"))
+);
+
+router.use(
+  "/pages/home",
+  express.static(path.join(__dirname, "..", "..", "view", "pages", "home"))
+);
+
+router.use(
+  "/pages/index",
+  express.static(path.join(__dirname, "..", "..", "view", "pages", "index"))
+);
+
+router.use(
+  "/pages/load",
+  express.static(path.join(__dirname, "..", "..", "view", "pages", "load"))
+);
+
+router.use(
+  "/pages/PopUp",
+  express.static(path.join(__dirname, "..", "..", "view", "pages", "PopUp"))
+);
+
+router.use(
+  "/pages/PopUp/dialog",
+  express.static(
+    path.join(__dirname, "..", "..", "view", "pages", "PopUp", "dialog")
+  )
+);
+
+router.use(
+  "/pages/PopUp/forget",
+  express.static(
+    path.join(__dirname, "..", "..", "view", "pages", "PopUp", "forget")
+  )
+);
+
+router.use(
+  "/pages/PopUp/login",
+  express.static(
+    path.join(__dirname, "..", "..", "view", "pages", "PopUp", "login")
+  )
+);
+
+router.use(
+  "/pages/PopUp/register",
+  express.static(
+    path.join(__dirname, "..", "..", "view", "pages", "PopUp", "register")
+  )
 );
 
 module.exports = router;

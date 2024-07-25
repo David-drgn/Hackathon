@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $("#header").load("../assets/includes/headerLogado.html");
+  $("#header").load("../headers/home/header.html");
 
   let container = $("#chatConversation");
 
@@ -103,60 +103,6 @@ window.addEventListener("load", async () => {
   });
   calendar.render();
 });
-
-function changeView(view) {
-  let containers = document.getElementsByClassName("container");
-  let icons = document.getElementsByClassName("opIconsCell");
-  let img = document.getElementsByClassName("help_doctor")[0];
-
-  if (
-    document.getElementsByClassName("search_view")[0].style.display == "none" ||
-    document.getElementsByClassName("search_view")[0].style.display == ""
-  )
-    img.style.display = "block";
-
-  for (let i = 0; i < icons.length; i++) {
-    icons[i].classList.remove("active");
-  }
-  for (let i = 0; i < containers.length; i++) {
-    containers[i].style.display = "none";
-  }
-
-  switch (view) {
-    case 0:
-      document.getElementById("calendar").style.display = "flex";
-      document
-        .getElementsByClassName("opIconsCell")
-        [view].classList.add("active");
-      break;
-    case 1:
-      document.getElementById("chat").style.display = "flex";
-      document
-        .getElementsByClassName("opIconsCell")
-        [view].classList.add("active");
-      break;
-    case 2:
-      document.getElementById("archive").style.display = "flex";
-      document
-        .getElementsByClassName("opIconsCell")
-        [view].classList.add("active");
-      img.style.display = "none";
-      break;
-    case 3:
-      document.getElementById("plan").style.display = "flex";
-      document
-        .getElementsByClassName("opIconsCell")
-        [view].classList.add("active");
-      break;
-    case 4:
-      document.getElementById("settings").style.display = "flex";
-      document
-        .getElementsByClassName("opIconsCell")
-        [view].classList.add("active");
-      img.style.display = "none";
-      break;
-  }
-}
 
 function chatQuest() {
   try {
@@ -374,4 +320,64 @@ async function convertFile(mimeType, base64) {
       loading(false);
       console.log(error.message);
     });
+}
+
+function changeView(view) {
+  let containers = document.getElementsByClassName("container");
+  let icons = document.getElementsByClassName("opIconsCell");
+  let img = document.getElementsByClassName("help_doctor")[0];
+  let opSpan = document.getElementsByClassName("opSpan");
+
+  if (
+    document.getElementsByClassName("search_view")[0].style.display == "none" ||
+    document.getElementsByClassName("search_view")[0].style.display == ""
+  )
+    img.style.display = "block";
+
+  for (let i = 0; i < icons.length; i++) {
+    icons[i].classList.remove("active");
+  }
+  for (let i = 0; i < containers.length; i++) {
+    containers[i].style.display = "none";
+  }
+  for (let i = 0; i < opSpan.length; i++) {
+    opSpan[i].classList.remove("active");
+  }
+
+  opSpan[view].classList.add("active");
+
+  switch (view) {
+    case 0:
+      document.getElementById("calendar").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
+      break;
+    case 1:
+      document.getElementById("chat").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
+      break;
+    case 2:
+      document.getElementById("archive").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
+      img.style.display = "none";
+      break;
+    case 3:
+      document.getElementById("plan").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
+      break;
+    case 4:
+      document.getElementById("settings").style.display = "flex";
+      document
+        .getElementsByClassName("opIconsCell")
+        [view].classList.add("active");
+      img.style.display = "none";
+      break;
+  }
 }
