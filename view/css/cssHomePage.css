@@ -195,6 +195,8 @@ body {
 .archive_info_more {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .options_file {
@@ -231,7 +233,7 @@ body {
   height: 5%;
 }
 
-#iframe_view{
+#iframe_view {
   height: 90%;
   width: calc(100% - 20px);
   border: 2px solid var(--main-color);

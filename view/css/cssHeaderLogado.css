@@ -27,7 +27,7 @@
 .menu_lateral_logado {
   position: fixed;
   left: -10px;
-  padding: 20px 20px 20px 10px;
+  padding: 20px;
   top: 7.5%;
   width: 80px;
   height: 85%;
@@ -231,6 +231,35 @@ input {
   #calendar {
     width: calc(95% - 150px);
   }
+
+  #archive {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .archive_itens {
+    width: 100% !important;
+  }
+  .files_view {
+    /* display: none; */
+    position: absolute;
+    top: 60px;
+    background: linear-gradient(145deg, #ffffff, #dfdfdf);
+    height: auto;
+    max-height: 90%;
+    border-radius: 30px;
+    border: 2px solid var(--main-color);
+    padding: 30px;
+    width: calc(100% - 60px);
+  }
+  .archive_itens.filter {
+    height: auto;
+  }
+  .archive {
+    border: 2px solid var(--main-color);
+  }
+  .title_files {
+    color: var(--main-color);
+  }
 }
 
 @media only screen and (max-width: 800px) {
@@ -269,7 +298,8 @@ input {
     border-top-right-radius: 30px;
   }
 
-  #calendar {
+  #calendar,
+  #archive {
     width: 100%;
     height: 82%;
     padding: 0px;

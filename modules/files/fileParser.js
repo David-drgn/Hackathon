@@ -59,14 +59,6 @@ class FileExcel {
   }
 }
 
-class FileExcel {
-  async initialize(base64) {
-    const workbook = parseExcelFile(base64);
-    const pdfBase64 = await generatePDFFromExcel(workbook);
-    return pdfBase64;
-  }
-}
-
 class FileDocx {}
 
 module.exports = { FileExcel, FileDocx };
