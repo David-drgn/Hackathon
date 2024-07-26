@@ -36,6 +36,42 @@ function loginOpen() {
   });
 }
 
+function registerEnterpriseOpen() {
+  $("#dialog").empty();
+  $(document).ready(function () {
+    $("#dialog").load("/pages/PopUp/registerEnterprise/register.html", function () {
+      $("[title]").tooltip({
+        show: {
+          effect: "slideDown",
+          delay: 100,
+        },
+        hide: {
+          effect: "slideUp",
+        },
+      });
+
+      $("#senha_register").tooltip({
+        show: {
+          effect: "slideDown",
+          delay: 100,
+        },
+        hide: {
+          effect: "slideUp",
+        },
+        content: `
+          <b>A senha deve ter:</b>
+          <ul>
+            <li>Caracteres especiais</li>
+            <li>Mínimo de 8 caracteres</li>
+            <li>Caracteres maiúsculos</li>
+            <li>Caracteres minúsculos</li>
+          </ul>
+        `,
+      });
+    });
+  });
+}
+
 function registerOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
@@ -75,7 +111,7 @@ function registerOpen() {
 function forgetOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("/pages/PopUp/forget.html");
+    $("#dialog").load("/pages/PopUp/forget/forget.html");
   });
 }
 

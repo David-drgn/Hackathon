@@ -72,17 +72,17 @@ class Mailler {
             resolve(result);
           })
           .catch(function (error) {
-            return {
+            resolve({
               error: true,
               message: error.message,
-            };
+            });
           });
       });
     } catch (e) {
-      return {
+      resolve({
         error: true,
         message: e,
-      };
+      });
     }
   }
 }

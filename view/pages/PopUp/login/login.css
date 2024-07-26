@@ -19,7 +19,7 @@
 }
 
 .wrapper_login {
-  background-color: var(--back-color);
+  background: linear-gradient(145deg, var(--back-sec-color), var(--back-color));
   padding: 20px;
   max-width: 39%;
   max-height: 50%;
@@ -30,20 +30,17 @@
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  /* -webkit-box-shadow: inset 0px 0px 30px 10px rgba(0, 0, 0, 0.28);
-  -moz-box-shadow: inset 0px 0px 30px 10px rgba(0, 0, 0, 0.28);
-  box-shadow: inset 0px 0px 30px 10px rgba(0, 0, 0, 0.28); */
 }
 
 .checkbox_login {
   width: 80%;
   background-color: transparent;
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 15px;
   color: var(--main-color);
-  font-size: large;
+  font-size: larger;
+  font-weight: 600;
 }
 
 .wrapper_header_login {
@@ -66,7 +63,7 @@
 
 .title_login {
   color: var(--main-color);
-  font-size: clamp(20px, 3.5vw, 35px);
+  font-size: 3rem;
   width: 100%;
 }
 
@@ -91,16 +88,22 @@
   transform: scale(1.1, 1.1);
 }
 
-.forget_login {
+.container_buttons {
   width: 80%;
   display: flex;
   align-items: center;
-  justify-content: end;
+  outline: 2px;
+  justify-content: space-between;
+}
+
+.decoration{
+  color: white;
+  font-size: larger;
 }
 
 .link_login {
   color: var(--main-color);
-  font-size: clamp(15px, 4vw, 20px);
+  font-size: larger;
   cursor: pointer;
 }
 
@@ -113,5 +116,6 @@
   .wrapper_login {
     width: 90%;
     max-width: unset;
+    min-width: unset;
   }
 }

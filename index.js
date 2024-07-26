@@ -64,12 +64,12 @@ app.get("/:code", async (req, res) => {
   let select = verifyEmail.find((e) => e.code === code);
 
   if (!select) {
-    return res.redirect("/systemErro?erro=400");
+    return res.redirect("/systemErro?erro=401");
   } else {
     const diferencaEmMilissegundos = new Date(select.createat) - new Date();
 
     if (diferencaEmMilissegundos > 5 * 60 * 1000) {
-      return res.redirect("/systemErro?erro=400");
+      return res.redirect("/systemErro?erro=401");
     } else {
       let code = await codeTrigger(select);
       if (!code.erro) {
@@ -77,6 +77,8 @@ app.get("/:code", async (req, res) => {
         return res.json({
           token: login,
         });
+      } else {
+        return res.redirect("/systemErro?erro=401");
       }
     }
   }

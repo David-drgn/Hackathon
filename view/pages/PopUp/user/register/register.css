@@ -1,4 +1,4 @@
-.background_forget {
+.background_register {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -12,16 +12,24 @@
   z-index: 1;
 }
 
-.erro_forget {
+.erro_register {
   display: none;
   color: red;
   font-style: italic;
+  width: 80%;
 }
 
-.wrapper_forget {
+#alert_required {
+  text-align: end;
+  display: block;
+}
+
+.wrapper_register {
   background: linear-gradient(145deg, var(--back-sec-color), var(--back-color));
   padding: 20px;
-  min-width: 30%;
+  max-width: 50%;
+  min-width: 40%;
+  min-height: 30%;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -29,7 +37,18 @@
   gap: 15px;
 }
 
-.checkbox_forget {
+.cancel_button_register {
+  background-color: red !important;
+}
+
+.button_group_register {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 80%;
+}
+
+.checkbox_register {
   width: 80%;
   background-color: transparent;
   display: flex;
@@ -40,14 +59,7 @@
   font-size: large;
 }
 
-.wrapper_header_forget {
-  display: flex;
-  justify-content: space-around;
-  width: 80%;
-  align-items: center;
-}
-
-.close_forget {
+.close_register {
   width: 40px;
   cursor: pointer;
   height: 40px;
@@ -63,46 +75,25 @@
   transform: scale(1.1, 1.1);
 }
 
-.close_forget:hover {
-  transform: scale(1.1, 1.1) rotate(90deg);
+.close_register:hover {
   transition: all 1s;
+  transform: scale(1.1, 1.1) rotate(90deg);
 }
 
-.title_forget {
+.title_register {
   color: var(--main-color);
   font-size: clamp(20px, 3.5vw, 35px);
   width: 100%;
 }
 
-.password_forget {
+.wrapper_header_register {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  width: 80%;
   align-items: center;
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: var(--main-light);
 }
 
-.password_forget > input {
-  border: 0px solid;
-  width: 100%;
-}
-
-input.forget {
-  width: 80%;
-  border: 1px solid;
-  padding: 14px;
-  border-radius: 50px;
-  background-color: var(--main-light);
-}
-
-input {
-  outline: none;
-}
-
-.button_forget {
+.button_register {
   color: var(--main-light);
   border: 0px solid;
   font-size: clamp(20px, 3.5vw, 25px);
@@ -118,31 +109,31 @@ input {
   gap: 10px;
 }
 
-.button_forget:hover {
+.button_register:hover {
   transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
-.forget_forget {
+.forget_register {
   width: 80%;
   display: flex;
   align-items: center;
   justify-content: end;
 }
 
-.link_forget {
+.link_register {
   color: var(--main-color);
   font-size: clamp(15px, 4vw, 20px);
   cursor: pointer;
 }
 
-.link_forget:hover {
+.link_register:hover {
   transition: all 1s;
   transform: scale(1.1, 1.1);
 }
 
 @media only screen and (max-width: 840px) {
-  .wrapper_forget {
+  .wrapper_register {
     width: 90%;
     max-width: unset;
   }

@@ -14,6 +14,7 @@
 .name_logado {
   font-weight: 600;
   font-size: 25px;
+  cursor: pointer;
 }
 
 .image_perfil {
@@ -22,6 +23,7 @@
   border-radius: 100%;
   background-color: #7f9bcd;
   background-color: white;
+  cursor: pointer;
 }
 
 .menu_lateral_logado {

@@ -144,7 +144,32 @@ router.use(
 router.use(
   "/pages/PopUp/register",
   express.static(
-    path.join(__dirname, "..", "..", "view", "pages", "PopUp", "register")
+    path.join(
+      __dirname,
+      "..",
+      "..",
+      "view",
+      "pages",
+      "PopUp",
+      "user",
+      "register"
+    )
+  )
+);
+
+router.use(
+  "/pages/PopUp/registerEnterprise",
+  express.static(
+    path.join(
+      __dirname,
+      "..",
+      "..",
+      "view",
+      "pages",
+      "PopUp",
+      "enterprise",
+      "register"
+    )
   )
 );
 

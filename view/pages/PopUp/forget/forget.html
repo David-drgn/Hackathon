@@ -14,7 +14,7 @@
   integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
   crossorigin="anonymous"
 ></script>
-<link rel="stylesheet" href="./css/cssUserForget.css" />
+<link rel="stylesheet" href="/pages/PopUp/forget/forget.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Incluir jQuery UI (se estiver usando os efeitos slideUp/slideDown) -->
@@ -34,10 +34,12 @@
         onclick="$('#dialog').empty();"
       />
     </div>
-    <input class="forget" id="email_forget" type="email" placeholder="Email" />
+    <div class="input_icon_div">
+      <input id="email_forget" type="email" placeholder="Email" />
+      <img src="/assets/icon/email.svg" />
+    </div>
     <span class="erro_forget">*Campo obrigatório</span>
-
     <button class="button_forget" onclick="forgetSendMail()">Enviar</button>
   </div>
 </div>
-<script src="./controller/forget.js"></script>
+<script src="/pages/PopUp/forget/forget.js"></script>
