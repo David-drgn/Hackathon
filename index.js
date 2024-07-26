@@ -37,7 +37,7 @@ app.use(bodyParser.json({ limit: "9mb" }));
 app.use(cookieParser());
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "view", "pages"));
+app.set("views", path.join(__dirname, "view", "pages", "erro"));
 
 async function codeTrigger(select) {
   if (select.type == 1) {

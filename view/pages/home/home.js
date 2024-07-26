@@ -1,5 +1,41 @@
 $(document).ready(function () {
-  $("#header").load("../headers/home/header.html");
+  $("#header").load("/pages/headers/home/header.html", function () {
+    if (localStorage.getItem("token")) {
+      loading(true);
+      fetch(`${location.origin}/api/verifyToken`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("token"),
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          loading(false);
+          user = json;
+          console.log(json);
+          if (!json) {
+            localStorage.removeItem("token");
+            location.href = "/";
+          }
+          document.getElementsByClassName(
+            "name_logado"
+          )[0].innerHTML = `Olá, <b>${json.name}</b>`;
+          chatResponse(
+            `Olá, quem é você? e qual o seu objetivo? Me chame de ${json.name}`
+          );
+          console.log(user);
+        })
+        .catch(function (error) {
+          loading(false);
+          console.log("Erro: " + error.message);
+        });
+    } else {
+      location.href = "/";
+    }
+  });
 
   let container = $("#chatConversation");
 

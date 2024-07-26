@@ -1,7 +1,7 @@
-// $(document).ready(function () {
-//   $("#header").load("/pages/headers/main/header");
-//   // $("#content").load("../headers/main/header.html");
-// });
+$(document).ready(function () {
+  $("#header").load("/pages/headers/main/header");
+  $("#content").load("/pages/hero/hero.html");
+});
 
 window.addEventListener("load", () => {
   if (localStorage.getItem("token")) {
@@ -40,10 +40,10 @@ window.addEventListener("load", () => {
 function view(element) {
   if (element.parentElement.children[0].type == "text") {
     element.parentElement.children[0].type = "password";
-    element.src = "./assets/icon/eyeOpen.png";
+    element.src = "/assets/icon/eyeOpen.png";
   } else {
     element.parentElement.children[0].type = "text";
-    element.src = "./assets/icon/eyeClose.png";
+    element.src = "/assets/icon/eyeClose.png";
   }
 }
 

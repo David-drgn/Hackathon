@@ -10,12 +10,12 @@
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" />
 
-<link rel="stylesheet" href="./css/cssUserRegister.css" />
+<link rel="stylesheet" href="/pages/PopUp/register/register.css" />
 <div class="background_register">
   <div class="wrapper_register">
     <div class="wrapper_header_register">
       <span class="title_register">Cadastrar Nova Conta</span>
-      <img src="./assets/icon/excluir.png" class="close_register" onclick="$('#dialog').empty()" />
+      <img src="/assets/icon/excluir.png" class="close_register" onclick="$('#dialog').empty()" />
     </div>
 
     <input class="initial" id="nome_register" type="text" placeholder="Nome*" title="Coloque o seu nome" />
@@ -32,13 +32,13 @@
 
     <div class="password_div">
       <input type="password" id="senha_register" placeholder="Senha*" title="Title da senha"/>
-      <img src="./assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
+      <img src="/assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
     </div>
     <span class="erro_register" id="span_senha">Coloque a senha, com os requisitos pedidos</span>
 
     <div class="password_div" title="Coloque o confirmar senha com os mesmos valor que a senha">
       <input type="password" id="senhaConfirm_register" placeholder="Confirme a senha*" />
-      <img src="./assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
+      <img src="/assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
     </div>
     <span class="erro_register" id="span_senhaConfirm">Coloque o confirmar senha com os dados pedidos</span>
 
@@ -54,7 +54,7 @@
     </div>
   </div>
 </div>
-<script src="./controller/register.js"></script>
+<script src="/pages/PopUp/register/register.js"></script>
 <script>
   IMask(document.getElementById("tel_register"), {
     mask: "+{55} (00) 00000-0000",

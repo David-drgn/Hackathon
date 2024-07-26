@@ -88,6 +88,7 @@ input:-webkit-autofill:hover {
 
 input {
   outline: none;
+  accent-color: var(--main-color);
 }
 
 input.initial {

@@ -6,8 +6,6 @@ const bodyParser = require("body-parser");
 
 const Chat = require("../chat/chatRequest.js");
 
-const Token = require("../security/token.js");
-
 const router = express.Router();
 
 router.use(express.json());

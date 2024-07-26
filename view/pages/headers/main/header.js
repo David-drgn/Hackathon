@@ -1,5 +1,3 @@
-alert("Header")
-
 function showMenu(father) {
   let menu = document.getElementById("background_header");
   if (menu.style.display == "" || menu.style.display == "none") {
@@ -7,14 +5,14 @@ function showMenu(father) {
     setTimeout(() => {
       menu.children[0].style.transform = "translateY(0%)";
     }, 10);
-    father.src = "../assets/icon/excluir.png";
+    father.src = "/assets/icon/excluir.png";
     father.classList.add("image_rotate");
   } else {
     menu.children[0].style.transform = "translateY(-105%)";
     setTimeout(() => {
       menu.style.display = "none";
     }, 1000);
-    father.src = "../assets/icon/cardapio.png";
+    father.src = "/assets/icon/cardapio.png";
     father.classList.remove("image_rotate");
   }
 }
@@ -22,7 +20,7 @@ function showMenu(father) {
 function loginOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./pages/userLogin.html", function () {
+    $("#dialog").load("/pages/PopUp/login/login.html", function () {
       const formGroups = document.querySelectorAll(".form__group");
 
       formGroups.forEach((formGroup) => {
@@ -41,7 +39,7 @@ function loginOpen() {
 function registerOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./pages/userRegister.html", function () {
+    $("#dialog").load("/pages/PopUp/register/register.html", function () {
       $("[title]").tooltip({
         show: {
           effect: "slideDown",
@@ -77,7 +75,7 @@ function registerOpen() {
 function forgetOpen() {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./pages/PopUp/forget.html");
+    $("#dialog").load("/pages/PopUp/forget.html");
   });
 }
 
@@ -104,20 +102,20 @@ function paginaInicial() {
 function openDialog(title, message, next = null) {
   $("#dialog").empty();
   $(document).ready(function () {
-    $("#dialog").load("./assets/includes/alert.html", function () {
+    $("#dialog").load("/pages/PopUp/dialog/alert.html", function () {
       document.getElementById("title_alert").textContent = title;
       document.getElementById("message_alert").textContent = message;
       setTimeout(() => {
         if (next != null) {
           switch (next) {
             case "login":
-              $("#dialog").load("./pages/userLogin.html");
+              $("#dialog").load("/pages/PopUp/login/login.html");
               break;
             case "register":
-              $("#dialog").load("./pages/userRegister.html");
+              $("#dialog").load("/pages/PopUp/register/register.html");
               break;
             default:
-              console.log(next)
+              console.log(next);
               debugger;
               location.href = `${location.origin}/${next}`;
               break;
@@ -129,7 +127,7 @@ function openDialog(title, message, next = null) {
 }
 
 $(document).ready(function () {
-  $("#loader").load("./pages/load/load.html");
+  $("#loader").load("/pages/load/load.html");
 });
 
 function loading(view) {

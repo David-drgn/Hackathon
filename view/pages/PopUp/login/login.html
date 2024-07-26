@@ -4,7 +4,7 @@
   integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
   integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="./css/cssUserLogin.css" />
+<link rel="stylesheet" href="/pages/PopUp/login/login.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Incluir jQuery UI (se estiver usando os efeitos slideUp/slideDown) -->
@@ -15,19 +15,19 @@
   <form class="wrapper_login">
     <div class="wrapper_header_login">
       <span class="title_login">Entrar</span>
-      <img src="./assets/icon/excluir.png" class="close_login" onclick="$('#dialog').empty();" />
+      <img src="/assets/icon/excluir.png" class="close_login" onclick="$('#dialog').empty();" />
     </div>
 
 
     <div class="password_div">
       <input id="email_login" type="email" placeholder="Email" />
-      <img src="./assets/icon/email.svg"/>
+      <img src="/assets/icon/email.svg"/>
     </div>
     <span class="erro_login">*Campo obrigatório</span>
 
     <div class="password_div">
       <input type="password" id="password_login" placeholder="Senha" />
-      <img src="./assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
+      <img src="/assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
     </div>
     <span class="erro_login">*Campo obrigatório</span>
     <div class="checkbox_login">
@@ -41,4 +41,4 @@
     <a class="link_login" onclick="registerOpen()">Cadastrar-se</a>
   </form>
 </div>
-<script src="./controller/login.js"></script>
+<script src="/pages/PopUp/login/login.js"></script>

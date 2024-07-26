@@ -93,7 +93,7 @@
 }
 
 .background_main {
-  background-image: url("../assets/images/backEscritorio.jfif");
+  background-image: url("/assets/images/backEscritorio.jfif");
   position: fixed;
   top: 0px;
   left: 0px;
