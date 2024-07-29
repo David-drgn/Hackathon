@@ -56,7 +56,6 @@ window.addEventListener("load", async() => {
     let calendar = new FullCalendar.Calendar(calendarEl, {
         timeZone: "UTC",
         initialView: "dayGridMonth",
-        // initialView: "dayGridMonth",
         titleFormat: { year: "numeric", month: "long" },
         customButtons: {
             view: {
@@ -113,9 +112,9 @@ window.addEventListener("load", async() => {
         },
         events: [{
             id: "id",
-            title: "The Title", // a property!
-            start: "2024-07-01", // a property!
-            end: "2024-07-02", // a property! ** see important note below about 'end' **
+            title: "The Title",
+            start: "2024-07-01",
+            end: "2024-07-02",
         }, ],
         locale: "pt-br",
         selectable: true,
@@ -124,26 +123,30 @@ window.addEventListener("load", async() => {
             center: "title",
             right: "view",
         },
-        // footerToolbar: {
-        //   left: "prev today",
-        //   center: "title",
-        //   right: "next",
-        // },
-        select: function(info) {
-            if (new Date(info.startStr).getTime() > new Date().getTime()) {
+        dateClick: function(info) {
+            if (info.date.getTime() > new Date().getTime()) {
                 // alert("selected " + info.startStr + " to " + info.endStr)
                 $("#event").empty();
                 $(document).ready(function() {
                     $("#event").load("/pages/PopUp/event/event.html", function() {
-                        if (info.startStr == info.endStr) document.getElementById("dateSelect").textContent = info.startStr
-                        else document.getElementById("dateSelect").textContent = `${info.startStr} à ${info.endStr}`
+                        document.getElementById("dateSelect").textContent = `${info.dateStr}`
                     });
                 });
             }
         },
-        eventClick: function(info) {
-            console.log(info.event);
-        },
+        select: function(info) {
+            if (info.start.getTime() > new Date().getTime()) {
+                if (((info.end.getTime() - info.start.getTime()) / (1000 * 3600 * 24)) >= 2) {
+                    $("#event").empty();
+                    $(document).ready(function() {
+                        $("#event").load("/pages/PopUp/event/event.html", function() {
+                            if (info.startStr == info.endStr) document.getElementById("dateSelect").textContent = info.startStr
+                            else document.getElementById("dateSelect").textContent = `${info.startStr} à ${info.endStr}`
+                        });
+                    });
+                }
+            }
+        }
     });
     calendar.render();
 });
