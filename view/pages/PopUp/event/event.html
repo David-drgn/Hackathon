@@ -1,9 +1,22 @@
-<link rel="stylesheet" href="/pages/PopUp/event/event.css">
+<link rel="stylesheet" href="/pages/PopUp/event/event.css" />
 
 <div class="appointment">
-    <div class="appointment_container">
-        <span class="title">Agendamento</span>
-        <span id="dateSelect" class="subtitle">00/00/0000</span>
-        <select></select>
+  <div class="appointment_container">
+    <span class="title">Agendamento</span>
+    <span id="dateSelect" class="subtitle">00/00/0000</span>
+
+    <span class="subtitle">Sua consulta médica seria que horas?</span>
+    <input type="text" id="timepicker" class="initial" />
+
+    <span class="subtitle">Sua consulta médica seria para?</span>
+    <select id="selectOptions"></select>
+
+    <div class="optionsButtons">
+      <button>Avançar</button>
+      <button>Finalizar</button>
+      <button>Cancelar</button>
     </div>
+
+    <img class="oswald_image" src="/assets/icon/Oswald.png" />
+  </div>
 </div>
