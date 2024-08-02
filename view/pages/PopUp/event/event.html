@@ -5,18 +5,36 @@
     <span class="title">Agendamento</span>
     <span id="dateSelect" class="subtitle">00/00/0000</span>
 
-    <span class="subtitle">Sua consulta médica seria que horas?</span>
-    <input type="text" id="timepicker" class="initial" />
+    <div class="step one">
+      <span class="subtitle">Sua consulta médica seria para?</span>
+      <select id="selectOptions">
+        <option value="none">Selecione uma opção</option>
+      </select>
+    </div>
 
-    <span class="subtitle">Sua consulta médica seria para?</span>
-    <select id="selectOptions"></select>
+    <div class="step two">
+      <span class="subtitle">Selecione o responsável pela consulta?</span>
+      <select id="prestador"></select>
+
+      <button class="prestadorSelecionado">
+        Visualizar dados do prestador
+      </button>
+
+      <span class="subtitle prestadorSelecionado" id="dontFind"
+        >A data fornecida não coincide com o horário do médico. Escolha uma data
+        disponível para o agendamento</span
+      >
+      <select id="dataDisponivel" class="prestadorSelecionado"></select>
+      <select id="time" class="prestadorSelecionado"> </select>
+    </div>
 
     <div class="optionsButtons">
-      <button>Avançar</button>
-      <button>Finalizar</button>
-      <button>Cancelar</button>
+      <button class="final">Finalizar</button>
+      <button onclick="cancel()">Cancelar</button>
     </div>
 
     <img class="oswald_image" src="/assets/icon/Oswald.png" />
   </div>
 </div>
+<div id="infoUser"></div>
+<script src="/pages/PopUp/event/event.js"></script>

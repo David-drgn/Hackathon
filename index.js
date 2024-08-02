@@ -247,6 +247,20 @@ app.post("/api/service/get", async (req, res) => {
   }
 });
 
+app.post("/api/service/getAccounts", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      const response = await user.getPrestadorByService(req.body.serviceId);
+      return res.json({ erro: false, response });
+    } catch (e) {
+      return res.json({ erro: true });
+    }
+  }
+});
+
 app.post("/api/verifyToken", async (req, res) => {
   res.json(await new Token().verifyToken(req.body.token));
 });
