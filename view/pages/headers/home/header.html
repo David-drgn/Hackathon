@@ -6,7 +6,7 @@
         <input type="text" id="search_text" onclick="activeSearch()" placeholder="Pesquise por arquivos, eventos e dados importantes" />
     </div>
     <span class="name_logado" onclick="changeView(4)">Olá, User!</span>
-    <img class="image_perfil" src="/assets/icon/person.svg" onclick="changeView(4)" />
+    <img class="image_perfil" id="image_perfil" src="/assets/icon/person.svg" onclick="changeView(4)" />
 </div>
 <div class="search_view">
     <div id="noSearch">
@@ -61,11 +61,11 @@
     <div>
         <img onclick="changeView(4)" class="opIconsCell" src="/assets/icon/settings.svg" />
     </div>
-    <div>
+    <!-- <div>
         <img onclick="logout()" class="opIconsCell" src="/assets/icon/logout.svg" />
-    </div>
+    </div> -->
 </div>
-<div id="dialog"></div>
 <div id="event"></div>
+<div id="dialog"></div>
 <div id="loader"></div>
 <script src="/pages/headers/home/header.js"></script>

@@ -46,3 +46,27 @@
   padding: 5px;
   cursor: pointer;
 }
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  gap: 10px;
+}
+
+.moreInfo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 25px;
+  gap: 20px;
+  padding: 10px;
+}
+
+.moreInfoItem {
+  min-width: 450px;
+}

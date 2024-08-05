@@ -13,7 +13,6 @@ $(document).ready(function () {
       })
         .then((response) => response.json())
         .then((json) => {
-          loading(false);
           user = json;
           console.log(json);
           if (!json) {
@@ -23,12 +22,21 @@ $(document).ready(function () {
           document.getElementsByClassName(
             "name_logado"
           )[0].innerHTML = `Olá, <b>${json.name}</b>`;
+          if (json.new_perfil_url != undefined) {
+            document.getElementById(
+              "image_perfil"
+            ).src = `https://newproject.crm.dynamics.com${json.new_perfil_url}`;
+          }
           chatResponse(
             `Olá, quem é você? e qual o seu objetivo? Me chame de ${json.name}`
           );
           if (user.new_tipodaconta == 0) {
             document.getElementById("plan").style.display = "none";
             document.getElementById("userplan").style.display = "none";
+          }
+          else{
+            document.getElementById("plan").style.display = "flex";
+            document.getElementById("userplan").style.display = "block";
           }
         })
         .catch(function (error) {
@@ -60,130 +68,200 @@ function formatarData(data) {
 
 let viewCalendar = 1;
 window.addEventListener("load", async () => {
-  let calendarEl = document.getElementById("calendar");
-  let calendar = new FullCalendar.Calendar(calendarEl, {
-    timeZone: "UTC",
-    initialView: "dayGridMonth",
-    titleFormat: { year: "numeric", month: "long" },
-    customButtons: {
-      view: {
-        text: "Trocar visualização",
-        click: function () {
-          switch (viewCalendar) {
-            case 0:
-              calendar.changeView("dayGridMonth");
-              viewCalendar++;
-              break;
-            case 1:
-              calendar.changeView("timeGridWeek");
-              viewCalendar++;
-              break;
-            case 2:
-              calendar.changeView("listWeek");
-              viewCalendar++;
-              break;
-            case 3:
-              calendar.changeView("dayGridWeek");
-              viewCalendar++;
-              break;
-            case 4:
-              calendar.changeView("multiMonthYear");
-              viewCalendar++;
-              break;
-            case 5:
-              calendar.changeView("timeGridDay");
-              viewCalendar = 0;
-              break;
-          }
+  loading(true);
+  setTimeout(() => {
+    let calendarEl = document.getElementById("calendar");
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      timeZone: "UTC",
+      initialView: "dayGridMonth",
+      titleFormat: { year: "numeric", month: "long" },
+      customButtons: {
+        view: {
+          text: "Trocar visualização",
+          click: function () {
+            switch (viewCalendar) {
+              case 0:
+                calendar.changeView("dayGridMonth");
+                viewCalendar++;
+                break;
+              case 1:
+                calendar.changeView("timeGridWeek");
+                viewCalendar++;
+                break;
+              case 2:
+                calendar.changeView("listWeek");
+                viewCalendar++;
+                break;
+              case 3:
+                calendar.changeView("dayGridWeek");
+                viewCalendar++;
+                break;
+              case 4:
+                calendar.changeView("multiMonthYear");
+                viewCalendar++;
+                break;
+              case 5:
+                calendar.changeView("timeGridDay");
+                viewCalendar = 0;
+                break;
+            }
+          },
+        },
+        today: {
+          text: "Hoje",
+          click: function () {
+            calendar.today();
+          },
+        },
+        prox: {
+          text: "Próximo",
+          icon: "chevron-right",
+          click: function () {
+            calendar.next();
+          },
+        },
+        ant: {
+          text: "Anterior",
+          icon: "chevron-left",
+          click: function () {
+            calendar.prev();
+          },
         },
       },
-      today: {
-        text: "Hoje",
-        click: function () {
-          calendar.today();
-        },
+      locale: "pt-br",
+      selectable: true,
+      headerToolbar: {
+        left: "ant today prox",
+        center: "title",
+        right: "view",
       },
-      prox: {
-        text: "Próximo",
-        icon: "chevron-right",
-        click: function () {
-          calendar.next();
-        },
-      },
-      ant: {
-        text: "Anterior",
-        icon: "chevron-left",
-        click: function () {
-          calendar.prev();
-        },
-      },
-    },
-    events: [
-      {
-        id: "id",
-        title: "The Title",
-        start: "2024-07-01",
-        end: "2024-07-02",
-      },
-    ],
-    locale: "pt-br",
-    selectable: true,
-    headerToolbar: {
-      left: "ant today prox",
-      center: "title",
-      right: "view",
-    },
-    dateClick: function (info) {
-      if (info.date.getTime() > new Date().getTime()) {
-        // alert("selected " + info.startStr + " to " + info.endStr)
-        $("#event").empty();
-        $(document).ready(function () {
-          $("#event").load("/pages/PopUp/event/event.html", async function () {
-            document.getElementById("dateSelect").textContent = `${formatarData(
-              info.dateStr
-            )}`;
-            let services = await getAllServices();
-
-            let selectElement = document.getElementById("selectOptions");
-
-            services.forEach((element) => {
-              let option = document.createElement("option");
-
-              option.value = element.new_servicoid;
-              option.title = element.new_descricao;
-              option.text = element.new_name;
-
-              selectElement.add(option);
-            });
-          });
-        });
-      }
-    },
-    select: function (info) {
-      if (info.start.getTime() > new Date().getTime()) {
-        if (
-          (info.end.getTime() - info.start.getTime()) / (1000 * 3600 * 24) >=
-          2
-        ) {
+      dateClick: function (info) {
+        if (info.date.getTime() > new Date().getTime()) {
+          // alert("selected " + info.startStr + " to " + info.endStr)
           $("#event").empty();
           $(document).ready(function () {
-            $("#event").load("/pages/PopUp/event/event.html", function () {
-              if (info.startStr == info.endStr)
-                document.getElementById("dateSelect").textContent =
-                  info.startStr;
-              else
+            $("#event").load(
+              "/pages/PopUp/event/event.html",
+              async function () {
+                document.getElementById("user").style.display = "none";
+                document.getElementById("enterprise").style.display = "none";
+                if (user.new_tipodaconta == 0) {
+                  document.getElementById("user").style.display = "flex";
+                } else {
+                  document.getElementById("enterprise").style.display = "flex";
+                }
                 document.getElementById(
                   "dateSelect"
-                ).textContent = `${formatarData(
-                  info.startStr
-                )} à ${formatarData(info.endStr)}`;
-            });
+                ).textContent = `${formatarData(info.dateStr)}`;
+
+                document.getElementById(
+                  "dateSelectMedico"
+                ).textContent = `${formatarData(info.dateStr)}`;
+
+                let services = await getAllServices();
+
+                let selectElement = document.getElementById("selectOptions");
+
+                services.forEach((element) => {
+                  let option = document.createElement("option");
+
+                  option.value = element.new_servicoid;
+                  option.title = element.new_descricao;
+                  option.text = element.new_name;
+
+                  selectElement.add(option);
+                });
+              }
+            );
           });
         }
-      }
-    },
-  });
-  calendar.render();
+      },
+      select: function (info) {
+        if (info.start.getTime() > new Date().getTime()) {
+          if (
+            (info.end.getTime() - info.start.getTime()) / (1000 * 3600 * 24) >=
+            2
+          ) {
+            $("#event").empty();
+            $(document).ready(function () {
+              $("#event").load("/pages/PopUp/event/event.html", function () {
+                if (info.startStr == info.endStr) {
+                  document.getElementById("dateSelect").textContent =
+                    info.startStr;
+                  document.getElementById(
+                    "dateSelectMedico"
+                  ).textContent = `${formatarData(info.dateStr)}`;
+                } else {
+                  document.getElementById(
+                    "dateSelect"
+                  ).textContent = `${formatarData(
+                    info.startStr
+                  )} à ${formatarData(info.endStr)}`;
+                  document.getElementById(
+                    "dateSelectMedico"
+                  ).textContent = `${formatarData(
+                    info.startStr
+                  )} à ${formatarData(info.endStr)}`;
+                }
+              });
+            });
+          }
+        }
+      },
+      eventClick: function (info) {
+        console.log(info.event);
+        viewEvent(info.event.id);
+      },
+    });
+    calendar.render();
+    setInterval(() => {
+      fetch(`${location.origin}/api/events/getByUser`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("token"),
+          id: user.accountid,
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          if (json.erro) {
+            loading(false);
+            if (json.message == "token expires") {
+              openDialog(
+                "Login",
+                "Seu login expirou, por favor, faça o login novamente"
+              );
+              location.href = "/";
+            } else {
+              openDialog(
+                "Algo deu errado",
+                "Por favor, tente realizar o agendamente novamente, mais tarde"
+              );
+              $("#event").empty();
+            }
+          } else {
+            if (
+              (calendar.getEvents().length == 0 && json.response.length == 0) ||
+              (calendar.getEvents().length == 0 && json.response.length > 0)
+            ) {
+              loading(false);
+            }
+            calendar.getEvents().forEach((element) => {
+              element.remove();
+            });
+            json.response.forEach((element) => {
+              calendar.addEvent(element);
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+    }, 5000);
+  }, 900);
 });
 
 function chatQuest() {
@@ -426,7 +504,7 @@ function changeView(view) {
     opSpan[i].classList.remove("active");
   }
 
-  opSpan[view].classList.add("active");
+  if (view != 5) opSpan[view].classList.add("active");
 
   switch (view) {
     case 0:
@@ -460,6 +538,9 @@ function changeView(view) {
         .getElementsByClassName("opIconsCell")
         [view].classList.add("active");
       img.style.display = "none";
+      break;
+    case 5:
+      document.getElementById("eventView").style.display = "flex";
       break;
   }
 }
@@ -509,4 +590,47 @@ async function getAllServices() {
         resolve(null);
       });
   });
+}
+
+async function viewEvent(idEvent) {
+  debugger;
+  try {
+    fetch(`${location.origin}/api/events/getById`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem("token"),
+        id: idEvent,
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.erro) {
+          loading(false);
+          if (json.message == "token expires") {
+            openDialog(
+              "Login",
+              "Seu login expirou, por favor, faça o login novamente"
+            );
+            location.href = "/";
+          } else {
+            openDialog(
+              "Algo deu errado",
+              "Por favor, tente realizar o agendamente novamente, mais tarde"
+            );
+            $("#event").empty();
+          }
+        } else {
+          changeView(5);
+          console.log(json);
+        }
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  } catch {
+    console.log("OII");
+  }
 }

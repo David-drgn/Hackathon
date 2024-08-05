@@ -261,6 +261,54 @@ app.post("/api/service/getAccounts", async (req, res) => {
   }
 });
 
+app.post("/api/events/getByUser", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      const response = await user.getEventsByUserId(req.body.id);
+      return res.json({ erro: false, response });
+    } catch (e) {
+      return res.json({ erro: true });
+    }
+  }
+});
+
+app.post("/api/events/getById", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      const response = await user.getEventsById(req.body.id);
+      return res.json({ erro: false, response });
+    } catch (e) {
+      return res.json({ erro: true });
+    }
+  }
+});
+
+app.post("/api/events/livreRegister", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+
+    //   req.body.record.new_data_agendada = new Date("2024-08-21 16:48").toISOString(); // Date Time
+    //   req.body.record.new_dataterminoagenda = new Date("2024-08-14 16:48").toISOString(); // Date Time
+    //   req.body.record["new_Prestador@odata.bind"] = "/accounts(e157301c-c84d-ef11-accd-000d3a5cdd3c)"; // Lookup
+    //   req.body.record.new_tipohorario = 1; // Choice
+
+      const response = await user.registerAgendaLivre(req.body.record);
+      return res.json({ erro: false, response });
+    } catch (e) {
+      return res.json({ erro: true });
+    }
+  }
+});
+
 app.post("/api/verifyToken", async (req, res) => {
   res.json(await new Token().verifyToken(req.body.token));
 });

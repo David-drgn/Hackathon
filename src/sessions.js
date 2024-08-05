@@ -45,7 +45,6 @@ const validateSession = async (sessionId) => {
     returnData.message = 'session_connected'
     return returnData
   } catch (error) {
-    console.log(error)
     return { success: false, state: null, message: error.message }
   }
 }
@@ -70,7 +69,6 @@ const restoreSessions = () => {
       }
     })
   } catch (error) {
-    console.log(error)
     console.error('Failed to restore sessions:', error)
   }
 }

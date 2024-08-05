@@ -139,62 +139,62 @@ chat.get("", async (req, res) => {
 // http://localhost:3000/client/sendMessage/bot
 
 chat.post("/realize", async (req, res) => {
-  const { sessionId, dataType, data } = req.body;
+  // const { sessionId, dataType, data } = req.body;
 
-  if (
-    sessionId == "bot" &&
-    dataType == "message_create" &&
-    data.message.type == "chat" &&
-    data.message.to == "5511994844038@c.us" && // APENAS O DAVID
-    data.message.from == "5511994844038@c.us" && // APENAS O DAVID
-    !data.message.from.includes("@g.us")
-  ) {
-    if (
-      chatMessage[data.message.from] &&
-      chatMessage[data.message.from][chatMessage[data.message.from].length - 1]
-        .role == "system"
-    ) {
-      console.log("Bot falando");
-    } else {
-      if (chatMessage[data.message.from]) {
-        chatMessage[data.message.from].push({
-          role: "user",
-          content: data.message.body,
-        });
-      } else {
-        chatMessage[data.message.from] = [];
+  // if (
+  //   sessionId == "bot" &&
+  //   dataType == "message_create" &&
+  //   data.message.type == "chat" &&
+  //   data.message.to == "5511994844038@c.us" && // APENAS O DAVID
+  //   data.message.from == "5511994844038@c.us" && // APENAS O DAVID
+  //   !data.message.from.includes("@g.us")
+  // ) {
+  //   if (
+  //     chatMessage[data.message.from] &&
+  //     chatMessage[data.message.from][chatMessage[data.message.from].length - 1]
+  //       .role == "system"
+  //   ) {
+  //     console.log("Bot falando");
+  //   } else {
+  //     if (chatMessage[data.message.from]) {
+  //       chatMessage[data.message.from].push({
+  //         role: "user",
+  //         content: data.message.body,
+  //       });
+  //     } else {
+  //       chatMessage[data.message.from] = [];
 
-        chatMessage[data.message.from].push({
-          role: "system",
-          content: `
-            Você é o Oswald, sempre se apresente por esse nome e não responda perguntas que não sejam relacionadas ao agendamento de consultas (médicas, em restaurante e etc);
-            Para agendar uma consulta, será preciso: 
+  //       chatMessage[data.message.from].push({
+  //         role: "system",
+  //         content: `
+  //           Você é o Oswald, sempre se apresente por esse nome e não responda perguntas que não sejam relacionadas ao agendamento de consultas (médicas, em restaurante e etc);
+  //           Para agendar uma consulta, será preciso: 
 
-            1° Caso tenha: Pule para o próximo estágio que é o de pedir o tipo da consulta; Caso ainda não tenha o seu cadastro: Peça o Cpf do requerente (assim que receber verifique o cpf e responda com: caso o cpf seja válido 'CPF VÁLIDO - cpf que foi validado no formato correto do CPF' somente e não pule para a próxima etapa, caso não seja válido peça para digitar um CPF válido)
-            2° Tipo da consulta
-            3° Data
-            4° Achamos essas datas: (Escreva exatamente assim)
+  //           1° Caso tenha: Pule para o próximo estágio que é o de pedir o tipo da consulta; Caso ainda não tenha o seu cadastro: Peça o Cpf do requerente (assim que receber verifique o cpf e responda com: caso o cpf seja válido 'CPF VÁLIDO - cpf que foi validado no formato correto do CPF' somente e não pule para a próxima etapa, caso não seja válido peça para digitar um CPF válido)
+  //           2° Tipo da consulta
+  //           3° Data
+  //           4° Achamos essas datas: (Escreva exatamente assim)
             
-            Peça isso sempre na ordem apresentada
+  //           Peça isso sempre na ordem apresentada
 
-            exemplo:
+  //           exemplo:
 
-            chat: Por favor, me informe o seu email
-            usuario: fornece email
+  //           chat: Por favor, me informe o seu email
+  //           usuario: fornece email
 
-            chat: Agora, me mande a sua senha
-            usuario: Manda a senha
-          `,
-        });
+  //           chat: Agora, me mande a sua senha
+  //           usuario: Manda a senha
+  //         `,
+  //       });
 
-        chatMessage[data.message.from].push({
-          role: "user",
-          content: data.message.body,
-        });
-      }
-      await sendMessage(chatMessage[data.message.from], data.message.from);
-    }
-  }
+  //       chatMessage[data.message.from].push({
+  //         role: "user",
+  //         content: data.message.body,
+  //       });
+  //     }
+  //     await sendMessage(chatMessage[data.message.from], data.message.from);
+  //   }
+  // }
 
   res.json({
     mesage: "realizado",

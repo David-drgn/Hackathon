@@ -2,7 +2,6 @@ const rp = require("request-promise-native");
 
 const Token = require("../security/token.js");
 const Crypto = require("../security/cryptography.js");
-
 const bytesToBase64 = async (bytes) => {
   let binary = "";
   let len = bytes.byteLength;
@@ -77,7 +76,6 @@ class User {
             let response = responseObjects[0];
             let responseBody = responseObjects[1];
             let result = responseBody;
-            console.log(result);
             // Columns
             let accountid = result["accountid"]; // Guid
             let emailaddress1 = result["emailaddress1"]; // Text
@@ -153,7 +151,7 @@ class User {
           Accept: "application/json",
           Prefer: "odata.include-annotations=*",
         },
-        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,new_salt,new_tipodaconta&$filter=emailaddress1 eq '${email}'`,
+        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,new_perfil_url,new_salt,new_tipodaconta&$filter=emailaddress1 eq '${email}'`,
         headers: {
           Authorization: "Bearer " + this.token,
         },
@@ -196,7 +194,7 @@ class User {
     try {
       return new Promise((resolve, reject) => {
         fetch(
-          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=accountid,name&$expand=Account_Annotation($select=notetext,documentbody,filename,mimetype,objecttypecode),new_agendamento_Prestador_account($select=new_data_agendada,new_dataterminoagenda,new_tipohorario),new_Account_new_Servico_new_Servico($select=new_servicoid)&$filter=new_tipodaconta eq 1`,
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=accountid,name,new_atendeemdomicilio,description,new_document&$expand=Account_Annotation($select=notetext,documentbody,filename,mimetype,objecttypecode),new_agendamento_Prestador_account($select=new_data_agendada,new_dataterminoagenda,new_tipohorario),new_Account_new_Servico_new_Servico($select=new_servicoid)&$filter=new_tipodaconta eq 1`,
           {
             method: "GET",
             headers: {
@@ -223,7 +221,6 @@ class User {
             let responseBody = responseObjects[1];
             let results = responseBody;
             let data = [];
-            console.log(results);
             for (let i = 0; i < results.value.length; i++) {
               let prestador = {};
               let result = results.value[i];
@@ -231,6 +228,10 @@ class User {
 
               prestador.id = result["accountid"];
               prestador.name = result["name"];
+
+              prestador.domicilio = result["new_atendeemdomicilio"];
+              prestador.description = result["description"];
+              prestador.documento = result["new_document"];
 
               prestador.docs = [];
               // One To Many Relationships
@@ -297,6 +298,241 @@ class User {
           });
       });
     } catch {}
+  }
+
+  async getEventsByUserId(userId) {
+    try {
+      return new Promise((resolve, reject) => {
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario&$filter=(_new_cliente_value eq ${userId} or _new_prestador_value eq ${userId})`,
+          {
+            method: "GET",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Prefer: "odata.include-annotations=*",
+              Authorization: "Bearer " + this.token,
+            },
+          }
+        )
+          .then(function success(response) {
+            return response.json().then((json) => {
+              if (response.ok) {
+                return [response, json];
+              } else {
+                throw json.error;
+              }
+            });
+          })
+          .then(function (responseObjects) {
+            let response = responseObjects[0];
+            let responseBody = responseObjects[1];
+            let results = responseBody;
+            let data = [];
+            for (let i = 0; i < results.value.length; i++) {
+              let result = results.value[i];
+              // Columns
+
+              let event = {
+                id: result["new_agendamentoid"],
+                title:
+                  result["_new_cliente_value"] == userId
+                    ? `Consulta com ${result["_new_prestador_value@OData.Community.Display.V1.FormattedValue"]}`
+                    : result[
+                        "_new_cliente_value@OData.Community.Display.V1.FormattedValue"
+                      ] != undefined
+                    ? `Consulta com ${result["_new_cliente_value@OData.Community.Display.V1.FormattedValue"]}`
+                    : `Agenda livre`,
+                start: result["new_data_agendada"],
+                end: result["new_dataterminoagenda"],
+              };
+
+              data.push(event);
+              // var new_agendamentoid = result["new_agendamentoid"]; // Guid
+              // var new_cliente = result["_new_cliente_value"]; // Lookup
+              // var new_cliente_formatted =
+              //   result[
+              //     "_new_cliente_value@OData.Community.Display.V1.FormattedValue"
+              //   ];
+              // var new_cliente_lookuplogicalname =
+              //   result[
+              //     "_new_cliente_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              //   ];
+              // var new_data_agendada = result["new_data_agendada"]; // Date Time
+              // var new_data_agendada_formatted =
+              //   result[
+              //     "new_data_agendada@OData.Community.Display.V1.FormattedValue"
+              //   ];
+              // var new_dataterminoagenda = result["new_dataterminoagenda"]; // Date Time
+              // var new_dataterminoagenda_formatted =
+              //   result[
+              //     "new_dataterminoagenda@OData.Community.Display.V1.FormattedValue"
+              //   ];
+              // var new_local = result["new_local"]; // Text
+              // var new_tipohorario = result["new_tipohorario"]; // Choice
+              // var new_tipohorario_formatted =
+              //   result[
+              //     "new_tipohorario@OData.Community.Display.V1.FormattedValue"
+              //   ];
+              // var new_prestador = result["_new_prestador_value"]; // Lookup
+              // var new_prestador_formatted =
+              //   result[
+              //     "_new_prestador_value@OData.Community.Display.V1.FormattedValue"
+              //   ];
+              // var new_prestador_lookuplogicalname =
+              //   result[
+              //     "_new_prestador_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              //   ];
+            }
+
+            resolve(data);
+          })
+          .catch(function (error) {
+            resolve(null);
+          });
+      });
+    } catch (error) {}
+  }
+  async getEventsById(eventId) {
+    return new Promise((resolve, reject) => {
+      fetch(
+        `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario&$expand=new_Cliente($select=description,new_redessociais,new_document,emailaddress1,name,telephone1)&$filter=new_agendamentoid eq ${eventId}`,
+        {
+          method: "GET",
+          headers: {
+            "OData-MaxVersion": "4.0",
+            "OData-Version": "4.0",
+            "Content-Type": "application/json; charset=utf-8",
+            Accept: "application/json",
+            Prefer: "odata.include-annotations=*",
+            Authorization: "Bearer " + this.token,
+          },
+        }
+      )
+        .then(function success(response) {
+          return response.json().then((json) => {
+            if (response.ok) {
+              return [response, json];
+            } else {
+              throw json.error;
+            }
+          });
+        })
+        .then(function (responseObjects) {
+          var response = responseObjects[0];
+          var responseBody = responseObjects[1];
+          var results = responseBody;
+          let data = [];
+          for (var i = 0; i < results.value.length; i++) {
+            var result = results.value[i];
+            // Columns
+
+            let agendamento = {
+              id: result["new_agendamentoid"],
+              dataAgendada: result["new_data_agendada"],
+              dataTermino: result["new_dataterminoagenda"],
+              local: result["new_local"],
+              prestador:
+                result[
+                  "_new_prestador_value@OData.Community.Display.V1.FormattedValue"
+                ],
+              tipoHorario:
+                result[
+                  "new_tipohorario@OData.Community.Display.V1.FormattedValue"
+                ],
+            };
+
+            // var new_agendamentoid = result["new_agendamentoid"]; // Guid
+            // var new_cliente = result["_new_cliente_value"]; // Lookup
+            // var new_cliente_formatted = result["_new_cliente_value@OData.Community.Display.V1.FormattedValue"];
+            // var new_cliente_lookuplogicalname = result["_new_cliente_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+            // var new_data_agendada = result["new_data_agendada"]; // Date Time
+            // var new_data_agendada_formatted = result["new_data_agendada@OData.Community.Display.V1.FormattedValue"];
+            // var new_dataterminoagenda = result["new_dataterminoagenda"]; // Date Time
+            // var new_dataterminoagenda_formatted = result["new_dataterminoagenda@OData.Community.Display.V1.FormattedValue"];
+            // var new_local = result["new_local"]; // Text
+            // var new_prestador = result["_new_prestador_value"]; // Lookup
+            // var new_prestador_formatted = result["_new_prestador_value@OData.Community.Display.V1.FormattedValue"];
+            // var new_prestador_lookuplogicalname = result["_new_prestador_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+            // var new_tipohorario = result["new_tipohorario"]; // Choice
+            // var new_tipohorario_formatted = result["new_tipohorario@OData.Community.Display.V1.FormattedValue"];
+
+            // Many To One Relationships
+            if (
+              result.hasOwnProperty("new_Cliente") &&
+              result["new_Cliente"] !== null
+            ) {
+              agendamento.cliente = {
+                descricao: result["new_Cliente"]["description"],
+                documento: result["new_Cliente"]["new_document"],
+                email: result["new_Cliente"]["emailaddress1"],
+                redes: result["new_Cliente"]["new_redessociais"],
+                nome: result["new_Cliente"]["name"],
+                telefone: result["new_Cliente"]["telephone1"],
+              };
+              // var new_Cliente_description =
+              //   result["new_Cliente"]["description"]; // Multiline Text
+              // var new_Cliente_new_document =
+              //   result["new_Cliente"]["new_document"]; // Text
+              // var new_Cliente_emailaddress1 =
+              //   result["new_Cliente"]["emailaddress1"]; // Text
+              // var new_Cliente_name = result["new_Cliente"]["name"]; // Text
+              // var new_Cliente_telephone1 = result["new_Cliente"]["telephone1"]; // Text
+            } else agendamento.cliente = null;
+
+            data.push(agendamento);
+          }
+          resolve(data);
+        })
+        .catch(function (error) {
+          console.log(error.message);
+          resolve(null);
+        });
+    });
+  }
+
+  async registerAgendaLivre(record) {
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos`,
+          {
+            method: "POST",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Prefer: "odata.include-annotations=*",
+              Authorization: "Bearer " + this.token,
+            },
+            body: JSON.stringify(record),
+          }
+        )
+          .then(function success(response) {
+            if (response.ok) {
+              var uri = response.headers.get("OData-EntityId");
+              var regExp = /\(([^)]+)\)/;
+              var matches = regExp.exec(uri);
+              var newId = matches[1];
+              console.log(newId);
+              resolve({
+                erro: false,
+              });
+            } else {
+              resolve({ erro: true });
+            }
+          })
+          .catch(function (error) {
+            resolve({ erro: true });
+            console.log(error.message);
+          });
+      } catch {
+        resolve({ erro: true });
+      }
+    });
   }
 }
 

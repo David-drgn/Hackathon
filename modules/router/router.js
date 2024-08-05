@@ -24,6 +24,20 @@ router.get("/home", async (req, res) => {
   );
 });
 
+router.get("/redefine", async (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "..",
+      "..",
+      "view",
+      "pages",
+      "RedefinePassword",
+      "password.html"
+    )
+  );
+});
+
 router.get("/systemErro", async (req, res) => {
   let erro = req.query.erro;
 
@@ -113,6 +127,13 @@ router.use(
 router.use(
   "/pages/load",
   express.static(path.join(__dirname, "..", "..", "view", "pages", "load"))
+);
+
+router.use(
+  "/pages/RedefinePassword",
+  express.static(
+    path.join(__dirname, "..", "..", "view", "pages", "RedefinePassword")
+  )
 );
 
 router.use(

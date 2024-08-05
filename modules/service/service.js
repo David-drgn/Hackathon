@@ -38,8 +38,6 @@ class Service {
               .then((text) => (text ? JSON.parse(text) : {}));
           })
           .then((responseBody) => {
-            console.log(responseBody);
-
             resolve({
               erro: false,
               message: "Relacionamento feito",
@@ -92,8 +90,6 @@ class Service {
               .then((text) => (text ? JSON.parse(text) : {}));
           })
           .then((responseBody) => {
-            console.log(responseBody);
-
             resolve({
               erro: false,
               message: "Relacionamento feito",

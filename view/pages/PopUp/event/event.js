@@ -6,6 +6,7 @@ function next() {
   let steps = document.getElementsByClassName("step");
 
   document.getElementsByClassName("final")[0].style.display = "block";
+  document.getElementsByClassName("final")[1].style.display = "block";
 
   steps[1].style.display = "flex";
 }
@@ -23,6 +24,38 @@ function transformarData(dataString) {
   const [dia, mes, ano] = dataString.split("/");
   return new Date(`${ano}-${mes}-${dia}`);
 }
+
+document
+  .getElementById("timePrestador")
+  .addEventListener("change", function () {
+    next();
+    if (
+      this.value > document.getElementById("timePrestadorFinal").value &&
+      !document.getElementById("dateSelectMedico").textContent.includes("à")
+    ) {
+      openDialog(
+        "Horários",
+        "Peço desculpas, mas os horários não correspondem. Por favor, revise os horários"
+      );
+      document.getElementById("timePrestadorFinal").value = this.value;
+    }
+  });
+
+document
+  .getElementById("timePrestadorFinal")
+  .addEventListener("change", function () {
+    next();
+    if (
+      this.value < document.getElementById("timePrestador").value &&
+      !document.getElementById("dateSelectMedico").textContent.includes("à")
+    ) {
+      openDialog(
+        "Horários",
+        "Perdão, porém os horários não condizem, por favor, verifique o horário"
+      );
+      document.getElementById("timePrestador").value = this.value;
+    }
+  });
 
 document
   .getElementById("selectOptions")
@@ -202,11 +235,59 @@ document
     }
   });
 
-function viewInfo() {
+function viewInfo(dados) {
   $("#infoUser").empty();
   $(document).ready(function () {
     $("#infoUser").load("/pages/PopUp/info/info.html", function () {});
   });
 }
 
-viewInfo();
+async function registerHorarioLivre() {
+  debugger;
+  const datas = document
+    .getElementById("dateSelectMedico")
+    .textContent.split(" à ");
+
+  const [dia, mes, ano] = datas[0].split("/");
+  const dataInicial = `${ano}-${mes}-${dia} ${
+    document.getElementById("timePrestador").value
+  }`;
+  let dataFinal = `${ano}-${mes}-${dia} ${
+    document.getElementById("timePrestador").value
+  }`;
+  if (datas[1] != undefined) {
+    const [dia, mes, ano] = datas[1].split("/");
+    dataFinal = `${ano}-${mes}-${dia} ${
+      document.getElementById("timePrestadorFinal").value
+    }`;
+  }
+
+  fetch(`${location.origin}/api/events/livreRegister`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("token"),
+      record: {
+        new_data_agendada: new Date(dataInicial).toISOString(),
+        new_dataterminoagenda: new Date(dataFinal).toISOString(),
+        ["new_Prestador@odata.bind"]: `/accounts(${user.accountid})`,
+        new_tipohorario: 1,
+      },
+    }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+    })
+    .catch(function (error) {
+      loading(false);
+      openDialog(
+        "Algo deu errado",
+        "Por favor, tente realizar o agendamente novamente, mais tarde"
+      );
+      $("#event").empty();
+      console.log("Erro: " + error.message);
+    });
+}
