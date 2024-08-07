@@ -71,7 +71,18 @@ button {
   gap: 20px;
 }
 
+input.initial {
+  width: 80.5%;
+  height: 51px;
+  padding: 0px;
+}
+
 .step.two {
+  display: none;
+}
+
+.prestadorSelecionado {
+  text-align: center;
   display: none;
 }
 
@@ -85,7 +96,7 @@ button {
   .appointment_container {
     width: calc(100% - 40px);
   }
-  .appointment{
+  .appointment {
     width: 100%;
     padding: 0px;
   }

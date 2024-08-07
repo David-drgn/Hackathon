@@ -120,14 +120,15 @@ body {
 
 #chat,
 #archive,
-#plan,
+#planView,
 #settings,
 #eventView {
   display: none;
 }
 
 #settings,
-#archive {
+#archive,
+#planView {
   background-color: transparent;
   padding: 0px;
   width: 80%;
@@ -153,12 +154,12 @@ body {
   font-size: calc(20px + 0.390625vw);
 }
 
-.subtitle_events{
+.subtitle_events {
   font-weight: bolder;
   font-size: calc(10px + 0.390625vw);
 }
 
-.item_event{
+.item_event {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -326,6 +327,24 @@ body {
   text-align: center;
   font-size: calc(17px + 0.390625vw);
   padding-right: 20px;
+}
+
+#planView {
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow: auto;
+  border-radius: 30px;
+}
+
+.plan_item {
+  height: 90%;
+  min-width: 400px;
+  background: linear-gradient(180deg, #ffffff, #ffffff24);
+  border-radius: 30px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 #userImage {

@@ -26,6 +26,7 @@ const User = require("./modules/user/user.js");
 const Service = require("./modules/service/service.js");
 const Validator = require("./modules/security/documentValidator.js");
 const Token = require("./modules/security/token.js");
+const Plan = require("./modules/plans/plans.js");
 
 let verifyEmail = [];
 
@@ -296,10 +297,25 @@ app.post("/api/events/livreRegister", async (req, res) => {
     try {
       const user = await new User((await getConnect()).token);
 
-    //   req.body.record.new_data_agendada = new Date("2024-08-21 16:48").toISOString(); // Date Time
-    //   req.body.record.new_dataterminoagenda = new Date("2024-08-14 16:48").toISOString(); // Date Time
-    //   req.body.record["new_Prestador@odata.bind"] = "/accounts(e157301c-c84d-ef11-accd-000d3a5cdd3c)"; // Lookup
-    //   req.body.record.new_tipohorario = 1; // Choice
+      function subtrairHoras(dataStr, horas) {
+        const data = new Date(dataStr); // Cria um objeto Date a partir da string
+        data.setUTCHours(data.getUTCHours() - horas); // Subtrai as horas
+        return data.toISOString(); // Retorna a data no formato ISO
+      }
+
+      req.body.record.new_data_agendada = subtrairHoras(
+        req.body.record.new_data_agendada,
+        3
+      );
+      req.body.record.new_dataterminoagenda = subtrairHoras(
+        req.body.record.new_dataterminoagenda,
+        3
+      );
+
+      //   req.body.record.new_data_agendada = new Date("2024-08-21 16:48").toISOString(); // Date Time
+      //   req.body.record.new_dataterminoagenda = new Date("2024-08-14 16:48").toISOString(); // Date Time
+      //   req.body.record["new_Prestador@odata.bind"] = "/accounts(e157301c-c84d-ef11-accd-000d3a5cdd3c)"; // Lookup
+      //   req.body.record.new_tipohorario = 1; // Choice
 
       const response = await user.registerAgendaLivre(req.body.record);
       return res.json({ erro: false, response });
@@ -307,6 +323,43 @@ app.post("/api/events/livreRegister", async (req, res) => {
       return res.json({ erro: true });
     }
   }
+});
+
+app.post("/api/events/agendaRegister", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+
+      function subtrairHoras(dataStr, horas) {
+        const data = new Date(dataStr); // Cria um objeto Date a partir da string
+        data.setUTCHours(data.getUTCHours() - horas); // Subtrai as horas
+        return data.toISOString(); // Retorna a data no formato ISO
+      }
+
+      req.body.record.new_data_agendada = subtrairHoras(
+        req.body.record.new_data_agendada,
+        3
+      );
+      req.body.record.new_dataterminoagenda = subtrairHoras(
+        req.body.record.new_dataterminoagenda,
+        3
+      );
+
+      const response = await user.registerAgenda(req.body.record);
+      // const addMinutes = await user.add30minAgenda(req.body.record);
+      return res.json({ erro: false, response, addMinutes });
+    } catch (e) {
+      return res.json({ erro: true });
+    }
+  }
+});
+
+app.post("/api/getPlan", async (req, res) => {
+  const plan = await new Plan((await getConnect()).token);
+  const response = await plan.getAll();
+  return res.json({ erro: false, response });
 });
 
 app.post("/api/verifyToken", async (req, res) => {

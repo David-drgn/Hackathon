@@ -1,4 +1,13 @@
 $(document).ready(function () {
+  $("#loader").load("/pages/load/load.html");
+});
+
+function loading(view) {
+  if (view) $("#loader").css("display", "flex");
+  else $("#loader").css("display", "none");
+}
+
+$(document).ready(function () {
   $("#header").load("/pages/headers/home/header.html", function () {
     if (localStorage.getItem("token")) {
       loading(true);
@@ -33,8 +42,7 @@ $(document).ready(function () {
           if (user.new_tipodaconta == 0) {
             document.getElementById("plan").style.display = "none";
             document.getElementById("userplan").style.display = "none";
-          }
-          else{
+          } else {
             document.getElementById("plan").style.display = "flex";
             document.getElementById("userplan").style.display = "block";
           }
@@ -140,6 +148,7 @@ window.addEventListener("load", async () => {
           // alert("selected " + info.startStr + " to " + info.endStr)
           $("#event").empty();
           $(document).ready(function () {
+            debugger;
             $("#event").load(
               "/pages/PopUp/event/event.html",
               async function () {
@@ -150,13 +159,32 @@ window.addEventListener("load", async () => {
                 } else {
                   document.getElementById("enterprise").style.display = "flex";
                 }
-                document.getElementById(
-                  "dateSelect"
-                ).textContent = `${formatarData(info.dateStr)}`;
 
-                document.getElementById(
-                  "dateSelectMedico"
-                ).textContent = `${formatarData(info.dateStr)}`;
+                if (info.dateStr.includes("T")) {
+                  document.getElementById(
+                    "dateSelect"
+                  ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
+                  document.getElementById("timePrestador").value = `${
+                    info.dateStr.split("T")[1].split(":")[0]
+                  }:${info.dateStr.split("T")[1].split(":")[1]}`;
+
+                  document.getElementById(
+                    "dateSelectMedico"
+                  ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
+                  document.getElementById("timePrestadorFinal").value = `${
+                    info.dateStr.split("T")[1].split(":")[0]
+                  }:30`;
+
+                  next();
+                } else {
+                  document.getElementById(
+                    "dateSelect"
+                  ).textContent = `${formatarData(info.dateStr)}`;
+
+                  document.getElementById(
+                    "dateSelectMedico"
+                  ).textContent = `${formatarData(info.dateStr)}`;
+                }
 
                 let services = await getAllServices();
 
@@ -185,6 +213,11 @@ window.addEventListener("load", async () => {
             $("#event").empty();
             $(document).ready(function () {
               $("#event").load("/pages/PopUp/event/event.html", function () {
+                function ajustarDiaParaUm(dataStr) {
+                  const data = new Date(dataStr);
+                  data.setUTCDate(data.getUTCDate() - 1);
+                  return data.toISOString().slice(0, 10);
+                }
                 if (info.startStr == info.endStr) {
                   document.getElementById("dateSelect").textContent =
                     info.startStr;
@@ -196,12 +229,12 @@ window.addEventListener("load", async () => {
                     "dateSelect"
                   ).textContent = `${formatarData(
                     info.startStr
-                  )} à ${formatarData(info.endStr)}`;
+                  )} à ${formatarData(ajustarDiaParaUm(info.endStr))}`;
                   document.getElementById(
                     "dateSelectMedico"
                   ).textContent = `${formatarData(
                     info.startStr
-                  )} à ${formatarData(info.endStr)}`;
+                  )} à ${formatarData(ajustarDiaParaUm(info.endStr))}`;
                 }
               });
             });
@@ -527,10 +560,12 @@ function changeView(view) {
       img.style.display = "none";
       break;
     case 3:
-      document.getElementById("plan").style.display = "flex";
+      document.getElementById("planView").style.display = "flex";
       document
         .getElementsByClassName("opIconsCell")
         [view].classList.add("active");
+      img.style.display = "none";
+      openPlan();
       break;
     case 4:
       document.getElementById("settings").style.display = "flex";
@@ -633,4 +668,26 @@ async function viewEvent(idEvent) {
   } catch {
     console.log("OII");
   }
+}
+
+function openPlan() {
+  fetch(`${location.origin}/api/getPlan`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      loading(false);
+      if (json.erro) {
+      } else {
+        let planView = document.getElementById("planView");
+        // planView.innerHTML = "";
+        console.log(json);
+      }
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
 }

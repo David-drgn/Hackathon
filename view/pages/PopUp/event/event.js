@@ -5,10 +5,17 @@ function cancel() {
 function next() {
   let steps = document.getElementsByClassName("step");
 
-  document.getElementsByClassName("final")[0].style.display = "block";
-  document.getElementsByClassName("final")[1].style.display = "block";
-
   steps[1].style.display = "flex";
+}
+
+function final(x) {
+  if (x) {
+    document.getElementsByClassName("final")[0].style.display = "block";
+    document.getElementsByClassName("final")[1].style.display = "block";
+  } else {
+    document.getElementsByClassName("final")[0].style.display = "none";
+    document.getElementsByClassName("final")[1].style.display = "none";
+  }
 }
 
 function parseDateString(dateString) {
@@ -22,17 +29,16 @@ function parseDateString(dateString) {
 
 function transformarData(dataString) {
   const [dia, mes, ano] = dataString.split("/");
+  console.log(new Date(`${ano}-${mes}-${dia}`));
   return new Date(`${ano}-${mes}-${dia}`);
 }
 
 document
   .getElementById("timePrestador")
   .addEventListener("change", function () {
-    next();
-    if (
-      this.value > document.getElementById("timePrestadorFinal").value &&
-      !document.getElementById("dateSelectMedico").textContent.includes("à")
-    ) {
+    final(true);
+    if (this.value > document.getElementById("timePrestadorFinal").value) {
+      final(false);
       openDialog(
         "Horários",
         "Peço desculpas, mas os horários não correspondem. Por favor, revise os horários"
@@ -44,11 +50,9 @@ document
 document
   .getElementById("timePrestadorFinal")
   .addEventListener("change", function () {
-    next();
-    if (
-      this.value < document.getElementById("timePrestador").value &&
-      !document.getElementById("dateSelectMedico").textContent.includes("à")
-    ) {
+    final(true);
+    if (this.value < document.getElementById("timePrestador").value) {
+      final(false);
       openDialog(
         "Horários",
         "Perdão, porém os horários não condizem, por favor, verifique o horário"
@@ -75,7 +79,8 @@ document
         .then((response) => response.json())
         .then((json) => {
           loading(false);
-          debugger;
+          next();
+
           if (json.erro) {
             if (json.message == "token expires") {
               openDialog(
@@ -93,8 +98,8 @@ document
           }
 
           for (let i = 0; i < json.response.length; i++) {
-            debugger;
             const element = json.response[i];
+
             element.agenda = element.agenda.filter(
               (e) =>
                 new Date(e.livre) >=
@@ -119,7 +124,6 @@ document
             option.text = element.name;
 
             selectElement.add(option);
-            next();
           });
 
           selectElement.addEventListener("change", function () {
@@ -132,7 +136,10 @@ document
                 const element = finalStep[i];
                 element.style.display = "none";
               }
+
+              document.getElementsByClassName("one")[0].style.display = "flex";
             } else {
+              document.getElementsByClassName("one")[0].style.display = "none";
               let finalStep = document.getElementsByClassName(
                 "prestadorSelecionado"
               );
@@ -146,13 +153,66 @@ document
                 (e) => e.id === this.value
               );
 
+              document
+                .getElementById("finalizarAgenda")
+                .addEventListener("click", () => {
+                  let data = document.getElementById("dataDisponivel");
+                  let horario = document.getElementById("time");
+                  let local = document.getElementById("local");
+
+                  if (
+                    this.value != "none" &&
+                    local.value != "" &&
+                    horario.value != "" &&
+                    data.value != "none"
+                  ) {
+                    const datas = document.getElementById("dataDisponivel")
+                      .value;
+
+                    const dataInicial = `${datas.split("T")[0]} ${
+                      document.getElementById("time").value
+                    }`;
+                    let dataFinal = `${datas.split("T")[0]} ${
+                      document.getElementById("time").value
+                    }`;
+
+                    let date = new Date(dataFinal);
+                    date.setMinutes(date.getMinutes() + 30);
+                    const horas = String(date.getHours()).padStart(2, "0");
+                    const minutos = String(date.getMinutes()).padStart(2, "0");
+                    const novaHora = `${horas}:${minutos}`;
+
+                    dataFinal = `${datas.split("T")[0]} ${novaHora}`;
+
+                    agendaCreate(
+                      { dataFinal, dataInicial },
+                      prestadorSelected.id
+                    );
+                  }
+                });
+
+              document.getElementById("local").value =
+                prestadorSelected.endereco;
+
+              if (!prestadorSelected.domicilio) {
+                document.getElementById("local").disabled = false;
+              }
+
               let selectElementDate = document.getElementById("dataDisponivel");
 
               selectElementDate.innerHTML = `
                 <option value="none">Selecione uma data</option>
                 `;
 
+              let horariosUtilizados = prestadorSelected.agenda.filter(
+                (e) => e.tipo !== 1
+              );
+              prestadorSelected.agenda = prestadorSelected.agenda.filter(
+                (e) => e.tipo === 1
+              );
+
               for (let i = 0; i < prestadorSelected.agenda.length; i++) {
+                debugger;
                 const agendaDisponivel = prestadorSelected.agenda[i];
 
                 let optionElement = document.createElement("option");
@@ -169,9 +229,10 @@ document
                   document.getElementById("dateSelect").innerText
                 ) {
                   selectElementDate.value = optionElement.value;
-                  selectElementDate.disabled = true;
+                  // selectElementDate.disabled = true;
                   document.getElementById("dontFind").style.display = "none";
                   selectElementDateSelect();
+                  i = prestadorSelected.agenda.length;
                 }
               }
 
@@ -181,7 +242,7 @@ document
                 );
 
                 let startDate = new Date(agendaDisponivel.livre).getTime();
-                let endDate = new Date(agendaDisponivel.termino).getTime();
+                // let endDate = new Date(agendaDisponivel.termino).getTime();
 
                 let selectElementHour = document.getElementById("time");
                 selectElementHour.innerHTML = "";
@@ -195,24 +256,48 @@ document
 
                 let currentDate = new Date(startDate);
 
-                currentDate.setUTCMinutes(
-                  currentDate.getUTCMinutes() +
-                    (30 - (currentDate.getUTCMinutes() % 30))
-                );
-                currentDate.setUTCSeconds(0, 0);
+                // currentDate.setUTCMinutes(
+                //   currentDate.getUTCMinutes() +
+                //     (30 - (currentDate.getUTCMinutes() % 30))
+                // );
+                // currentDate.setUTCSeconds(0, 0);
+
+                currentDate.setHours(currentDate.getHours() + 3);
+                let terminoDate = new Date(agendaDisponivel.termino);
+
+                terminoDate.setHours(terminoDate.getHours() + 3);
+
+                let endDate = terminoDate.getTime();
 
                 while (currentDate <= endDate) {
-                  let hours = (currentDate.getUTCHours() - 3)
-                    .toString()
-                    .padStart(2, "0");
-                  if (hours < 0) {
-                    hours = (24 + parseInt(hours)).toString().padStart(2, "0");
+                  debugger;
+
+                  let hasMatchingDate = false;
+
+                  horariosUtilizados.forEach((e) => {
+                    let livreDate = new Date(e.livre);
+                    livreDate.setHours(livreDate.getHours() + 3);
+                    if (currentDate.getTime() == livreDate.getTime())
+                      hasMatchingDate = true;
+                  });
+
+                  if (hasMatchingDate) {
+                    console.log("Horário já utilizado");
+                  } else {
+                    let hours = (currentDate.getUTCHours() - 3)
+                      .toString()
+                      .padStart(2, "0");
+                    if (hours < 0) {
+                      hours = (24 + parseInt(hours))
+                        .toString()
+                        .padStart(2, "0");
+                    }
+                    let minutes = currentDate
+                      .getUTCMinutes()
+                      .toString()
+                      .padStart(2, "0");
+                    addOption(`${hours}:${minutes}`);
                   }
-                  let minutes = currentDate
-                    .getUTCMinutes()
-                    .toString()
-                    .padStart(2, "0");
-                  addOption(`${hours}:${minutes}`);
                   currentDate.setUTCMinutes(currentDate.getUTCMinutes() + 30);
                 }
               }
@@ -253,15 +338,50 @@ async function registerHorarioLivre() {
     document.getElementById("timePrestador").value
   }`;
   let dataFinal = `${ano}-${mes}-${dia} ${
-    document.getElementById("timePrestador").value
+    document.getElementById("timePrestadorFinal").value
   }`;
   if (datas[1] != undefined) {
     const [dia, mes, ano] = datas[1].split("/");
+
     dataFinal = `${ano}-${mes}-${dia} ${
       document.getElementById("timePrestadorFinal").value
     }`;
+
+    const datasEntre = gerarDatasEntre(
+      dataInicial.split(" ")[0],
+      `${ano}-${mes}-${dia}`
+    );
+
+    for (let i = 0; i < datasEntre.length; i++) {
+      const element = datasEntre[i];
+      eventCreate({
+        dataFinal: `${element.toISOString().split("T")[0]} ${
+          document.getElementById("timePrestadorFinal").value
+        }`,
+        dataInicial: `${element.toISOString().split("T")[0]} ${
+          document.getElementById("timePrestador").value
+        }`,
+      });
+    }
+  } else {
+    eventCreate({ dataFinal, dataInicial });
+  }
+}
+
+function gerarDatasEntre(inicio, fim) {
+  let datas = [];
+  let dataAtual = new Date(inicio);
+  let dataFim = new Date(fim);
+
+  while (dataAtual <= dataFim) {
+    datas.push(new Date(dataAtual));
+    dataAtual.setDate(dataAtual.getDate() + 1);
   }
 
+  return datas;
+}
+
+function eventCreate(datas) {
   fetch(`${location.origin}/api/events/livreRegister`, {
     method: "POST",
     headers: {
@@ -270,10 +390,44 @@ async function registerHorarioLivre() {
     body: JSON.stringify({
       token: localStorage.getItem("token"),
       record: {
-        new_data_agendada: new Date(dataInicial).toISOString(),
-        new_dataterminoagenda: new Date(dataFinal).toISOString(),
+        new_data_agendada: new Date(datas.dataInicial).toISOString(),
+        new_dataterminoagenda: new Date(datas.dataFinal).toISOString(),
         ["new_Prestador@odata.bind"]: `/accounts(${user.accountid})`,
         new_tipohorario: 1,
+      },
+    }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+    })
+    .catch(function (error) {
+      loading(false);
+      openDialog(
+        "Algo deu errado",
+        "Por favor, tente realizar o agendamente novamente, mais tarde"
+      );
+      $("#event").empty();
+      console.log("Erro: " + error.message);
+    });
+}
+
+function agendaCreate(datas, idPrestador) {
+  debugger;
+  fetch(`${location.origin}/api/events/agendaRegister`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("token"),
+      record: {
+        new_data_agendada: new Date(datas.dataInicial).toISOString(),
+        new_dataterminoagenda: new Date(datas.dataFinal).toISOString(),
+        ["new_Cliente@odata.bind"]: `/accounts(${user.accountid})`,
+        ["new_Prestador@odata.bind"]: `/accounts(${idPrestador})`,
+        new_local: document.getElementById("local").value,
+        new_tipohorario: 2,
       },
     }),
   })

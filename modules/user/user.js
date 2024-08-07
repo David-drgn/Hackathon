@@ -194,7 +194,7 @@ class User {
     try {
       return new Promise((resolve, reject) => {
         fetch(
-          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=accountid,name,new_atendeemdomicilio,description,new_document&$expand=Account_Annotation($select=notetext,documentbody,filename,mimetype,objecttypecode),new_agendamento_Prestador_account($select=new_data_agendada,new_dataterminoagenda,new_tipohorario),new_Account_new_Servico_new_Servico($select=new_servicoid)&$filter=new_tipodaconta eq 1`,
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=accountid,name,new_atendeemdomicilio,description,new_document,address1_name&$expand=Account_Annotation($select=notetext,documentbody,filename,mimetype,objecttypecode),new_agendamento_Prestador_account($select=new_data_agendada,new_dataterminoagenda,new_tipohorario),new_Account_new_Servico_new_Servico($select=new_servicoid)&$filter=new_tipodaconta eq 1`,
           {
             method: "GET",
             headers: {
@@ -232,6 +232,7 @@ class User {
               prestador.domicilio = result["new_atendeemdomicilio"];
               prestador.description = result["description"];
               prestador.documento = result["new_document"];
+              prestador.endereco = result["address1_name"];
 
               prestador.docs = [];
               // One To Many Relationships
@@ -254,22 +255,20 @@ class User {
                 j < result.new_agendamento_Prestador_account.length;
                 j++
               ) {
-                if (
-                  result.new_agendamento_Prestador_account[j][
-                    "new_tipohorario"
-                  ] == 1
-                ) {
-                  prestador.agenda.push({
-                    livre:
-                      result.new_agendamento_Prestador_account[j][
-                        "new_data_agendada"
-                      ],
-                    termino:
-                      result.new_agendamento_Prestador_account[j][
-                        "new_dataterminoagenda"
-                      ], // Date Time
-                  });
-                }
+                prestador.agenda.push({
+                  livre:
+                    result.new_agendamento_Prestador_account[j][
+                      "new_data_agendada"
+                    ],
+                  termino:
+                    result.new_agendamento_Prestador_account[j][
+                      "new_dataterminoagenda"
+                    ], // Date Time
+                  tipo:
+                    result.new_agendamento_Prestador_account[j][
+                      "new_tipohorario"
+                    ],
+                });
               }
 
               prestador.service = false;
@@ -347,6 +346,7 @@ class User {
                     : `Agenda livre`,
                 start: result["new_data_agendada"],
                 end: result["new_dataterminoagenda"],
+                allDay: false,
               };
 
               data.push(event);
@@ -534,6 +534,115 @@ class User {
       }
     });
   }
+
+  async registerAgenda(record) {
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos`,
+          {
+            method: "POST",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Prefer: "odata.include-annotations=*",
+              Authorization: "Bearer " + this.token,
+            },
+            body: JSON.stringify(record),
+          }
+        )
+          .then(function success(response) {
+            if (response.ok) {
+              var uri = response.headers.get("OData-EntityId");
+              var regExp = /\(([^)]+)\)/;
+              var matches = regExp.exec(uri);
+              var newId = matches[1];
+              console.log(newId);
+              resolve({
+                erro: false,
+              });
+            } else {
+              resolve({ erro: true });
+            }
+          })
+          .catch(function (error) {
+            resolve({ erro: true });
+            console.log(error.message);
+          });
+      } catch {
+        resolve({ erro: true });
+      }
+    });
+  }
+
+  // async add30minAgenda(id, dataAgendada, dataFinal) {
+  //   return new Promise((resolve, reject) => {
+  //     let dataAgendadaDate = new Date(dataAgendada);
+  //     let dataFinalDate = new Date(dataFinal);
+
+  //     dataAgendadaDate.setMinutes(dataAgendadaDate.getMinutes() + 30);
+
+  //     if (dataAgendada.getTime() === dataFinalDate.getTime()) {
+  //       console.log("dataAgendada agora é igual a dataFinal.");
+  //       fetch(
+  //         `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos(${id})`,
+  //         {
+  //           method: "DELETE",
+  //           headers: {
+  //             "OData-MaxVersion": "4.0",
+  //             "OData-Version": "4.0",
+  //             "Content-Type": "application/json; charset=utf-8",
+  //             Accept: "application/json",
+  //           },
+  //         }
+  //       )
+  //         .then(function success(response) {
+  //           if (response.ok) {
+  //             resolve({ erro: false });
+  //           } else {
+  //             resolve({ erro: true });
+  //           }
+  //         })
+  //         .catch(function (error) {
+  //           resolve({ erro: true });
+  //         });
+  //     } else {
+  //       console.log("dataAgendada não é igual a dataFinal.");
+  //       record = {};
+  //       record.new_data_agendada = dataAgendadaDate.toISOString();
+  //       try {
+  //         fetch(
+  //           `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos(${id})`,
+  //           {
+  //             method: "PATCH",
+  //             headers: {
+  //               "OData-MaxVersion": "4.0",
+  //               "OData-Version": "4.0",
+  //               "Content-Type": "application/json; charset=utf-8",
+  //               Accept: "application/json",
+  //               Prefer: "odata.include-annotations=*",
+  //             },
+  //             body: JSON.stringify(record),
+  //           }
+  //         )
+  //           .then(function success(response) {
+  //             if (response.ok) {
+  //               resolve({ erro: false });
+  //             } else {
+  //               resolve({ erro: true });
+  //             }
+  //           })
+  //           .catch(function (error) {
+  //             resolve({ erro: true });
+  //           });
+  //       } catch {
+  //         resolve({ erro: true });
+  //       }
+  //     }
+  //   });
+  // }
 }
 
 module.exports = User;

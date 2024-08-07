@@ -13,7 +13,7 @@
     </div>
 
     <div class="step two">
-      <span class="subtitle">Selecione o responsável pela consulta?</span>
+      <span class="subtitle">Selecione o responsável pela consulta</span>
       <select id="prestador"></select>
 
       <button class="prestadorSelecionado">
@@ -26,10 +26,13 @@
       >
       <select id="dataDisponivel" class="prestadorSelecionado"></select>
       <select id="time" class="prestadorSelecionado"> </select>
+
+      <span class="subtitle prestadorSelecionado">Local da consulta</span>
+      <input type="text" class="initial prestadorSelecionado" id="local" disabled/>
     </div>
 
     <div class="optionsButtons">
-      <button class="final">Finalizar</button>
+      <button id="finalizarAgenda">Finalizar</button>
       <button onclick="cancel()">Cancelar</button>
     </div>
 

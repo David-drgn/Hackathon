@@ -1,14 +1,5 @@
 var user;
 
-$(document).ready(function() {
-    $("#loader").load("/pages/load/load.html");
-});
-
-function loading(view) {
-    if (view) $("#loader").css("display", "flex");
-    else $("#loader").css("display", "none");
-}
-
 function logout() {
     localStorage.removeItem("token");
     location.href = "/";
