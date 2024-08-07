@@ -398,7 +398,7 @@ class User {
   async getEventsById(eventId) {
     return new Promise((resolve, reject) => {
       fetch(
-        `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario&$expand=new_Cliente($select=description,new_redessociais,new_document,emailaddress1,name,telephone1)&$filter=new_agendamentoid eq ${eventId}`,
+        `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario&$expand=new_Cliente($select=description,new_redessociais,new_document,emailaddress1,name,telephone1),new_Prestador($select=description,new_redessociais,new_document,emailaddress1,name,telephone1)&$filter=new_agendamentoid eq ${eventId}`,
         {
           method: "GET",
           headers: {
@@ -481,6 +481,28 @@ class User {
               // var new_Cliente_name = result["new_Cliente"]["name"]; // Text
               // var new_Cliente_telephone1 = result["new_Cliente"]["telephone1"]; // Text
             } else agendamento.cliente = null;
+
+            if (
+              result.hasOwnProperty("new_Prestador") &&
+              result["new_Prestador"] !== null
+            ) {
+              agendamento.prestador = {
+                descricao: result["new_Prestador"]["description"],
+                documento: result["new_Prestador"]["new_document"],
+                email: result["new_Prestador"]["emailaddress1"],
+                redes: result["new_Prestador"]["new_redessociais"],
+                nome: result["new_Prestador"]["name"],
+                telefone: result["new_Prestador"]["telephone1"],
+              };
+              // var new_Prestador_description =
+              //   result["new_Prestador"]["description"]; // Multiline Text
+              // var new_Prestador_new_document =
+              //   result["new_Prestador"]["new_document"]; // Text
+              // var new_Prestador_emailaddress1 =
+              //   result["new_Prestador"]["emailaddress1"]; // Text
+              // var new_Prestador_name = result["new_Prestador"]["name"]; // Text
+              // var new_Prestador_telephone1 = result["new_Prestador"]["telephone1"]; // Text
+            } else agendamento.prestador = null;
 
             data.push(agendamento);
           }
