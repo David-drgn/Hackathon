@@ -184,7 +184,7 @@ document
 
                     dataFinal = `${datas.split("T")[0]} ${novaHora}`;
 
-                    agendaCreate(
+                    agendaClientRegister(
                       { dataFinal, dataInicial },
                       prestadorSelected.id
                     );
@@ -354,7 +354,7 @@ async function registerHorarioLivre() {
 
     for (let i = 0; i < datasEntre.length; i++) {
       const element = datasEntre[i];
-      eventCreate({
+      agendaLivreRegister({
         dataFinal: `${element.toISOString().split("T")[0]} ${
           document.getElementById("timePrestadorFinal").value
         }`,
@@ -364,7 +364,7 @@ async function registerHorarioLivre() {
       });
     }
   } else {
-    eventCreate({ dataFinal, dataInicial });
+    agendaLivreRegister({ dataFinal, dataInicial });
   }
 }
 
@@ -381,7 +381,7 @@ function gerarDatasEntre(inicio, fim) {
   return datas;
 }
 
-function eventCreate(datas) {
+function agendaLivreRegister(datas) {
   fetch(`${location.origin}/api/events/livreRegister`, {
     method: "POST",
     headers: {
@@ -412,7 +412,7 @@ function eventCreate(datas) {
     });
 }
 
-function agendaCreate(datas, idPrestador) {
+function agendaClientRegister(datas, idPrestador) {
   debugger;
   fetch(`${location.origin}/api/events/agendaRegister`, {
     method: "POST",

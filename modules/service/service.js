@@ -114,7 +114,7 @@ class Service {
     }
   }
 
-  async getAll() {
+  async getAll(serviceType = process.env.WEBSITE) {
     try {
       let options = {
         method: "GET",
@@ -125,7 +125,7 @@ class Service {
           Accept: "application/json",
           Prefer: "odata.include-annotations=*",
         },
-        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_servicos?$select=new_name,new_descricao&$expand=new_Account_new_Servico_new_Servico($select=accountid,name)&$filter=new_tipodoservico eq ${process.env.WEBSITE}`,
+        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_servicos?$select=new_name,new_descricao&$expand=new_Account_new_Servico_new_Servico($select=accountid,name)&$filter=new_tipodoservico eq ${serviceType}`,
         headers: {
           Authorization: "Bearer " + this.token,
         },
