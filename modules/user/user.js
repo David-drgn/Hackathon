@@ -118,6 +118,41 @@ class User {
     }
   }
 
+  async update(record, userId) {
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts(${userId})`,
+          {
+            method: "PATCH",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Prefer: "odata.include-annotations=*",
+              Authorization: "Bearer " + this.token,
+            },
+            body: JSON.stringify(record),
+          }
+        )
+          .then(function success(response) {
+            if (response.ok) {
+              console.log("Record updated");
+              resolve({ erro: false });
+            } else {
+              resolve({ erro: true });
+            }
+          })
+          .catch(function (error) {
+            resolve({ erro: true });
+          });
+      } catch {
+        resolve({ erro: true });
+      }
+    });
+  }
+
   async login(email, password, check) {
     const user = await this.getByEmail(email);
 
@@ -151,7 +186,7 @@ class User {
           Accept: "application/json",
           Prefer: "odata.include-annotations=*",
         },
-        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,new_perfil_url,new_salt,new_tipodaconta&$filter=emailaddress1 eq '${email}'`,
+        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_password,_new_plano_value,telephone1,new_document,new_salt,new_tipodaconta,new_perfil&$filter=emailaddress1 eq '${email}'`,
         headers: {
           Authorization: "Bearer " + this.token,
         },
@@ -194,7 +229,7 @@ class User {
     try {
       return new Promise((resolve, reject) => {
         fetch(
-          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=accountid,name,new_atendeemdomicilio,description,new_document,address1_name&$expand=Account_Annotation($select=notetext,documentbody,filename,mimetype,objecttypecode),new_agendamento_Prestador_account($select=new_data_agendada,new_dataterminoagenda,new_tipohorario),new_Account_new_Servico_new_Servico($select=new_servicoid)&$filter=new_tipodaconta eq 1`,
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=accountid,name,new_atendeemdomicilio,new_perfil,description,new_document,address1_name&$expand=Account_Annotation($select=notetext,documentbody,filename,mimetype,objecttypecode),new_agendamento_Prestador_account($select=new_data_agendada,new_dataterminoagenda,new_tipohorario),new_Account_new_Servico_new_Servico($select=new_servicoid)&$filter=new_tipodaconta eq 1`,
           {
             method: "GET",
             headers: {
@@ -233,6 +268,7 @@ class User {
               prestador.description = result["description"];
               prestador.documento = result["new_document"];
               prestador.endereco = result["address1_name"];
+              prestador.image = result["new_perfil"];
 
               prestador.docs = [];
               // One To Many Relationships
@@ -264,10 +300,9 @@ class User {
                     result.new_agendamento_Prestador_account[j][
                       "new_dataterminoagenda"
                     ], // Date Time
-                  tipo:
-                    result.new_agendamento_Prestador_account[j][
-                      "new_tipohorario"
-                    ],
+                  tipo: result.new_agendamento_Prestador_account[j][
+                    "new_tipohorario"
+                  ],
                 });
               }
 
@@ -303,7 +338,7 @@ class User {
     try {
       return new Promise((resolve, reject) => {
         fetch(
-          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario&$filter=(_new_cliente_value eq ${userId} or _new_prestador_value eq ${userId})`,
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=new_local,_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario,_new_servico_value&$filter=(_new_cliente_value eq ${userId} or _new_prestador_value eq ${userId})`,
           {
             method: "GET",
             headers: {
@@ -347,9 +382,26 @@ class User {
                 start: result["new_data_agendada"],
                 end: result["new_dataterminoagenda"],
                 allDay: false,
+                type: result[
+                  "new_tipohorario@OData.Community.Display.V1.FormattedValue"
+                ],
+                service:
+                  result[
+                    "_new_servico_value@OData.Community.Display.V1.FormattedValue"
+                  ],
+                local: result["new_local"],
               };
 
               data.push(event);
+              // var new_servico = result["_new_servico_value"]; // Lookup
+              // var new_servico_formatted =
+              //   result[
+              //     "_new_servico_value@OData.Community.Display.V1.FormattedValue"
+              //   ];
+              // var new_servico_lookuplogicalname =
+              //   result[
+              //     "_new_servico_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              //   ];
               // var new_agendamentoid = result["new_agendamentoid"]; // Guid
               // var new_cliente = result["_new_cliente_value"]; // Lookup
               // var new_cliente_formatted =

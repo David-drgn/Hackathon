@@ -166,8 +166,8 @@ document
                     horario.value != "" &&
                     data.value != "none"
                   ) {
-                    const datas = document.getElementById("dataDisponivel")
-                      .value;
+                    const datas =
+                      document.getElementById("dataDisponivel").value;
 
                     const dataInicial = `${datas.split("T")[0]} ${
                       document.getElementById("time").value
@@ -428,6 +428,9 @@ function agendaClientRegister(datas, idPrestador) {
         ["new_Prestador@odata.bind"]: `/accounts(${idPrestador})`,
         new_local: document.getElementById("local").value,
         new_tipohorario: 2,
+        ["new_Servico@odata.bind"]: `/new_servicos(${
+          document.getElementById("selectOptions").value
+        })`,
       },
     }),
   })

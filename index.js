@@ -35,7 +35,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json({ limit: "9mb" }));
+app.use(bodyParser.json({ limit: "20mb" }));
 app.use(cookieParser());
 
 app.set("view engine", "ejs");
@@ -201,6 +201,21 @@ app.post("/api/login", async (req, res) => {
     });
   } catch (e) {
     return res.redirect("/systemErro?erro=400");
+  }
+});
+
+app.post("/api/update", async (req, res) => {
+  const { userId, token, record } = req.body;
+  if (await tokenValid(token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      const response = await user.update(record, userId);
+      return res.json({ erro: false, response });
+    } catch (e) {
+      return res.json({ erro: true });
+    }
   }
 });
 

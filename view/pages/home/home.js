@@ -31,10 +31,26 @@ $(document).ready(function () {
           document.getElementsByClassName(
             "name_logado"
           )[0].innerHTML = `Olá, <b>${json.name}</b>`;
-          if (json.new_perfil_url != undefined) {
+
+          document.getElementById("username").textContent = json.name;
+
+          document.getElementById("usertype").textContent =
+            json.new_tipodaconta == 0 ? "Cliente" : "Prestador";
+
+          document.getElementById("usermail").textContent = json.emailaddress1;
+          document.getElementById("userphone").textContent = json.telephone1;
+          document.getElementById("userdocument").textContent =
+            json.new_document;
+          document.getElementById("userplan").textContent =
+            json["_new_plano_value@OData.Community.Display.V1.FormattedValue"];
+
+          if (json.new_perfil != undefined) {
             document.getElementById(
               "image_perfil"
-            ).src = `https://newproject.crm.dynamics.com${json.new_perfil_url}`;
+            ).src = `data:image/png;base64,${json.new_perfil}`;
+            document.getElementById(
+              "userImage"
+            ).src = `data:image/png;base64,${json.new_perfil}`;
           }
           chatResponse(
             `Olá, quem é você? e qual o seu objetivo? Me chame de ${json.name}`
@@ -72,6 +88,17 @@ function formatarData(data) {
   const mes = partes[1];
   const dia = partes[2];
   return `${dia}/${mes}/${ano}`;
+}
+
+function formatDate(isoString) {
+  const date = new Date(isoString);
+
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
 let viewCalendar = 1;
@@ -285,8 +312,74 @@ window.addEventListener("load", async () => {
             calendar.getEvents().forEach((element) => {
               element.remove();
             });
+            // debugger;
+            let container = document.getElementById("appointments_active");
+            container.innerHTML = "";
+
+            let containerDeactive = document.getElementById(
+              "appointments_deactive"
+            );
+            containerDeactive.innerHTML = "";
+
             json.response.forEach((element) => {
+              // allDay: false;
+              // end: "2024-08-16T08:30:00Z";
+              // id: "438cdd4a-fe54-ef11-bfe2-6045bd0822f1";
+              // start: "2024-08-16T08:00:00Z";
+              // title: "Consulta com David Raphael";
+              // type: "Agendamento";
               calendar.addEvent(element);
+
+              const consultasFind = document.createElement("div");
+              consultasFind.className = "consultas_find";
+
+              const titleSpan = document.createElement("span");
+              titleSpan.className = "subtitle_events";
+              titleSpan.textContent = element.title;
+
+              const dateSpanStart = document.createElement("span");
+              dateSpanStart.textContent = `Início: ${formatDate(
+                element.start
+              )}`;
+
+              const dateSpanEnds = document.createElement("span");
+              dateSpanEnds.textContent = `Fim: ${formatDate(element.end)}`;
+
+              const consultasWrapper = document.createElement("div");
+              consultasWrapper.className = "consultas_wrapper";
+
+              const clienteSpan = document.createElement("span");
+              clienteSpan.textContent = element.service;
+
+              const localSpan = document.createElement("span");
+              localSpan.textContent = element.local;
+
+              if (
+                element.type != "Agendamento Realizado" &&
+                element.type != "Agendamento Cancelado"
+              ) {
+                consultasFind.appendChild(titleSpan);
+                consultasWrapper.appendChild(clienteSpan);
+                consultasWrapper.appendChild(localSpan);
+
+                consultasFind.appendChild(dateSpanStart);
+                consultasFind.appendChild(dateSpanEnds);
+                consultasFind.appendChild(consultasWrapper);
+                container.appendChild(consultasFind);
+              } else {
+                titleSpan.textContent = `${element.title.replace(
+                  "Consulta",
+                  `Consulta ${element.type.replace("Agendamento ", "")}`
+                )}`;
+                consultasFind.appendChild(titleSpan);
+                consultasWrapper.appendChild(clienteSpan);
+                consultasWrapper.appendChild(localSpan);
+
+                consultasFind.appendChild(dateSpanStart);
+                consultasFind.appendChild(dateSpanEnds);
+                consultasFind.appendChild(consultasWrapper);
+                containerDeactive.appendChild(consultasFind);
+              }
             });
           }
         })
@@ -418,15 +511,58 @@ document.getElementById("userImage").addEventListener("click", () => {
 document.getElementById("fileInput").addEventListener("change", function () {
   debugger;
   const file = event.target.files[0];
-  if (file) {
+  if (file && file.type.includes("image")) {
     const reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = async function (e) {
       const base64String = e.target.result.split(",")[1];
-      $("#base64Output").text(base64String);
-      alert("Base64 string:\n" + base64String);
+
+      loading(true);
+      await fetch(`${location.origin}/api/update`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          record: {
+            new_perfil: base64String,
+          },
+          userId: user.accountid,
+          token: localStorage.getItem("token"),
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          loading(false);
+          console.log(json);
+          if (!json.erro) {
+            user.new_perfil = base64String;
+
+            document.getElementById(
+              "userImage"
+            ).src = `data:image/png;base64,${user.new_perfil}`;
+            document.getElementById(
+              "image_perfil"
+            ).src = `data:image/png;base64,${user.new_perfil}`;
+          }
+        })
+        .catch(function (error) {
+          loading(false);
+          openDialog(
+            "Erro ao mudar imagem",
+            "Perdão, porém a sua imagem não foi carregada, por favor, tente novamente"
+          );
+          console.log(error.message);
+        });
     };
     reader.readAsDataURL(file);
+  } else {
+    openDialog(
+      "Erro ao carregar a imagem",
+      "Verifique se o arquivo selecionado realmente é uma imagem"
+    );
   }
+
+  this.value = "";
 });
 
 function openSection(id) {
