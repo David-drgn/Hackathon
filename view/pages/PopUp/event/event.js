@@ -66,16 +66,19 @@ document
   .addEventListener("change", async function () {
     if (this.value != "none") {
       loading(true);
-      fetch(`${location.origin}/api/service/getAccounts`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-        body: JSON.stringify({
-          token: localStorage.getItem("token"),
-          serviceId: this.value,
-        }),
-      })
+      fetch(
+        `${
+          location.origin
+        }/api/service/getAccounts?token=${localStorage.getItem(
+          "token"
+        )}&serviceId=${this.value}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      )
         .then((response) => response.json())
         .then((json) => {
           loading(false);
@@ -166,8 +169,8 @@ document
                     horario.value != "" &&
                     data.value != "none"
                   ) {
-                    const datas =
-                      document.getElementById("dataDisponivel").value;
+                    const datas = document.getElementById("dataDisponivel")
+                      .value;
 
                     const dataInicial = `${datas.split("T")[0]} ${
                       document.getElementById("time").value
@@ -394,6 +397,9 @@ function agendaLivreRegister(datas) {
         new_dataterminoagenda: new Date(datas.dataFinal).toISOString(),
         ["new_Prestador@odata.bind"]: `/accounts(${user.accountid})`,
         new_tipohorario: 1,
+        ["new_Servico@odata.bind"]: `/new_servicos(${
+          document.getElementById("selectOptions").value
+        })`,
       },
     }),
   })

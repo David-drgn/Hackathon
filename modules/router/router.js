@@ -186,6 +186,21 @@ router.use(
 );
 
 router.use(
+  "/pages/PopUp/service",
+  express.static(
+    path.join(
+      __dirname,
+      "..",
+      "..",
+      "view",
+      "pages",
+      "PopUp",
+      "service"
+    )
+  )
+);
+
+router.use(
   "/pages/PopUp/info",
   express.static(
     path.join(__dirname, "..", "..", "view", "pages", "PopUp", "user", "info")

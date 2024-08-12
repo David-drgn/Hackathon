@@ -138,6 +138,40 @@ class Service {
       return null;
     }
   }
+
+  async create(record) {
+    fetch(
+      Xrm.Utility.getGlobalContext().getClientUrl() +
+        "/api/data/v9.2/new_servicos",
+      {
+        method: "POST",
+        headers: {
+          "OData-MaxVersion": "4.0",
+          "OData-Version": "4.0",
+          "Content-Type": "application/json; charset=utf-8",
+          Accept: "application/json",
+          Prefer: "odata.include-annotations=*",
+        },
+        body: JSON.stringify(record),
+      }
+    )
+      .then(function success(response) {
+        if (response.ok) {
+          var uri = response.headers.get("OData-EntityId");
+          var regExp = /\(([^)]+)\)/;
+          var matches = regExp.exec(uri);
+          var newId = matches[1];
+          console.log(newId);
+        } else {
+          return response.json().then((json) => {
+            throw json.error;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  }
 }
 
 module.exports = Service;

@@ -249,8 +249,9 @@ app.post("/api/service/deleteRelation", async (req, res) => {
   }
 });
 
-app.post("/api/service/get", async (req, res) => {
-  if (await tokenValid(req.body.token)) {
+app.get("/api/service/get", async (req, res) => {
+  const token = req.query.token;
+  if (await tokenValid(token)) {
     return res.json({ erro: true, message: "token expires" });
   } else {
     try {
@@ -263,13 +264,15 @@ app.post("/api/service/get", async (req, res) => {
   }
 });
 
-app.post("/api/service/getAccounts", async (req, res) => {
-  if (await tokenValid(req.body.token)) {
+app.get("/api/service/getAccounts", async (req, res) => {
+  const token = req.query.token;
+  const serviceId = req.query.serviceId;
+  if (await tokenValid(token)) {
     return res.json({ erro: true, message: "token expires" });
   } else {
     try {
       const user = await new User((await getConnect()).token);
-      const response = await user.getPrestadorByService(req.body.serviceId);
+      const response = await user.getPrestadorByService(serviceId);
       return res.json({ erro: false, response });
     } catch (e) {
       return res.json({ erro: true });
@@ -291,13 +294,16 @@ app.post("/api/events/getByUser", async (req, res) => {
   }
 });
 
-app.post("/api/events/getById", async (req, res) => {
-  if (await tokenValid(req.body.token)) {
+app.get("/api/events/getById", async (req, res) => {
+  const token = req.query.token;
+  const id = req.query.id;
+
+  if (await tokenValid(token)) {
     return res.json({ erro: true, message: "token expires" });
   } else {
     try {
       const user = await new User((await getConnect()).token);
-      const response = await user.getEventsById(req.body.id);
+      const response = await user.getEventsById(id);
       return res.json({ erro: false, response });
     } catch (e) {
       return res.json({ erro: true });
@@ -371,7 +377,7 @@ app.post("/api/events/agendaRegister", async (req, res) => {
   }
 });
 
-app.post("/api/getPlan", async (req, res) => {
+app.get("/api/getPlan", async (req, res) => {
   const plan = await new Plan((await getConnect()).token);
   const response = await plan.getAll();
   return res.json({ erro: false, response });

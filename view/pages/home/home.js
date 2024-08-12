@@ -719,15 +719,17 @@ function changeView(view) {
 async function getAllServices() {
   loading(true);
   return new Promise((resolve, reject) => {
-    fetch(`${location.origin}/api/service/get`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem("token"),
-      }),
-    })
+    fetch(
+      `${location.origin}/api/service/get?token=${localStorage.getItem(
+        "token"
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((json) => {
         loading(false);
@@ -766,16 +768,17 @@ async function getAllServices() {
 async function viewEvent(idEvent) {
   debugger;
   try {
-    fetch(`${location.origin}/api/events/getById`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem("token"),
-        id: idEvent,
-      }),
-    })
+    fetch(
+      `${location.origin}/api/events/getById?token=${localStorage.getItem(
+        "token"
+      )}&id=${idEvent}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((json) => {
         if (json.erro) {
@@ -808,7 +811,7 @@ async function viewEvent(idEvent) {
 
 function openPlan() {
   fetch(`${location.origin}/api/getPlan`, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
