@@ -432,7 +432,7 @@ ul{
 }
 
 .button {
-  width: 50%;
+  width: 60%;
   border: 0px solid;
   background-color: var(--main-color);
   color: var(--main-light);
@@ -443,7 +443,7 @@ ul{
 }
 
 .button:hover {
-  width: 60%;
+  width: 80%;
 }
 
 .profile_events {
