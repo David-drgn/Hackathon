@@ -1,0 +1,30 @@
+<!-- id=settings -->
+<div class="profile_itens profile_info">
+    <img src="/assets/icon/person.svg" id="userImage" title="Clique aqui para trocar a foto de perfil" />
+    <span class="user_info_text" id="username">Nome do usuário</span>
+    <span class="user_info_text" id="usertype">Tipo de conta</span>
+    <span class="user_info_text" id="usermail">Email da conta</span>
+    <span class="user_info_text" id="userphone">Telefone da conta</span>
+    <span class="user_info_text" id="userdocument">Documento do usuário</span>
+    <span class="user_info_text" id="userplan">Plano do usuário</span>
+    <button class="button_margin button" onclick="changeView(2)">
+        Ver meus arquivos
+    </button>
+    <button class="button" id="userservice" onclick="openServices()">
+        Organizar meus serviços
+    </button>
+    <button class="button" onclick="logout()">Sair</button>
+</div>
+<div class="profile_itens profile_events">
+    <div class="event_itens">
+        <span class="title_events">Consultas ativas</span>
+        <div class="consultas_container" id="appointments_active"></div>
+        <button class="button_margin button" onclick="changeView(0)">
+            Fazer nova consulta
+        </button>
+    </div>
+    <div class="event_itens">
+        <span class="title_events">Consultas feitas ou canceladas</span>
+        <div class="consultas_container" id="appointments_deactive"></div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+body.clinic {
+  --main-color: #7f9bcd;
+  --main-light: white;
+  --main-color-transparent: rgba(127, 156, 205, 0.5);
+  --back-color: #bbbbbb;
+  --back-sec-color: #e2e2e2;
+}
+
+body.restaurant {
+  --main-color: #cd7f7f;
+  --back-color: #bbbbbb;
+  --back-sec-color: #e2e2e2;
+}

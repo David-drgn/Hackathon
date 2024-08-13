@@ -1,0 +1,363 @@
+.header {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: end;
+  height: 40px;
+  padding: 0px;
+  gap: 10px;
+  align-items: center;
+  width: calc(100vw - 20px);
+}
+
+.name {
+  font-weight: 600;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.image_perfil {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: #7f9bcd;
+  background-color: white;
+  cursor: pointer;
+}
+
+.menu_lateral {
+  position: fixed;
+  left: -10px;
+  padding: 20px;
+  top: 7.5%;
+  width: 80px;
+  height: 85%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-top-right-radius: 50px;
+  gap: 25px;
+  border-bottom-right-radius: 50px;
+  box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
+  transition: all 1s;
+  z-index: 1111111111111;
+  overflow: hidden;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 30px;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.opIcons {
+  width: 35px;
+}
+
+.opSpan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  gap: 10px;
+}
+
+.opSpan > span {
+  font-size: 25px;
+  display: none;
+  transition: all 1s;
+}
+
+.opSpan.active {
+  padding: 10px;
+  border-radius: 10px;
+  justify-content: center;
+  border: 2px solid var(--main-color);
+}
+
+.menu_lateral:hover .opSpan.active {
+  border: 0px;
+  border-left: 5px solid var(--main-color);
+  padding-left: 10px;
+  margin-left: -15px;
+  border-radius: 0px;
+  width: fit-content;
+}
+
+.menu_lateral:hover {
+  width: 25vw;
+  display: flex;
+}
+
+.menu_lateral:hover .opSpan {
+  justify-content: start;
+}
+
+.menu_lateral:hover .opSpan > span {
+  display: flex;
+}
+
+.opSpan:hover {
+  cursor: pointer;
+  color: var(--main-color);
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.search_div {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+  width: 40%;
+}
+
+.search_div > img {
+  background-color: transparent;
+}
+
+input {
+  outline: none;
+}
+
+#search_text {
+  width: 60%;
+  height: 100%;
+  border: 0px solid;
+  height: 30px;
+  border-radius: 15px;
+  z-index: 1;
+  padding-left: 20px;
+}
+
+#search_text.active {
+  width: 43%;
+  height: 100%;
+  border: 0px solid;
+  height: 30px;
+  z-index: 4;
+  position: absolute;
+  padding-left: 20px;
+  left: 26vw;
+  border-radius: 10px;
+  background: #ddd;
+}
+
+#noSearch {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: large;
+}
+
+#cancelButton {
+  position: absolute;
+  bottom: 15px;
+  border: 0px solid;
+  background: var(--main-color);
+  color: white;
+  padding: 7px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+#oswald_search {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 27%;
+}
+
+.search_view {
+  display: none;
+  position: absolute;
+  width: 50%;
+  top: 0px;
+  left: 23vw;
+  height: 350px;
+  z-index: 3;
+  padding: 15px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #ffffff, #dfdfdf);
+  padding-top: 48px;
+  overflow: hidden;
+  animation: slideIn 0.5s ease-out;
+}
+
+.menu_footer_cell {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 9%;
+  background-color: white;
+  display: none;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-content: center;
+  z-index: 1;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.opIconsCell {
+  background-color: white;
+  border-radius: 100%;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 1s;
+}
+
+.opIconsCell.active {
+  /* background-color: var(--main-color); */
+  border: 2px solid var(--main-color);
+  margin-top: -10px;
+}
+
+.opIconsCell:hover {
+  margin-top: -10px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .help_doctor {
+    display: none !important;
+  }
+  .container {
+    top: 9%;
+    left: 150px;
+    width: calc(88.5% - 150px);
+  }
+  #calendar {
+    width: calc(95% - 150px);
+  }
+
+  #archive {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .archive_itens {
+    width: 100% !important;
+  }
+  .files_view {
+    /* display: none; */
+    position: absolute;
+    top: 60px;
+    background: linear-gradient(145deg, #ffffff, #dfdfdf);
+    height: auto;
+    max-height: 90%;
+    border-radius: 30px;
+    border: 2px solid var(--main-color);
+    padding: 30px;
+    width: calc(100% - 60px);
+  }
+  .archive_itens.filter {
+    height: auto;
+  }
+  .archive {
+    border: 2px solid var(--main-color);
+  }
+  .title_files {
+    color: var(--main-color);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #settings {
+    width: 75%;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  #search_text.active {
+    width: 87%;
+    left: 4vw;
+  }
+
+  .search_view {
+    left: 4vw;
+    width: calc(92vw - 30px);
+  }
+
+  .name {
+    display: none;
+  }
+
+  .search_div {
+    width: 100%;
+  }
+
+  .container {
+    padding: 10px;
+    background-color: transparent;
+    left: 0px;
+    width: calc(100% - 20px);
+    height: calc(82% - 40px);
+    border-radius: 0px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+
+  #calendar,
+  #archive {
+    width: 100%;
+    height: 82%;
+    padding: 0px;
+  }
+
+  #settings {
+    width: calc(100% - 20px);
+    height: calc(83% - 20px);
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: auto;
+    padding: 10px;
+  }
+
+  .profile_itens {
+    width: 100% !important;
+    padding: 10px;
+  }
+
+  .menu_lateral {
+    display: none;
+  }
+
+  .menu_footer_cell {
+    display: flex;
+  }
+
+  .fc-h-event .fc-event-title-container,
+  .fc .fc-daygrid-day-frame {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

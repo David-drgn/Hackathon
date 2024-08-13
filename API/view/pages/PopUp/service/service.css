@@ -1,0 +1,135 @@
+.background_service {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 111111111111111111;
+}
+
+#search_text_service{
+  width: 100%;
+}
+
+.container_service {
+  background: linear-gradient(145deg, var(--back-sec-color), var(--back-color));
+  width: 70%;
+  height: 80%;
+  border-radius: 30px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+}
+
+.search_div {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+  width: 40%;
+}
+
+.search_div > img {
+  background-color: transparent;
+}
+
+input {
+  outline: none;
+  width: 70%;
+  height: 30px;
+  border: 0px solid;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.service_wrapper {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  height: 100%;
+}
+
+.your_services {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-right: 2px solid var(--main-color);
+}
+
+.posible_services {
+  width: 70%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.title_service {
+  font-size: 20px;
+  text-align: center;
+  display: block;
+  color: var(--main-color);
+  font-weight: 600;
+}
+
+.wrapper_service {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  overflow: auto;
+}
+
+.item_service {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  width: inherit;
+}
+
+.item_service.service {
+  background-color: white;
+  border-radius: 10px;
+}
+
+.service_button {
+  border: 0px;
+  width: 70%;
+  padding: 5px;
+  border-radius: 10px;
+  background: var(--main-color);
+  color: white;
+  cursor: pointer;
+}
+
+.close_service {
+  position: absolute;
+  top: -10px;
+  right: -9px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 100%;
+  padding: 5px;
+  cursor: pointer;
+}
