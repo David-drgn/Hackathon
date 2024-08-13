@@ -10,7 +10,9 @@ const router = express.Router();
 
 router.use(express.json());
 router.use(cors());
-router.use(bodyParser.json({ limit: "9mb" }));
+
+router.use(bodyParser.json({ limit: "Infinity" }));
+router.use(bodyParser.urlencoded({ limit: "Infinity", extended: true }));
 
 router.get("/", async (req, res) => {
   res.sendFile(

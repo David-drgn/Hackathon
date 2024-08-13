@@ -14,7 +14,7 @@ const { sessions } = require("../../src/sessions");
 
 chat.use(express.json());
 chat.use(cors());
-chat.use(bodyParser.json({ limit: "9mb" }));
+chat.use(bodyParser.json({ limit: '20mb' }));
 
 const sendBotMessage = async (message, chatId) => {
   const client = sessions.get("bot");

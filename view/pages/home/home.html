@@ -1,203 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/colors.css" />
+    <link rel="stylesheet" href="/pages/home/home.css" />
+    <link rel="icon" type="image/x-icon" href="/assets/icon/logo.ico" />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
+    <!-- <script src="fullcalendar/core/locales/es.global.js"></script> -->
+    <title>Agendamentos</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="/css/colors.css" />
-  <link rel="stylesheet" href="/pages/home/home.css" />
-  <link rel="icon" type="image/x-icon" href="/assets/icon/logo.ico" />
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
-  <!-- <script src="fullcalendar/core/locales/es.global.js"></script> -->
-  <title>Agendamentos</title>
-</head>
-
-<body class="clinc">
-  <div id="header"></div>
-  <div class="container" id="calendar"></div>
-  <div class="container" id="chat">
-    <div class="chatContainer">
-      <div class="chatHeader">
-        <span>Oswald</span>
-      </div>
-      <div class="chatConversation" id="chatConversation"></div>
-      <div class="chatMessage">
-        <input type="text" id="inputUser" />
-        <img src="/assets/icon/send.svg" onclick="chatQuest()" />
+  <body class="clinc">
+    <div id="header"></div>
+    <div class="container" id="calendar"></div>
+    <div class="container" id="chat">
+      <div class="chatContainer">
+        <div class="chatHeader">
+          <span>Oswald</span>
+        </div>
+        <div class="chatConversation" id="chatConversation"></div>
+        <div class="chatMessage">
+          <input type="text" id="inputUser" />
+          <img src="/assets/icon/send.svg" onclick="chatQuest()" />
+        </div>
       </div>
     </div>
-  </div>
-  <div class="container" id="eventView">
-    <span class="title_events">Nome do Evento</span>
-    <span class="subtitle_events">Início: 00/00/0000 00:00</span>
-    <span class="subtitle_events">Fim: 00/00/0000 00:00</span>
-    <div class="eventView_wrapper">
-      <div class="item_event">
-        <span class="subtitle_events">Cliente</span>
-        <span>Nome</span>
-        <span>Email</span>
-        <span>Redes sociais</span>
-        <span>Telefone</span>
-        <span>Sugerimos que as mensagens sejam trocadas por meio de redes sociais
-          para facilitar a socialização entre cliente e fornecedor</span>
+    <div class="container" id="eventView">
+      <span class="title_events">Nome do Evento</span>
+      <span class="subtitle_events">Início: 00/00/0000 00:00</span>
+      <span class="subtitle_events">Fim: 00/00/0000 00:00</span>
+      <div class="eventView_wrapper">
+        <div class="item_event">
+          <span class="subtitle_events">Cliente</span>
+          <span>Nome</span>
+          <span>Email</span>
+          <span>Redes sociais</span>
+          <span>Telefone</span>
+          <span
+            >Sugerimos que as mensagens sejam trocadas por meio de redes sociais
+            para facilitar a socialização entre cliente e fornecedor</span
+          >
+        </div>
+        <div></div>
       </div>
-      <div></div>
     </div>
-  </div>
-  <div class="container" id="archive">
-    <div class="archive_itens filter">
-      <div class="search_input_files">
-        <input type="text" class="input_body" placeholder="Pesquisar por arquivos" />
-        <img src="/assets/icon/search.svg" />
-      </div>
-      <div class="files_view">
-        <span class="title_files" onclick="openSection('favorite_files')">Favoritos <img
-            src="/assets/icon/arrow_drop.svg" /></span>
-        <div class="category" id="favorite_files">
-          <div class="archive">
-            <div class="arhive_preview">
-              <img src="/assets/icon/image_type.svg" />
-            </div>
-            <div class="archive_info">
-              <span>Nome.jpg</span>
-              <div class="archive_info_more">
-                <span>10/03/2005</span>
-                <span>7MB</span>
+    <div class="container" id="archive">
+      <div class="archive_itens filter">
+        <div class="search_input_files">
+          <input
+            type="text"
+            class="input_body"
+            placeholder="Pesquisar por arquivos"
+          />
+          <img src="/assets/icon/search.svg" />
+        </div>
+        <div class="files_view">
+          <span class="title_files" onclick="openSection('favorite_files')"
+            >Favoritos <img src="/assets/icon/arrow_drop.svg"
+          /></span>
+          <div class="category" id="favorite_files">
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="/assets/icon/image_type.svg" />
               </div>
-              <div class="options_file">
-                <img src="/assets/icon/favorite_fill.svg" />
-                <img src="/assets/icon/bookmark.svg" />
-                <img src="/assets/icon/delete.svg" />
+              <div class="archive_info">
+                <span>Nome.jpg</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>7MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="/assets/icon/favorite_fill.svg" />
+                  <img src="/assets/icon/bookmark.svg" />
+                  <img src="/assets/icon/delete.svg" />
+                </div>
+              </div>
+            </div>
+
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="/assets/icon/file_type.svg" />
+              </div>
+              <div class="archive_info">
+                <span>Nome.pdf</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>9MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="/assets/icon/favorite_fill.svg" />
+                  <img src="/assets/icon/bookmark.svg" />
+                  <img src="/assets/icon/delete.svg" />
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="archive">
-            <div class="arhive_preview">
-              <img src="/assets/icon/file_type.svg" />
-            </div>
-            <div class="archive_info">
-              <span>Nome.pdf</span>
-              <div class="archive_info_more">
-                <span>10/03/2005</span>
-                <span>9MB</span>
+          <span class="title_files" onclick="openSection('every_files')"
+            >Todos os arquivos<img src="/assets/icon/arrow_drop.svg"
+          /></span>
+          <div class="category" id="every_files">
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="/assets/icon/image_type.svg" />
               </div>
-              <div class="options_file">
-                <img src="/assets/icon/favorite_fill.svg" />
-                <img src="/assets/icon/bookmark.svg" />
-                <img src="/assets/icon/delete.svg" />
+              <div class="archive_info">
+                <span>Nome.jpg</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>7MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="/assets/icon/favorite_fill.svg" />
+                  <img src="/assets/icon/bookmark.svg" />
+                  <img src="/assets/icon/delete.svg" />
+                </div>
+              </div>
+            </div>
+
+            <div class="archive">
+              <div class="arhive_preview">
+                <img src="/assets/icon/file_type.svg" />
+              </div>
+              <div class="archive_info">
+                <span>Nome.pdf</span>
+                <div class="archive_info_more">
+                  <span>10/03/2005</span>
+                  <span>9MB</span>
+                </div>
+                <div class="options_file">
+                  <img src="/assets/icon/favorite_fill.svg" />
+                  <img src="/assets/icon/bookmark.svg" />
+                  <img src="/assets/icon/delete.svg" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <span class="title_files" onclick="openSection('every_files')">Todos os arquivos<img
-            src="/assets/icon/arrow_drop.svg" /></span>
-        <div class="category" id="every_files">
-          <div class="archive">
-            <div class="arhive_preview">
-              <img src="/assets/icon/image_type.svg" />
-            </div>
-            <div class="archive_info">
-              <span>Nome.jpg</span>
-              <div class="archive_info_more">
-                <span>10/03/2005</span>
-                <span>7MB</span>
-              </div>
-              <div class="options_file">
-                <img src="/assets/icon/favorite_fill.svg" />
-                <img src="/assets/icon/bookmark.svg" />
-                <img src="/assets/icon/delete.svg" />
-              </div>
-            </div>
-          </div>
-
-          <div class="archive">
-            <div class="arhive_preview">
-              <img src="/assets/icon/file_type.svg" />
-            </div>
-            <div class="archive_info">
-              <span>Nome.pdf</span>
-              <div class="archive_info_more">
-                <span>10/03/2005</span>
-                <span>9MB</span>
-              </div>
-              <div class="options_file">
-                <img src="/assets/icon/favorite_fill.svg" />
-                <img src="/assets/icon/bookmark.svg" />
-                <img src="/assets/icon/delete.svg" />
-              </div>
-            </div>
-          </div>
+        <button class="archive_anexer" onclick="enviarArquivo()">
+          Anexar arquivo
+        </button>
+      </div>
+      <div class="archive_itens every">
+        <div class="options_file_view">
+          <span>Nome arquivo.png</span>
+          <img src="/assets/icon/favorite_fill.svg" />
+          <img src="/assets/icon/bookmark.svg" />
+          <img src="/assets/icon/delete.svg" />
+        </div>
+        <iframe src="" id="iframe_view"></iframe>
+        <input type="file" style="display: none;" id="file_manager_input" />
+      </div>
+    </div>
+    <div class="container" id="planView">
+      <div class="plan_item">
+        <span class="plan_title">Básico</span>
+        <span class="plan_subtitle">
+          Este plano inclui a capacidade de armazenar até dois arquivos e
+          oferece acesso ao Oswald, nosso assistente virtual. Oswald está
+          disponível para responder dúvidas, resolvendo questões de forma
+          eficiente.
+        </span>
+        <b class="plan_value" style="margin-top: 20px;">R$100,00 / Mês</b>
+        <b class="plan_value">R$2400,00 / Ano</b>
+        <hr />
+        <span class="plan_subtitle" style="font-weight: 600;">Benefícios</span>
+        <ul>
+          <li>Integração com o ChatGpt</li>
+        </ul>
+        <hr />
+        <button class="button_add_plan">Adiquirir</button>
+      </div>
+    </div>
+    <div class="container" id="settings">
+      <div class="profile_itens profile_info">
+        <img
+          src="/assets/icon/person.svg"
+          id="userImage"
+          title="Clique aqui para trocar a foto de perfil"
+        />
+        <span class="user_info_text" id="username">Nome do usuário</span>
+        <span class="user_info_text" id="usertype">Tipo de conta</span>
+        <span class="user_info_text" id="usermail">Email da conta</span>
+        <span class="user_info_text" id="userphone">Telefone da conta</span>
+        <span class="user_info_text" id="userdocument"
+          >Documento do usuário</span
+        >
+        <span class="user_info_text" id="userplan">Plano do usuário</span>
+        <button class="button_margin button" onclick="changeView(2)">
+          Ver meus arquivos
+        </button>
+        <button class="button" onclick="openServices()">
+          Organizar meus serviços
+        </button>
+        <button class="button" onclick="logout()">Sair</button>
+      </div>
+      <div class="profile_itens profile_events">
+        <div class="event_itens">
+          <span class="title_events">Consultas ativas</span>
+          <div class="consultas_container" id="appointments_active"></div>
+          <button class="button_margin button" onclick="changeView(0)">
+            Fazer nova consulta
+          </button>
+        </div>
+        <div class="event_itens">
+          <span class="title_events">Consultas feitas ou canceladas</span>
+          <div class="consultas_container" id="appointments_deactive"></div>
         </div>
       </div>
-      <button class="archive_anexer" onclick="enviarArquivo()">
-        Anexar arquivo
-      </button>
     </div>
-    <div class="archive_itens every">
-      <div class="options_file_view">
-        <span>Nome arquivo.png</span>
-        <img src="/assets/icon/favorite_fill.svg" />
-        <img src="/assets/icon/bookmark.svg" />
-        <img src="/assets/icon/delete.svg" />
-      </div>
-      <iframe src="" id="iframe_view"></iframe>
-      <input type="file" style="display: none;" id="file_manager_input" />
-    </div>
-  </div>
-  <div class="container" id="planView">
-    <div class="plan_item">
-      <span class="plan_title">Básico</span>
-      <span class="plan_subtitle">
-        Este plano inclui a capacidade de armazenar até dois arquivos e oferece acesso ao Oswald, nosso assistente
-        virtual. Oswald está disponível para responder dúvidas, resolvendo questões de forma eficiente.
-      </span>
-      <b class="plan_value" style="margin-top: 20px;">R$100,00 / Mês</b>
-      <b class="plan_value">R$2400,00 / Ano</b>
-      <hr>
-      <span class="plan_subtitle" style="font-weight: 600;">Benefícios</span>
-      <ul>
-        <li>Integração com o ChatGpt</li>
-      </ul>
-      <hr>
-      <button class="button_add_plan">Adiquirir</button>
-    </div>
-  </div>
-  <div class="container" id="settings">
-    <div class="profile_itens profile_info">
-      <img src="/assets/icon/person.svg" id="userImage" title="Clique aqui para trocar a foto de perfil" />
-      <span class="user_info_text" id="username">Nome do usuário</span>
-      <span class="user_info_text" id="usertype">Tipo de conta</span>
-      <span class="user_info_text" id="usermail">Email da conta</span>
-      <span class="user_info_text" id="userphone">Telefone da conta</span>
-      <span class="user_info_text" id="userdocument">Documento do usuário</span>
-      <span class="user_info_text" id="userplan">Plano do usuário</span>
-      <button class="button_margin button" onclick="changeView(2)">Ver meus arquivos</button>
-      <button class="button" onclick="">Organizar meus serviços</button>
-      <button class="button" onclick="logout()">Sair</button>
-    </div>
-    <div class="profile_itens profile_events">
-      <div class="event_itens">
-        <span class="title_events">Consultas ativas</span>
-        <div class="consultas_container" id="appointments_active"></div>
-        <button class="button_margin button" onclick="changeView(0)">Fazer nova consulta</button>
-      </div>
-      <div class="event_itens">
-        <span class="title_events">Consultas feitas ou canceladas</span>
-        <div class="consultas_container" id="appointments_deactive"></div>
-      </div>
-    </div>
-  </div>
-  <img class="help_doctor" src="/assets/icon/Help.png" onclick="changeView(1)" />
-  <input type="file" style="display: none;" id="fileInput" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <script src="/pages/home/home.js"></script>
-  <div id="loader"></div>
-</body>
-
+    <img
+      class="help_doctor"
+      src="/assets/icon/Help.png"
+      onclick="changeView(1)"
+    />
+    <input type="file" style="display: none;" id="fileInput" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="/pages/home/home.js"></script>
+    <div id="loader"></div>
+  </body>
 </html>

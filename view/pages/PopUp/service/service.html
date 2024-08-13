@@ -10,7 +10,7 @@
       />
       <input
         type="text"
-        id="search_text"
+        id="search_text_service"
         placeholder="Pesquise por serviços possíveis"
       />
     </div>
@@ -22,25 +22,11 @@
       />
       <div class="your_services">
         <span class="title_service">Serviços que você exercesse</span>
-        <div class="wrapper_service">
-          <div class="item_service service">
-            <span>Consulta básica</span>
-            <button class="service_button">Adicionar aos meus</button>
-          </div>
-        </div>
+        <div class="wrapper_service" id="yours_services"></div>
       </div>
       <div class="posible_services">
         <span class="title_service">Serviços disponíveis</span>
-        <div class="wrapper_service">
-          <div class="item_service">
-            <input placeholder="Criar novo serviço" />
-            <button class="service_button">Criar</button>
-          </div>
-          <div class="item_service service">
-            <span>Consulta básica</span>
-            <button class="service_button">Adicionar aos meus</button>
-          </div>
-        </div>
+        <div class="wrapper_service" id="all_services"></div>
       </div>
     </div>
   </div>

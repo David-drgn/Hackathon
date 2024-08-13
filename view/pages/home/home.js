@@ -748,12 +748,14 @@ async function getAllServices() {
             $("#event").empty();
           }
         }
+        debugger;
         resolve(
           json.response.map((item) => {
             return {
               new_name: item.new_name,
               new_servicoid: item.new_servicoid,
               new_descricao: item.new_descricao || "Descrição não disponível",
+              accountsRelated: item.new_Account_new_Servico_new_Servico || null,
             };
           })
         );
@@ -805,7 +807,7 @@ async function viewEvent(idEvent) {
         console.log(error.message);
       });
   } catch {
-    console.log("OII");
+    console.log("Erro");
   }
 }
 

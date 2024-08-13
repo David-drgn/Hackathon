@@ -35,8 +35,9 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json({ limit: "20mb" }));
 app.use(cookieParser());
+
+app.use(bodyParser.json({ limit: '20mb' }));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view", "pages", "erro"));
@@ -61,9 +62,11 @@ async function getConnect() {
 }
 
 async function tokenValid(token) {
-  const validate = await new Token().verifyToken(token);
-  if (validate == null) return true;
-  return false;
+  return new Promise(async (resolve, reject) => {
+    const validate = await new Token().verifyToken(token);
+    if (validate == null) resolve(true);
+    resolve(false);
+  });
 }
 
 app.use("/", router);
@@ -238,7 +241,7 @@ app.post("/api/service/deleteRelation", async (req, res) => {
   try {
     const service = await new Service((await getConnect()).token);
 
-    const response = await service.createRelation(
+    const response = await service.deleteRelation(
       req.body.accountId,
       req.body.serviceId
     );
@@ -258,6 +261,33 @@ app.get("/api/service/get", async (req, res) => {
       const service = await new Service((await getConnect()).token);
       const response = await service.getAll();
       return res.json({ erro: false, response });
+    } catch (e) {
+      return res.json({ erro: true });
+    }
+  }
+});
+
+app.post("/api/service/create", async (req, res) => {
+  const token = req.body.token;
+  if (await tokenValid(token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const service = await new Service((await getConnect()).token);
+      req.body.record.new_tipodoservico = process.env.WEBSITE;
+      const response = await service.create(req.body.record);
+      if (response.erro) {
+        return res.json({ erro: true });
+      } else {
+        const relate = await service.createRelation(
+          req.body.userId,
+          response.newId
+        );
+        if (relate.erro) {
+          return res.json({ erro: true });
+        }
+        return res.json({ erro: false, response });
+      }
     } catch (e) {
       return res.json({ erro: true });
     }

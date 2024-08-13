@@ -140,10 +140,8 @@ class Service {
   }
 
   async create(record) {
-    fetch(
-      Xrm.Utility.getGlobalContext().getClientUrl() +
-        "/api/data/v9.2/new_servicos",
-      {
+    return new Promise((resolve, reject) => {
+      fetch(`${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_servicos`, {
         method: "POST",
         headers: {
           "OData-MaxVersion": "4.0",
@@ -151,26 +149,32 @@ class Service {
           "Content-Type": "application/json; charset=utf-8",
           Accept: "application/json",
           Prefer: "odata.include-annotations=*",
+          Authorization: "Bearer " + this.token,
         },
         body: JSON.stringify(record),
-      }
-    )
-      .then(function success(response) {
-        if (response.ok) {
-          var uri = response.headers.get("OData-EntityId");
-          var regExp = /\(([^)]+)\)/;
-          var matches = regExp.exec(uri);
-          var newId = matches[1];
-          console.log(newId);
-        } else {
-          return response.json().then((json) => {
-            throw json.error;
-          });
-        }
       })
-      .catch(function (error) {
-        console.log(error.message);
-      });
+        .then(function success(response) {
+          if (response.ok) {
+            var uri = response.headers.get("OData-EntityId");
+            var regExp = /\(([^)]+)\)/;
+            var matches = regExp.exec(uri);
+            var newId = matches[1];
+            resolve({
+              erro: false,
+              newId,
+            });
+          } else {
+            resolve({
+              erro: true,
+            });
+          }
+        })
+        .catch(function (error) {
+          resolve({
+            erro: true,
+          });
+        });
+    });
   }
 }
 
