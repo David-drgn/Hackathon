@@ -4,24 +4,25 @@
     </div>
     <div class="button_group_header">
         <button class="button_header" (click)="registerEnterpriseOpen()">Planos para empresas</button>
-        <button class="button_header" (click)="sobreNos()">Sobre nós</button>
+        <button class="button_header" *ngIf="sobreView" (click)="changeViewSobre()">Sobre nós</button>
+        <button class="button_header" *ngIf="!sobreView" (click)="changeViewSobre()">Fechar</button>
         <button class="button_header" style="display: none;" (click)="paginaInicial()">
             Início
         </button>
-        <button class="button_header" (click)="registerOpen()">Cadastrar-se</button>
-        <button class="strong_header button_header" (click)="loginOpen()">
+        <button class="button_header" (click)="openDialogRegister()">Cadastrar-se</button>
+        <button class="strong_header button_header" (click)="openDialogLogin()">
             Entrar
         </button>
     </div>
     <div class="button_group_enter_header">
-        <button class="strong_header button_header" (click)="loginOpen()">
+        <button class="strong_header button_header" (click)="openDialogLogin()">
             Entrar
         </button>
     </div>
 </div>
 <div id="background_header">
     <div class="menu_header">
-        <button class="button_header" (click)="sobreNos()">Sobre nós</button>
+        <button class="button_header" (click)="changeViewSobre()">Sobre nós</button>
         <button class="button_header" style="display: none;" (click)="paginaInicial()">
             Início
         </button>

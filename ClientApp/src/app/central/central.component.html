@@ -1,7 +1,7 @@
-<app-inicial></app-inicial>
+<app-inicial (sobre)="sobreView = !sobreView"></app-inicial>
 <div class="background_main"></div>
 <div class="container_main">
-    <div class="text_main">
+    <div class="text_main" *ngIf="!sobreView">
         <div class="title_main">
             <img class="logo_main image_main" src="/assets/icon/logo.png" />
             <span>ClinicApp</span>
@@ -13,7 +13,7 @@
             <span style="display: none" class="options"><img src="/assets/icon/whatsapp.png" /> Via Whatsapp</span>
         </div>
     </div>
-    <div class="sobre_main">
+    <div class="sobre_main" *ngIf="sobreView">
         <div class="wrapper_sobre_main">
             <span class="title_main">Sobre Nós</span>
             <span>
@@ -25,20 +25,24 @@
                 pacientes a médicos de maneira rápida e eficiente.
             </span>
             <div class="wrapper_sobre_buttons">
-                <button (click)="changeSobre(0)" class="buttons_sobre_main active">
+                <button (click)="changeSobre(1)"
+                    [class]="[{'buttons_sobre_main' : true}, { 'active': sobreNumber == 1 }]">
                     Nossa História
                 </button>
-                <button (click)="changeSobre(1)" class="buttons_sobre_main">
+                <button (click)="changeSobre(2)"
+                    [class]="[{'buttons_sobre_main' : true}, { 'active': sobreNumber == 2 }]">
                     Nossa Missão
                 </button>
-                <button (click)="changeSobre(2)" class="buttons_sobre_main">
+                <button (click)="changeSobre(3)"
+                    [class]="[{'buttons_sobre_main' : true}, { 'active': sobreNumber == 3 }]">
                     Nossa Visão
                 </button>
-                <button (click)="changeSobre(3)" class="buttons_sobre_main">
+                <button (click)="changeSobre(4)"
+                    [class]="[{'buttons_sobre_main' : true}, { 'active': sobreNumber == 4 }]">
                     O que oferecemos
                 </button>
             </div>
-            <span class="text_sobre_main" style="display: unset">
+            <span class="text_sobre_main" *ngIf="sobreNumber == 1">
                 O ClinicApp nasceu da necessidade de tornar o cuidado com a saúde mais
                 acessível e menos burocrático. Vivemos em um mundo onde a tecnologia
                 facilita diversos aspectos de nossas vidas, e acreditamos que o
@@ -46,21 +50,21 @@
                 equipe, composta por profissionais de tecnologia e saúde, uniu forças
                 para criar uma plataforma que coloca o paciente em primeiro lugar.
             </span>
-            <span class="text_sobre_main">
+            <span class="text_sobre_main" *ngIf="sobreNumber == 2">
                 Nossa missão é proporcionar uma experiência de agendamento sem
                 complicações, garantindo que você possa encontrar e marcar uma consulta
                 médica de forma rápida e conveniente. Acreditamos que o acesso à saúde
                 deve ser simples e descomplicado, e estamos aqui para tornar isso
                 possível.
             </span>
-            <span class="text_sobre_main">
+            <span class="text_sobre_main" *ngIf="sobreNumber == 3">
                 Nossa visão é ser a plataforma líder em agendamento de consultas médicas
                 online, reconhecida pela excelência em serviço e compromisso com a saúde
                 e bem-estar dos nossos usuários. Queremos transformar a maneira como as
                 pessoas acessam cuidados médicos, tornando esse processo mais humano e
                 eficiente.
             </span>
-            <span class="text_sobre_main">
+            <span class="text_sobre_main" *ngIf="sobreNumber == 4">
                 <ul>
                     <li>
                         <strong>Facilidade de Uso:</strong> Com uma interface intuitiva,

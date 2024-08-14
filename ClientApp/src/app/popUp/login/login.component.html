@@ -1,1 +1,35 @@
-<p>login works!</p>
+<div class="background">
+    <form class="wrapper" [formGroup]="form">
+        <div class="wrapper_header">
+            <span class="title">Entrar</span>
+            <img src="/assets/icon/excluir.png" class="close" (click)="close()" />
+        </div>
+
+        <div class="input_icon_div">
+            <input formControlName="email" type="email" placeholder="Email" />
+            <img src="/assets/icon/email.svg" />
+        </div>
+        <span class="erro" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">Por favor, coloque o seu email</span>
+
+        <div class="input_icon_div">
+            <input [type]="viewPassword? 'password' : 'text'" formControlName="password" placeholder="Senha" />
+            <img src="/assets/icon/eyeOpen.png" class="eye" (click)="viewPassword = false" *ngIf="viewPassword" />
+            <img src="/assets/icon/eyeClose.png" class="eye" (click)="viewPassword = true" *ngIf="!viewPassword" />
+        </div>
+        <span class="erro" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">Por favor, coloque a sua senha</span>
+        <div class="checkbox">
+            <input type="checkbox" formControlName="check" />
+            <span>Manter login</span>
+        </div>
+        <div class="container_buttons">
+            <button class="button" type="button" (click)="login()">
+                Entrar
+            </button>
+            <a class="link" (click)="openDialogForget()">Esqueceu sua senha?</a>
+        </div>
+        <span class="decoration">
+            Ainda não tem um login?
+            <a class="link" (click)="openDialogRegister()">Cadastrar-se</a>
+        </span>
+    </form>
+</div>

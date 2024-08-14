@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from 'src/app/popUp/login/login.component';
+import { RegisterComponent } from 'src/app/popUp/register/register.component';
 
 @Component({
   selector: 'app-inicial',
@@ -9,6 +12,14 @@ export class InicialComponent {
   initialView: boolean = true;
   sobreView: boolean = true;
   planosView: boolean = true;
+  @Output() sobre = new EventEmitter<boolean>();
+
+  constructor(private dialog: MatDialog) {}
+
+  changeViewSobre() {
+    this.sobreView = !this.sobreView;
+    this.sobre.emit(!this.sobreView);
+  }
 
   // function showMenu(father) {
   //   let menu = document.getElementById("background_header");
@@ -65,7 +76,31 @@ export class InicialComponent {
     // document.getElementsByClassName("button_header")[6].style.display = "unset";
   }
 
-  showMenu(){
-    alert("OI")
+  showMenu() {
+    alert('OI');
+  }
+
+  openDialogRegister(): void {
+    const dialogRef = this.dialog.open(RegisterComponent, {
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        alert(result);
+      }
+    });
+  }
+
+  openDialogLogin(): void {
+    const dialogRef = this.dialog.open(LoginComponent, {
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        alert(result);
+      }
+    });
   }
 }
