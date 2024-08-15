@@ -14,6 +14,7 @@ body.restaurant {
 html,
 body {
   height: 100%;
+  background-color: var(--main-color);
 }
 body {
   margin: 0;
@@ -160,4 +161,54 @@ select {
     color: inherit;
     background-color: var(--main-color);
   }
+}
+
+#chat,
+#archive,
+#planView,
+#settings,
+#eventView {
+  display: flex;
+}
+
+#settings,
+#archive,
+#planView {
+  background-color: transparent;
+  padding: 0px;
+  width: 80%;
+  gap: 1%;
+  flex-wrap: wrap;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid var(--main-light) !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: var(--main-color) !important;
+}
+
+.fc-h-event .fc-event-title-container,
+.fc .fc-daygrid-day-frame {
+  cursor: pointer !important;
+  transition: all 1s;
+}
+
+.fc-h-event .fc-event-title-container:hover,
+.fc .fc-daygrid-day-frame:hover {
+  background-color: var(--main-color-transparent);
+}
+
+.fc .fc-highlight {
+  background-color: var(--main-color-transparent);
+}
+
+.fc-today-button .fc-button .fc-button-primary {
+  display: none;
+}
+
+.fc .fc-toolbar {
+  flex-direction: column !important;
 }

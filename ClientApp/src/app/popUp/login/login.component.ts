@@ -98,20 +98,31 @@ export class LoginComponent {
       );
     } else {
       this.storage.load.next(true);
-      this.http.POST('login', this.form.value).subscribe(async (res: any) => {
-        console.log(res);
-        this.storage.load.next(false);
-        if (res.erro) {
+      this.http.POST('login', this.form.value).subscribe(
+        async (res: any) => {
+          console.log(res);
+          this.storage.load.next(false);
+          this.storage.load.next(false);
+          if (res.erro) {
+            this.openDialog(
+              'Login incorreto',
+              'Por favor, coloque uma senha ou email corretos'
+            );
+            return;
+          }
+          localStorage.setItem('token', res.token);
+          console.log(localStorage.getItem('token'));
+          this.close();
+          this.router.navigate(['./home/calendar']);
+        },
+        (Error) => {
+          this.storage.load.next(false);
           this.openDialog(
             'Login incorreto',
             'Por favor, coloque uma senha ou email corretos'
           );
-          return;
         }
-        localStorage.setItem('token', res.token);
-        console.log(localStorage.getItem('token'));
-        this.router.navigate(['./home/calendar']);
-      });
+      );
     }
   }
 }

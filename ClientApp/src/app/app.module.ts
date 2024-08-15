@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
@@ -17,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CentralComponent } from './central/central.component';
 import { HomeComponent } from './home/home.component';
+import { HomeHeaderComponent } from './header/home/home.component';
 import { InicialComponent } from './header/inicial/inicial.component';
 import { CalendarioComponent } from './home/calendario/calendario.component';
 import { RegisterComponent } from './popUp/register/register.component';
@@ -43,6 +44,7 @@ import { DialogComponent } from './popUp/dialog/dialog.component';
     InfoComponent,
     LoadComponent,
     DialogComponent,
+    HomeHeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,7 @@ import { DialogComponent } from './popUp/dialog/dialog.component';
     NgxMaskPipe,
     ReactiveFormsModule,
     MatTooltipModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent],
