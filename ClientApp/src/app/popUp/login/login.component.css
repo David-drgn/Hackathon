@@ -50,9 +50,8 @@
 }
 
 .close {
-  width: 40px;
   cursor: pointer;
-  height: 40px;
+  font-size: 40px;
 }
 
 .close:hover {

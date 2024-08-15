@@ -1,57 +1,130 @@
 <div class="background">
-    <form class="wrapper" [formGroup]="formUser">
-        <div class="wrapper_header">
-            <span class="title">Cadastrar Nova Conta</span>
-            <img src="/assets/icon/excluir.png" class="close" (click)="close()" />
-        </div>
+  <form class="wrapper" [formGroup]="formUser" *ngIf="data.type == 0">
+    <div class="wrapper_header">
+      <span class="title">Cadastrar Nova Conta</span>
+      <mat-icon class="close" (click)="close()">close</mat-icon>
+    </div>
 
-        <input class="initial" formControlName="nome" type="text" placeholder="Nome*" matTooltip="Coloque o seu nome" />
-        <span class="erro" *ngIf="formUser.get('nome')?.invalid && formUser.get('nome')?.touched">Por favor,
-            coloque o seu nome</span>
+    <input
+      class="initial"
+      formControlName="nome"
+      type="text"
+      placeholder="Nome*"
+      matTooltip="Coloque o seu nome"
+    />
+    <span
+      class="erro"
+      *ngIf="formUser.get('nome')?.invalid && formUser.get('nome')?.touched"
+      >Por favor, coloque o seu nome</span
+    >
 
-        <input class="initial" formControlName="document" type="text" placeholder="CPF*" matTooltip="Digite o seu CPF"
-            mask="000.000.000-00" />
-        <span class="erro"
-            *ngIf="formUser.get('document')?.invalid && formUser.get('document')?.touched">Digite um CPF válido</span>
+    <input
+      class="initial"
+      formControlName="document"
+      type="text"
+      placeholder="CPF*"
+      matTooltip="Digite o seu CPF"
+      mask="000.000.000-00"
+    />
+    <span
+      class="erro"
+      *ngIf="formUser.get('document')?.invalid && formUser.get('document')?.touched"
+      >Digite um CPF válido</span
+    >
 
-        <input class="initial" formControlName="email" type="text" placeholder="Email*"
-            matTooltip="Digite o seu email" />
-        <span class="erro" *ngIf="formUser.get('email')?.invalid && formUser.get('email')?.touched">Coloque o
-            seu email</span>
+    <input
+      class="initial"
+      formControlName="email"
+      type="text"
+      placeholder="Email*"
+      matTooltip="Digite o seu email"
+    />
+    <span
+      class="erro"
+      *ngIf="formUser.get('email')?.invalid && formUser.get('email')?.touched"
+      >Coloque o seu email</span
+    >
 
-        <input class="initial" formControlName="telephone" type="text" placeholder="Telefone*"
-            matTooltip="Digite o seu telefone" mask="(00) 00000-0000" />
-        <span class="erro"
-            *ngIf="formUser.get('telephone')?.invalid && formUser.get('telephone')?.touched">Coloque um telefone</span>
+    <input
+      class="initial"
+      formControlName="telephone"
+      type="text"
+      placeholder="Telefone*"
+      matTooltip="Digite o seu telefone"
+      mask="(00) 00000-0000"
+    />
+    <span
+      class="erro"
+      *ngIf="formUser.get('telephone')?.invalid && formUser.get('telephone')?.touched"
+      >Coloque um telefone</span
+    >
 
-        <div class="input_icon_div">
-            <input [type]="viewPassword? 'password' : 'text'" formControlName="password" placeholder="Senha*"
-                matTooltip="Coloque uma senhas forte para você ter mais segurança" />
-            <img src="/assets/icon/eyeOpen.png" class="eye" (click)="viewPassword = false" *ngIf="viewPassword" />
-            <img src="/assets/icon/eyeClose.png" class="eye" (click)="viewPassword = true" *ngIf="!viewPassword" />
-        </div>
-        <span class="erro"
-            *ngIf="formUser.get('password')?.invalid && formUser.get('password')?.touched">Coloque a senha, com os
-            requisitos pedidos: <br>- Letras maiúsculas e minúsculas <br>- Números <br>- Caracteres especiais </span>
+    <div class="input_icon_div">
+      <input
+        [type]="viewPassword? 'password' : 'text'"
+        formControlName="password"
+        placeholder="Senha*"
+        matTooltip="Coloque uma senhas forte para você ter mais segurança"
+      />
+      <img
+        src="/assets/icon/eyeOpen.png"
+        class="eye"
+        (click)="viewPassword = false"
+        *ngIf="viewPassword"
+      />
+      <img
+        src="/assets/icon/eyeClose.png"
+        class="eye"
+        (click)="viewPassword = true"
+        *ngIf="!viewPassword"
+      />
+    </div>
+    <span
+      class="erro"
+      *ngIf="formUser.get('password')?.invalid && formUser.get('password')?.touched"
+      >Coloque a senha, com os requisitos pedidos: <br />- Letras maiúsculas e
+      minúsculas <br />- Números <br />- Caracteres especiais
+    </span>
 
-        <div class="input_icon_div" matTooltip="Coloque o confirmar senha com os mesmos valor que a senha">
-            <input [type]="viewPassword? 'password' : 'text'" formControlName="confirm"
-                placeholder="Confirme a senha*" />
-            <img src="/assets/icon/eyeOpen.png" class="eye" (click)="viewPassword = false" *ngIf="viewPassword" />
-            <img src="/assets/icon/eyeClose.png" class="eye" (click)="viewPassword = true" *ngIf="!viewPassword" />
-        </div>
-        <span class="erro" *ngIf="formUser.get('confirm')?.invalid && formUser.get('confirm')?.touched">Coloque
-            o confirmar senha com os dados pedidos</span>
+    <div
+      class="input_icon_div"
+      matTooltip="Coloque o confirmar senha com os mesmos valor que a senha"
+    >
+      <input
+        [type]="viewPassword? 'password' : 'text'"
+        formControlName="confirm"
+        placeholder="Confirme a senha*"
+      />
+      <img
+        src="/assets/icon/eyeOpen.png"
+        class="eye"
+        (click)="viewPassword = false"
+        *ngIf="viewPassword"
+      />
+      <img
+        src="/assets/icon/eyeClose.png"
+        class="eye"
+        (click)="viewPassword = true"
+        *ngIf="!viewPassword"
+      />
+    </div>
+    <span
+      class="erro"
+      *ngIf="formUser.get('confirm')?.invalid && formUser.get('confirm')?.touched"
+      >Coloque o confirmar senha com os dados pedidos</span
+    >
 
-        <span class="erro" id="alert_required">* sinaliza os campos obrigatórios</span>
+    <span class="erro" id="alert_required"
+      >* sinaliza os campos obrigatórios</span
+    >
 
-        <div class="button_group">
-            <button type="button" class="button" (click)="registerUser()">
-                Cadastrar
-            </button>
-            <button type="button" class="button cancel_button" (click)="close()">
-                Cancelar
-            </button>
-        </div>
-    </form>
+    <div class="button_group">
+      <button type="button" class="button" (click)="registerUser()">
+        Cadastrar
+      </button>
+      <button type="button" class="button cancel_button" (click)="close()">
+        Cancelar
+      </button>
+    </div>
+  </form>
 </div>

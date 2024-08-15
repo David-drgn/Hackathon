@@ -2,11 +2,31 @@
   position: absolute;
   top: 9%;
   left: 200px;
-  width: calc(75% - 120px);
-  padding: 20px;
+  width: calc(82% - 200px);
   height: 85%;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 50px;
   transition: all 1s;
   overflow: hidden;
+}
+
+@media only screen and (max-width: 1200px) {
+  .help_doctor {
+    display: none !important;
+  }
+  .container {
+    top: 9%;
+    left: 150px;
+    width: calc(95% - 150px);
+  }
+}
+@media only screen and (max-width: 720px) {
+  .container {
+    padding: 10px;
+    background-color: transparent;
+    left: 0px;
+    width: calc(100% - 20px);
+    height: calc(82% - 40px);
+    border-radius: 0px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
 }

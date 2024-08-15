@@ -1,65 +1,115 @@
 <div class="header">
-    <div class="search_div">
-        <img class="image_perfil" id="search_image" src="/assets/icon/search.svg" />
-        <input type="text" id="search_text" onclick="activeSearch()"
-            placeholder="Pesquise por arquivos, eventos e dados importantes" />
-    </div>
-    <span class="name" onclick="changeView(4)">Olá, User!</span>
-    <img class="image_perfil" id="image_perfil" src="/assets/icon/person.svg" onclick="changeView(4)" />
+  <div class="search_div">
+    <img class="image_perfil" id="search_image" src="/assets/icon/search.svg" />
+    <input
+      type="text"
+      id="search_text"
+      onclick="activeSearch()"
+      placeholder="Pesquise por arquivos, eventos e dados importantes"
+    />
+  </div>
+  <span class="name">Olá, {{user.name}}!</span>
+  <img
+    class="image_perfil"
+    id="image_perfil"
+    [src]="user.new_perfil ?
+  'data:image/png;base64,' + user.new_perfil : '/assets/icon/person.svg'"
+    routerLink="./settings"
+  />
 </div>
 <div class="search_view">
-    <div id="noSearch">
-        <img src="/assets/icon/Oswald.png" id="oswald_search" />
-        <span>Procure pelo o que quiser aqui, documentos, eventos marcados, dados
-            pesoais e etc</span>
-    </div>
-    <button onclick="deactiveSearch()" id="cancelButton">Cancelar</button>
+  <div id="noSearch">
+    <img src="/assets/icon/Oswald.png" id="oswald_search" />
+    <span
+      >Procure pelo o que quiser aqui, documentos, eventos marcados, dados
+      pesoais e etc</span
+    >
+  </div>
+  <button onclick="deactiveSearch()" id="cancelButton">Cancelar</button>
 </div>
 <div class="menu_lateral">
-    <div class="mainContainer">
-        <span class="opSpan active">
-            <img class="opIcons" src="/assets/icon/event.svg" />
-            <span onclick="changeView(0)">Calendário</span>
-        </span>
-        <span class="opSpan">
-            <img class="opIcons" src="/assets/icon/chat.svg" />
-            <span onclick="changeView(1)">Dúvidas?</span>
-        </span>
-        <span class="opSpan">
-            <img class="opIcons" src="/assets/icon/folder.svg" />
-            <span onclick="changeView(2)">Anexar arquivos</span>
-        </span>
-        <span class="opSpan" id="plan">
-            <img class="opIcons" src="/assets/icon/credit.svg" />
-            <span onclick="changeView(3)">Ver planos</span>
-        </span>
-    </div>
-    <span class="opSpan">
-        <img class="opIcons" src="/assets/icon/settings.svg" />
-        <span onclick="changeView(4)">Configurações</span>
+  <div class="mainContainer">
+    <span
+      routerLink="./calendar"
+      [ngClass]="{'opSpan': true, 'active' : pathSelect == '/home/calendar'}"
+    >
+      <img class="opIcons" src="/assets/icon/event.svg" />
+      <span>Calendário</span>
     </span>
-    <span class="opSpan">
-        <img class="opIcons" src="/assets/icon/logout.svg" />
-        <span onclick="logout()">Sair</span>
+    <span
+      routerLink="./chat"
+      [ngClass]="{'opSpan': true, 'active' : pathSelect == '/home/chat'}"
+    >
+      <img class="opIcons" src="/assets/icon/chat.svg" />
+      <span>Dúvidas?</span>
     </span>
+    <span
+      routerLink="./folder"
+      [ngClass]="{'opSpan': true, 'active' : pathSelect == '/home/folder'}"
+    >
+      <img class="opIcons" src="/assets/icon/folder.svg" />
+      <span>Anexar arquivos</span>
+    </span>
+    <span
+      routerLink="./plans"
+      [ngClass]="{'opSpan': true, 'active' : pathSelect == '/home/plans'}"
+      id="plan"
+      *ngIf="user.new_tipodaconta == 1"
+    >
+      <img class="opIcons" src="/assets/icon/credit.svg" />
+      <span>Ver planos</span>
+    </span>
+  </div>
+  <span
+    routerLink="./settings"
+    [ngClass]="{'opSpan': true, 'active' : pathSelect == '/home/settings'}"
+  >
+    <img class="opIcons" src="/assets/icon/settings.svg" />
+    <span>Configurações</span>
+  </span>
+  <span class="opSpan">
+    <img class="opIcons" src="/assets/icon/logout.svg" />
+    <span (click)="logout()">Sair</span>
+  </span>
 </div>
 <div class="menu_footer_cell">
-    <div>
-        <img onclick="changeView(0)" class="opIconsCell active" src="/assets/icon/event.svg" />
-    </div>
-    <div>
-        <img onclick="changeView(1)" class="opIconsCell" src="/assets/icon/chat.svg" />
-    </div>
-    <div>
-        <img onclick="changeView(2)" class="opIconsCell" src="/assets/icon/folder.svg" />
-    </div>
-    <div>
-        <img onclick="changeView(3)" class="opIconsCell" src="/assets/icon/credit.svg" />
-    </div>
-    <div>
-        <img onclick="changeView(4)" class="opIconsCell" src="/assets/icon/settings.svg" />
-    </div>
-    <!-- <div>
-        <img onclick="logout()" class="opIconsCell" src="/assets/icon/logout.svg" />
+  <div>
+    <img
+      routerLink="./calendar"
+      [ngClass]="{'opIconsCell': true, 'active' : pathSelect == '/home/calendar'}"
+      src="/assets/icon/event.svg"
+    />
+  </div>
+  <div>
+    <img
+      routerLink="./chat"
+      [ngClass]="{'opIconsCell': true, 'active' : pathSelect == '/home/chat'}"
+      src="/assets/icon/chat.svg"
+    />
+  </div>
+  <div>
+    <img
+      routerLink="./folder"
+      [ngClass]="{'opIconsCell': true, 'active' : pathSelect == '/home/folder'}"
+      src="/assets/icon/folder.svg"
+    />
+  </div>
+  <div>
+    <img
+      routerLink="./plans"
+      [ngClass]="{'opIconsCell': true, 'active' : pathSelect == '/home/plans'}"
+      src="/assets/icon/credit.svg"
+    />
+  </div>
+  <div>
+    <img
+      routerLink="./settings"
+      [ngClass]="{'opIconsCell': true, 'active' : pathSelect == '/home/settings'}"
+      src="/assets/icon/settings.svg"
+    />
+  </div>
+  <!-- <div>
+        <img (click)="logout()" class="opIconsCell" src="/assets/icon/logout.svg" />
     </div> -->
 </div>
+<img class="help_doctor" src="/assets/icon/Help.png" />

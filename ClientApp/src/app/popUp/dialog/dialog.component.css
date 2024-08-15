@@ -9,7 +9,7 @@
     backdrop-filter: blur(3px);
     width: 100vw;
     height: 100vh;
-    z-index: 9999999999;
+    z-index: 99999999999999999999999999999999999999999999999999;
   }
   
   .wrapper_alert {

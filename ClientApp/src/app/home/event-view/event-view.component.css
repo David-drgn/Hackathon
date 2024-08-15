@@ -1,0 +1,22 @@
+.eventView_wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.title_events {
+  color: var(--main-color);
+  font-weight: bolder;
+  font-size: calc(20px + 0.390625vw);
+}
+
+.subtitle_events {
+  font-weight: bolder;
+  font-size: calc(13px + 0.390625vw);
+}
+
+.item_event {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}

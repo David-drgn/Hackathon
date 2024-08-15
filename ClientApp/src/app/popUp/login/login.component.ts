@@ -1,29 +1,29 @@
-import { Component, Inject } from '@angular/core';
-import { RegisterComponent } from '../register/register.component';
+import { Component, Inject } from "@angular/core";
+import { RegisterComponent } from "../register/register.component";
 import {
   MAT_DIALOG_DATA,
   MatDialog,
   MatDialogRef,
-} from '@angular/material/dialog';
-import { ForgetComponent } from '../forget/forget.component';
-import { HttpService } from 'src/app/services/http/http.service';
-import { StorageService } from 'src/app/services/storage/storage.service';
-import { DialogComponent } from '../dialog/dialog.component';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+} from "@angular/material/dialog";
+import { ForgetComponent } from "../forget/forget.component";
+import { HttpService } from "src/app/services/http/http.service";
+import { StorageService } from "src/app/services/storage/storage.service";
+import { DialogComponent } from "../dialog/dialog.component";
+import { FormBuilder, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent {
   viewPassword: boolean = true;
 
   form = this.formBuilder.group({
-    email: ['', Validators.required],
+    email: ["", Validators.required],
     password: [
-      '',
+      "",
       [
         Validators.required,
         Validators.minLength(8),
@@ -93,33 +93,32 @@ export class LoginComponent {
   login() {
     if (this.form.invalid) {
       this.openDialog(
-        'Preencha todos os campos',
-        'Por favor, preencha todos os campos corretamente'
+        "Preencha todos os campos",
+        "Por favor, preencha todos os campos corretamente"
       );
     } else {
       this.storage.load.next(true);
-      this.http.POST('login', this.form.value).subscribe(
+      this.http.POST("login", this.form.value).subscribe(
         async (res: any) => {
           console.log(res);
           this.storage.load.next(false);
-          this.storage.load.next(false);
           if (res.erro) {
             this.openDialog(
-              'Login incorreto',
-              'Por favor, coloque uma senha ou email corretos'
+              "Login incorreto",
+              "Por favor, coloque uma senha ou email corretos"
             );
             return;
           }
-          localStorage.setItem('token', res.token);
-          console.log(localStorage.getItem('token'));
+          // localStorage.setItem("token", res.token);
+          this.storage.token.next(res.token);
           this.close();
-          this.router.navigate(['./home/calendar']);
+          this.router.navigate(["./home/calendar"]);
         },
         (Error) => {
           this.storage.load.next(false);
           this.openDialog(
-            'Login incorreto',
-            'Por favor, coloque uma senha ou email corretos'
+            "Login incorreto",
+            "Por favor, coloque uma senha ou email corretos"
           );
         }
       );

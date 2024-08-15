@@ -186,7 +186,7 @@ class User {
           Accept: "application/json",
           Prefer: "odata.include-annotations=*",
         },
-        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_redessociais,new_password,_new_plano_value,telephone1,new_document,new_salt,new_tipodaconta,new_perfil&$filter=emailaddress1 eq '${email}'`,
+        url: `${process.env.BASE_REQUEST_URL}/api/data/v9.2/accounts?$select=emailaddress1,name,new_redessociais,new_password,telephone1,new_document,new_salt,new_tipodaconta,new_perfil&$expand=new_Plano($select=new_planoid,new_beneficios,new_name)&$filter=emailaddress1 eq '${email}'`,
         headers: {
           Authorization: "Bearer " + this.token,
         },

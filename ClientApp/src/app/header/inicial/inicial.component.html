@@ -1,14 +1,11 @@
 <div class="header">
     <div class="title_header">
-        <img class="logo_cell_header image_header" src="/assets/icon/cardapio.png" (click)="showMenu()" />
+        <mat-icon class="logo_cell_header image_header" (click)="showMenu()">menu</mat-icon>
     </div>
     <div class="button_group_header">
-        <button class="button_header" (click)="registerEnterpriseOpen()">Planos para empresas</button>
+        <!-- <button class="button_header" (click)="registerEnterpriseOpen()">Planos para empresas</button> -->
         <button class="button_header" *ngIf="sobreView" (click)="changeViewSobre()">Sobre nós</button>
         <button class="button_header" *ngIf="!sobreView" (click)="changeViewSobre()">Fechar</button>
-        <button class="button_header" style="display: none;" (click)="paginaInicial()">
-            Início
-        </button>
         <button class="button_header" (click)="openDialogRegister()">Cadastrar-se</button>
         <button class="strong_header button_header" (click)="openDialogLogin()">
             Entrar
@@ -20,12 +17,21 @@
         </button>
     </div>
 </div>
-<div id="background_header">
+<div id="background_header" *ngIf="menuView">
+    <mat-icon class="close" (click)="showMenu()">close</mat-icon>
     <div class="menu_header">
-        <button class="button_header" (click)="changeViewSobre()">Sobre nós</button>
-        <button class="button_header" style="display: none;" (click)="paginaInicial()">
-            Início
+        <button class="button_header" *ngIf="!sobreView" style="width: 70%;" (click)="changeViewSobre()">
+            <span>Voltar</span>
+            <span>></span>
         </button>
-        <button class="button_header">Cadastre-se</button>
+        <button class="button_header" *ngIf="sobreView" style="width: 70%;" (click)="changeViewSobre()">
+            <span>Sobre nós</span>
+            <span>></span>
+        </button>
+        <button class="button_header" style="width: 70%;" (click)="changeViewSobre()">
+            <span>Nossos planos</span>
+            <span>></span>
+        </button>
+        <button class="mainButton">Cadastre-se</button>
     </div>
 </div>

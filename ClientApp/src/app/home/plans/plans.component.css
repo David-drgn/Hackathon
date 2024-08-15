@@ -1,0 +1,72 @@
+:host {
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow: auto;
+  border-radius: 30px;
+  padding-top: 20px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+hr {
+  border: 1px solid var(--main-color);
+  width: 100%;
+}
+
+ul {
+  margin: 0px;
+}
+
+.plan_item {
+  height: 90%;
+  min-width: 400px;
+  max-width: 400px;
+  background: linear-gradient(180deg, #ffffff, #ffffff24);
+  border-radius: 30px;
+  padding: 20px;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  transition: all 1s;
+}
+
+.plan_item:hover {
+  transform: translateY(-10px);
+}
+
+.plan_value {
+  color: var(--main-color);
+  font-size: 24px;
+}
+
+.button_add_plan {
+  width: 60%;
+  color: white;
+  background-color: var(--main-color);
+  text-align: center;
+  transition: all 1s;
+  border-radius: 15px;
+  margin-top: auto;
+  border: 0px solid white;
+  font-size: 25px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.button_add_plan:hover {
+  width: 100%;
+}
+
+.plan_title {
+  font-size: 70px;
+  color: var(--main-color);
+  letter-spacing: 5px;
+  font-weight: 500;
+}
+
+.plan_subtitle {
+  font-weight: 300;
+  padding-right: 20px;
+  text-align: left;
+}

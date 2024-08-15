@@ -1,3 +1,11 @@
+.help_doctor {
+  position: absolute;
+  right: 10px;
+  height: 70%;
+  bottom: 0px;
+  cursor: pointer;
+}
+
 .header {
   position: absolute;
   top: 0px;
@@ -94,7 +102,7 @@
 }
 
 .menu_lateral:hover {
-  width: 25vw;
+  width: 300px;
   display: flex;
 }
 

@@ -1,18 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from 'src/app/popUp/login/login.component';
-import { RegisterComponent } from 'src/app/popUp/register/register.component';
+import { Component, EventEmitter, Output } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { LoginComponent } from "src/app/popUp/login/login.component";
+import { RegisterComponent } from "src/app/popUp/register/register.component";
 
 @Component({
-  selector: 'app-inicial',
-  templateUrl: './inicial.component.html',
-  styleUrls: ['./inicial.component.css'],
+  selector: "app-inicial",
+  templateUrl: "./inicial.component.html",
+  styleUrls: ["./inicial.component.css"],
 })
 export class InicialComponent {
-  initialView: boolean = true;
   sobreView: boolean = true;
-  planosView: boolean = true;
   @Output() sobre = new EventEmitter<boolean>();
+
+  menuView: boolean = false;
 
   constructor(private dialog: MatDialog) {}
 
@@ -40,49 +40,31 @@ export class InicialComponent {
   //   }
   // }
 
-  loginOpen() {}
-
-  registerEnterpriseOpen() {}
-
-  registerOpen() {}
-
   forgetOpen() {}
 
-  sobreNos() {
-    this.initialView = false;
-    this.sobreView = true;
-    this.planosView = false;
-
-    // document.getElementsByClassName("sobre_main")[0].style.display = "flex";
-    // document.getElementsByClassName("text_main")[0].style.display = "none";
-    // document.getElementsByClassName("button_header")[2].style.display = "unset";
-    // document.getElementsByClassName("button_header")[1].style.display = "none";
-
-    // document.getElementsByClassName("button_header")[7].style.display = "unset";
-    // document.getElementsByClassName("button_header")[6].style.display = "none";
-  }
-
-  paginaInicial() {
-    this.initialView = false;
-    this.sobreView = false;
-    this.planosView = true;
-
-    // document.getElementsByClassName("sobre_main")[0].style.display = "none";
-    // document.getElementsByClassName("text_main")[0].style.display = "flex";
-    // document.getElementsByClassName("button_header")[2].style.display = "none";
-    // document.getElementsByClassName("button_header")[1].style.display = "unset";
-
-    // document.getElementsByClassName("button_header")[7].style.display = "none";
-    // document.getElementsByClassName("button_header")[6].style.display = "unset";
-  }
-
   showMenu() {
-    alert('OI');
+    this.menuView = !this.menuView
   }
 
   openDialogRegister(): void {
     const dialogRef = this.dialog.open(RegisterComponent, {
-      data: {},
+      data: {
+        type: 0,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        alert(result);
+      }
+    });
+  }
+
+  openDialogRegisterEnterprise(): void {
+    const dialogRef = this.dialog.open(RegisterComponent, {
+      data: {
+        type: 1,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

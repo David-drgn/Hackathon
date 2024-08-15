@@ -28,6 +28,11 @@ import { RedesComponent } from './popUp/redes/redes.component';
 import { InfoComponent } from './popUp/info/info.component';
 import { LoadComponent } from './load/load.component';
 import { DialogComponent } from './popUp/dialog/dialog.component';
+import { ChatComponent } from './home/chat/chat.component';
+import { ArchiveComponent } from './home/archive/archive.component';
+import { PlansComponent } from './home/plans/plans.component';
+import { SettingsComponent } from './home/settings/settings.component';
+import { EventViewComponent } from './home/event-view/event-view.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +50,11 @@ import { DialogComponent } from './popUp/dialog/dialog.component';
     LoadComponent,
     DialogComponent,
     HomeHeaderComponent,
+    ChatComponent,
+    ArchiveComponent,
+    PlansComponent,
+    SettingsComponent,
+    EventViewComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,24 +1,49 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { CalendarioComponent } from './home/calendario/calendario.component';
-import { CentralComponent } from './central/central.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { HomeComponent } from "./home/home.component";
+import { CalendarioComponent } from "./home/calendario/calendario.component";
+import { CentralComponent } from "./central/central.component";
+import { canActiveGuard } from "./guards/canActive/can-active.guard";
+import { ChatComponent } from "./home/chat/chat.component";
+import { ArchiveComponent } from "./home/archive/archive.component";
+import { PlansComponent } from "./home/plans/plans.component";
+import { SettingsComponent } from "./home/settings/settings.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: CentralComponent,
   },
   {
-    path: 'home',
+    path: "home",
     component: HomeComponent,
-    // canActivate: ,
+    canActivate: [canActiveGuard],
     children: [
       {
-        path: 'calendar',
+        path: "calendar",
         component: CalendarioComponent,
       },
+      {
+        path: "chat",
+        component: ChatComponent,
+      },
+      {
+        path: "folder",
+        component: ArchiveComponent,
+      },
+      {
+        path: "plans",
+        component: PlansComponent,
+      },
+      {
+        path: "settings",
+        component: SettingsComponent,
+      },
     ],
+  },
+  {
+    path: "**",
+    component: CentralComponent,
   },
 ];
 
