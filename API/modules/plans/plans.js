@@ -11,7 +11,7 @@ class Plan {
     return new Promise((resolve, reject) => {
       try {
         fetch(
-          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_planos?$select=new_beneficios,new_desconto,new_name,new_valor,new_valortotal&$filter=statecode eq 0`,
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_planos?$select=new_beneficios,new_desconto,new_name,new_valor,new_valortotal,new_descricao&$filter=statecode eq 0`,
           {
             method: "GET",
             headers: {
@@ -51,6 +51,7 @@ class Plan {
                   ],
                 desconto: result["new_desconto"],
                 plano: result["new_name"],
+                descricao: result["new_descricao"],
                 valor: result["new_valor"],
                 valorTotal: result["new_valortotal"],
               });

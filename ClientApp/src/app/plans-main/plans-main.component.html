@@ -1,0 +1,23 @@
+<app-inicial></app-inicial>
+<div class="background_main"></div>
+<div class="container_plans">
+    <span class="title">Esses são os planos que temos disponíveis</span>
+    <div class="wrapper_plans">
+        <div class="plan_item" *ngFor="let item of planos">
+            <span class="plan_title">{{item.plano}}</span>
+            <span class="plan_subtitle">
+                {{item.descricao}}
+            </span>
+            <b class="plan_value" style="margin-top: 20px;">R${{item.valorTotal | number:'1.2-2'}} / Mês</b>
+            <b class="plan_value">R${{item.valorTotal * 12 | number:'1.2-2'}} / Ano</b>
+            <b class="plan_value" *ngIf="item.desconto != 0">Economize R${{item.desconto | number:'1.2-2'}}</b>
+            <hr />
+            <span class="plan_subtitle" style="font-weight: 600;">Benefícios</span>
+            <ul>
+                <li *ngFor="let itemBeneficioDesc of item.beneficiosDesc.split(';')">{{itemBeneficioDesc}}</li>
+            </ul>
+            <hr />
+            <button class="button_add_plan">Adiquirir</button>
+        </div>
+    </div>
+</div>

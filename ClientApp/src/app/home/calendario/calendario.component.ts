@@ -11,6 +11,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
+import { HttpService } from 'src/app/services/http/http.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-calendario',
@@ -18,6 +22,8 @@ import interactionPlugin from '@fullcalendar/interaction';
   styleUrls: ['./calendario.component.css'],
 })
 export class CalendarioComponent {
+  events: [] = [];
+
   @ViewChildren('calendar') calendar!: QueryList<ElementRef>;
 
   viewCalendar: number = 1;
@@ -28,7 +34,7 @@ export class CalendarioComponent {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
     initialView: this.calendarView,
     weekends: true,
-    events: [{ title: 'Meeting', start: new Date() }],
+    events: [],
     customButtons: {
       view: {
         text: 'Trocar visualização',
@@ -66,6 +72,22 @@ export class CalendarioComponent {
     },
   };
 
+  constructor(
+    private http: HttpService,
+    private storage: StorageService,
+    private dialog: MatDialog
+  ) {}
+
+  openDialog(title: string, message: string, returnPage: any = null) {
+    return this.dialog.open(DialogComponent, {
+      data: {
+        title,
+        message,
+        returnPage,
+      },
+    });
+  }
+
   ngAfterViewInit() {
     if (this.calendar) {
       this.calendar.forEach((element) => {
@@ -75,6 +97,17 @@ export class CalendarioComponent {
         );
       });
       this.calendarObj.render();
+      this.storage.events.subscribe((value) => {
+        if (this.calendarObj.getEvents())
+          this.calendarObj.getEvents().forEach((element) => {
+            element.remove();
+          });
+
+        if (value)
+          value.forEach((element: any) => {
+            this.calendarObj.addEvent(element);
+          });
+      });
     }
   }
 

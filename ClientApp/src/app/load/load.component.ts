@@ -10,8 +10,8 @@ export class LoadComponent {
   view: boolean = false;
 
   constructor(private storage: StorageService) {
-    setInterval(() => {
-      this.view = this.storage.load.getValue();
-    }, 10);
+    this.storage.load.subscribe((value) => {
+      this.view = value;
+    });
   }
 }

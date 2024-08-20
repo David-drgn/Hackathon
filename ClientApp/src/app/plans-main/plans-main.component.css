@@ -1,0 +1,116 @@
+:host {
+  gap: 20px;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    -40deg,
+    var(--main-color-transparent),
+    var(--back-color)
+  );
+}
+
+hr {
+  border: 1px solid var(--main-color);
+  width: 100%;
+}
+
+ul {
+  margin: 0px;
+}
+
+.background_main {
+  background-image: url("/assets/images/backEscritorio.jfif");
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  filter: brightness(0.4);
+}
+
+.container_plans {
+  position: absolute;
+  top: 70px;
+  left: 0px;
+  width: 100%;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper_plans {
+  display: flex;
+  height: inherit;
+  gap: 10px;
+  padding-left: 20px;
+  overflow: auto;
+  padding-right: 20px;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.plan_item {
+  height: 90%;
+  min-width: 400px;
+  max-width: 400px;
+  background: linear-gradient(180deg, #ffffff, #ffffff99);
+  border-radius: 30px;
+  padding: 20px;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  transition: all 1s;
+}
+
+.plan_item:hover {
+  transform: translateY(-10px);
+}
+
+.plan_value {
+  color: var(--main-color);
+  font-size: 24px;
+}
+
+.button_add_plan {
+  width: 60%;
+  color: white;
+  background-color: var(--main-color);
+  text-align: center;
+  transition: all 1s;
+  border-radius: 15px;
+  margin-top: auto;
+  border: 0px solid white;
+  font-size: 25px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.button_add_plan:hover {
+  width: 100%;
+}
+
+.plan_title {
+  font-size: 70px;
+  color: var(--main-color);
+  letter-spacing: 5px;
+  font-weight: 500;
+}
+
+.plan_subtitle {
+  font-weight: 300;
+  padding-right: 20px;
+  text-align: left;
+}

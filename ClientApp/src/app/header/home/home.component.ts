@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
-import { StorageService } from "src/app/services/storage/storage.service";
+import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
-  selector: "app-home-header",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"],
+  selector: 'app-home-header',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
 })
 export class HomeHeaderComponent {
   pathSelect: string | null = null;
@@ -21,6 +21,11 @@ export class HomeHeaderComponent {
 
   logout() {
     this.storage.token.next(null);
-    this.router.navigate(["/"]);
+    this.router.navigate(['/']);
+  }
+
+  search(value: string) {
+    this.storage.search.next(value);
+    console.log(value)
   }
 }

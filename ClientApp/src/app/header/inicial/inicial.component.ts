@@ -1,49 +1,36 @@
-import { Component, EventEmitter, Output } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { LoginComponent } from "src/app/popUp/login/login.component";
-import { RegisterComponent } from "src/app/popUp/register/register.component";
+import { Component, EventEmitter, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NavigationEnd, Router } from '@angular/router';
+import { LoginComponent } from 'src/app/popUp/login/login.component';
+import { RegisterComponent } from 'src/app/popUp/register/register.component';
 
 @Component({
-  selector: "app-inicial",
-  templateUrl: "./inicial.component.html",
-  styleUrls: ["./inicial.component.css"],
+  selector: 'app-inicial',
+  templateUrl: './inicial.component.html',
+  styleUrls: ['./inicial.component.css'],
 })
 export class InicialComponent {
   sobreView: boolean = true;
   @Output() sobre = new EventEmitter<boolean>();
 
   menuView: boolean = false;
+  pathSelect: string = '';
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) this.pathSelect = event.url;
+    });
+  }
 
   changeViewSobre() {
     this.sobreView = !this.sobreView;
     this.sobre.emit(!this.sobreView);
   }
 
-  // function showMenu(father) {
-  //   let menu = document.getElementById("background_header");
-  //   if (menu.style.display == "" || menu.style.display == "none") {
-  //     menu.style.display = "block";
-  //     setTimeout(() => {
-  //       menu.children[0].style.transform = "translateY(0%)";
-  //     }, 10);
-  //     father.src = "/assets/icon/excluir.png";
-  //     father.classList.add("image_rotate");
-  //   } else {
-  //     menu.children[0].style.transform = "translateY(-105%)";
-  //     setTimeout(() => {
-  //       menu.style.display = "none";
-  //     }, 1000);
-  //     father.src = "/assets/icon/cardapio.png";
-  //     father.classList.remove("image_rotate");
-  //   }
-  // }
-
   forgetOpen() {}
 
   showMenu() {
-    this.menuView = !this.menuView
+    this.menuView = !this.menuView;
   }
 
   openDialogRegister(): void {

@@ -3,10 +3,13 @@
         <mat-icon class="logo_cell_header image_header" (click)="showMenu()">menu</mat-icon>
     </div>
     <div class="button_group_header">
-        <!-- <button class="button_header" (click)="registerEnterpriseOpen()">Planos para empresas</button> -->
-        <button class="button_header" *ngIf="sobreView" (click)="changeViewSobre()">Sobre nós</button>
-        <button class="button_header" *ngIf="!sobreView" (click)="changeViewSobre()">Fechar</button>
-        <button class="button_header" (click)="openDialogRegister()">Cadastrar-se</button>
+        <button class="button_header" routerLink="./plans" *ngIf="!pathSelect.includes('plan')">Planos para
+            empresas</button>
+        <button class="button_header" routerLink="/" *ngIf="pathSelect.includes('plan')">Página inicial</button>
+        <button class="button_header" *ngIf="!pathSelect.includes('plan') && sobreView" (click)="changeViewSobre()">Sobre nós</button>
+        <button class="button_header" *ngIf="!sobreView && !pathSelect.includes('plan')" (click)="changeViewSobre()">Fechar</button>
+        <button class="button_header" *ngIf="!pathSelect.includes('plan')" (click)="openDialogRegister()">Cadastrar-se</button>
+        <button class="button_header" (click)="openDialogRegisterEnterprise()" *ngIf="pathSelect.includes('plan')">Cadastre sua empresa</button>
         <button class="strong_header button_header" (click)="openDialogLogin()">
             Entrar
         </button>

@@ -8,11 +8,16 @@ import { ChatComponent } from "./home/chat/chat.component";
 import { ArchiveComponent } from "./home/archive/archive.component";
 import { PlansComponent } from "./home/plans/plans.component";
 import { SettingsComponent } from "./home/settings/settings.component";
+import { PlansMainComponent } from "./plans-main/plans-main.component";
 
 const routes: Routes = [
   {
     path: "",
     component: CentralComponent,
+  },
+  {
+    path: "plans",
+    component: PlansMainComponent,
   },
   {
     path: "home",

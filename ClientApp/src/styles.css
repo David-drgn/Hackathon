@@ -141,13 +141,11 @@ div.initial {
 }
 
 select {
-  /* Reset */
   appearance: none;
   border: 2px solid var(--main-color);
   outline: 0;
   font: inherit;
-  /* Personalize */
-  width: 82%;
+  width: 85%;
   height: 54px;
   padding: 0rem 4rem 0rem 1rem;
   background: url("/assets/icon/arrow_open.png") no-repeat right 0.8em center /
@@ -156,15 +154,12 @@ select {
   border-radius: 30px;
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  /* Remove IE arrow */
   &::-ms-expand {
     display: none;
   }
-  /* Remove focus outline */
   &:focus {
     outline: none;
   }
-  /* <option> colors */
   option {
     color: inherit;
     background-color: var(--main-color);

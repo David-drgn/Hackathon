@@ -37,7 +37,7 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.use(bodyParser.json({ limit: '20mb' }));
+app.use(bodyParser.json({ limit: "20mb" }));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view", "pages", "erro"));
@@ -407,9 +407,13 @@ app.post("/api/events/agendaRegister", async (req, res) => {
 });
 
 app.get("/api/getPlan", async (req, res) => {
-  const plan = await new Plan((await getConnect()).token);
-  const response = await plan.getAll();
-  return res.json({ erro: false, response });
+  try {
+    const plan = await new Plan((await getConnect()).token);
+    const response = await plan.getAll();
+    return res.json({ erro: false, response });
+  } catch {
+    return res.json({ erro: true });
+  }
 });
 
 app.post("/api/verifyToken", async (req, res) => {

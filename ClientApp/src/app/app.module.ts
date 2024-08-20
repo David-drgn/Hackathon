@@ -33,6 +33,8 @@ import { ArchiveComponent } from './home/archive/archive.component';
 import { PlansComponent } from './home/plans/plans.component';
 import { SettingsComponent } from './home/settings/settings.component';
 import { EventViewComponent } from './home/event-view/event-view.component';
+import { FilterPipe } from './pipes/filter/filter.pipe';
+import { PlansMainComponent } from './plans-main/plans-main.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { EventViewComponent } from './home/event-view/event-view.component';
     PlansComponent,
     SettingsComponent,
     EventViewComponent,
+    FilterPipe,
+    PlansMainComponent,
   ],
   imports: [
     BrowserModule,

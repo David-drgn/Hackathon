@@ -106,3 +106,32 @@
   text-align: center;
   gap: 15px;
 }
+
+.consultas_container {
+  display: flex;
+  gap: 5px;
+  overflow: auto;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-height: 300px;
+  text-align: center;
+}
+
+.consultas_find {
+  width: 90%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+
+  .consultas_wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 90%;
+  }
+}

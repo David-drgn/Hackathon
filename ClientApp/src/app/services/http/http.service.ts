@@ -15,4 +15,9 @@ export class HttpService {
     body.token = this.storage.token.getValue();
     return this.httpClient.post<T>("http://localhost:3000/api/" + api, body);
   }
+
+  GET<T = any>(api: string, body: any = {}) {
+    body.token = this.storage.token.getValue();
+    return this.httpClient.get<T>("http://localhost:3000/api/" + api, body);
+  }
 }
