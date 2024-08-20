@@ -6,15 +6,16 @@ import {
   ViewChildren,
 } from '@angular/core';
 
+import { HttpService } from 'src/app/services/http/http.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { Calendar, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
-import { HttpService } from 'src/app/services/http/http.service';
-import { StorageService } from 'src/app/services/storage/storage.service';
-import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { EventComponent } from 'src/app/popUp/event/event.component';
 
 @Component({
   selector: 'app-calendario',
@@ -69,6 +70,73 @@ export class CalendarioComponent {
       left: 'ant today prox',
       center: 'title',
       right: 'view',
+    },
+    dateClick: (info) => {
+      if (info.date.getTime() > new Date().getTime()) {
+        let event = this.dialog.open(EventComponent, {
+          data: {
+            info,
+            type: this.storage.user.getValue().new_tipodaconta,
+          },
+        });
+
+        event.afterClosed().subscribe((result) => {});
+
+        // alert("selected " + info.startStr + " to " + info.endStr)
+        // $("#event").empty();
+        // $(document).ready(function () {
+        //   debugger;
+        //   $("#event").load("/pages/PopUp/event/event.html", async function () {
+        //     document.getElementById("user").style.display = "none";
+        //     document.getElementById("enterprise").style.display = "none";
+        //     if (user.new_tipodaconta == 0) {
+        //       document.getElementById("user").style.display = "flex";
+        //     } else {
+        //       document.getElementById("enterprise").style.display = "flex";
+        //     }
+
+        //     if (info.dateStr.includes("T")) {
+        //       document.getElementById(
+        //         "dateSelect"
+        //       ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
+        //       document.getElementById("timePrestador").value = `${
+        //         info.dateStr.split("T")[1].split(":")[0]
+        //       }:${info.dateStr.split("T")[1].split(":")[1]}`;
+
+        //       document.getElementById(
+        //         "dateSelectMedico"
+        //       ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
+        //       document.getElementById("timePrestadorFinal").value = `${
+        //         info.dateStr.split("T")[1].split(":")[0]
+        //       }:30`;
+
+        //       next();
+        //     } else {
+        //       document.getElementById(
+        //         "dateSelect"
+        //       ).textContent = `${formatarData(info.dateStr)}`;
+
+        //       document.getElementById(
+        //         "dateSelectMedico"
+        //       ).textContent = `${formatarData(info.dateStr)}`;
+        //     }
+
+        //     let services = await getAllServices();
+
+        //     let selectElement = document.getElementById("selectOptions");
+
+        //     services.forEach((element) => {
+        //       let option = document.createElement("option");
+
+        //       option.value = element.new_servicoid;
+        //       option.title = element.new_descricao;
+        //       option.text = element.new_name;
+
+        //       selectElement.add(option);
+        //     });
+        //   });
+        // });
+      }
     },
   };
 
