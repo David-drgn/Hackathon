@@ -1,7 +1,12 @@
 <div class="appointment">
   <form class="appointment_container" *ngIf="data.type == 0" [formGroup]="formUser">
     <span class="title">Agendamento</span>
-    <span id="dateSelect" class="subtitle">{{data.info.date | date: 'dd/MM/yyyy'}}</span>
+    <span id="dateSelect" class="subtitle">
+      {{data.info.start | date: 'dd/MM/yyyy'}} 
+      <ng-container *ngIf="!isSameDayHtml(data.info.start, getEndDateMinusOneDay(data.info.end))">
+        - {{getEndDateMinusOneDay(data.info.end) | date: 'dd/MM/yyyy'}}
+      </ng-container>
+    </span>
 
     <div class="step one" *ngIf="step == 1">
       <span class="subtitle">Sua consulta médica seria para?</span>
@@ -24,7 +29,7 @@
         Visualizar dados do prestador
       </button>
 
-      <span class="subtitle prestadorSelecionado" id="dontFind" *ngIf="!isDateInAgenda(data.info.date)">
+      <span class="subtitle prestadorSelecionado" id="dontFind" *ngIf="!isDateInAgenda(data.info.start)">
         A data fornecida não coincide com o horário do médico. Escolha uma data
         disponível para o agendamento
       </span>
@@ -60,11 +65,16 @@
 
     <img class="oswald_image" src="/assets/icon/Oswald.png" />
   </form>
-  <form class="appointment_container" id="enterprise" *ngIf="data.type == 1">
+  <form class="appointment_container" id="enterprise" *ngIf="data.type == 1" [formGroup]="formEnterprise">
     <span class="title">Adicionar horário livre</span>
-    <span id="dateSelectMedico" class="subtitle">{{data.info.date | date: 'dd/MM/yyyy'}}</span>
+    <span id="dateSelectMedico" class="subtitle">
+      {{data.info.start | date: 'dd/MM/yyyy'}} 
+      <ng-container *ngIf="!isSameDayHtml(data.info.start, getEndDateMinusOneDay(data.info.end))">
+        - {{getEndDateMinusOneDay(data.info.end) | date: 'dd/MM/yyyy'}}
+      </ng-container>
+    </span>
     <span class="subtitle">Selecione o horário</span>
-    <select id="timePrestador">
+    <select id="timePrestador" formControlName="initiHour">
       <option value="00:00">00:00</option>
       <option value="00:30">00:30</option>
       <option value="01:00">01:00</option>
@@ -115,7 +125,7 @@
       <option value="23:30">23:30</option>
     </select>
     <span class="subtitle">Até</span>
-    <select id="timePrestadorFinal">
+    <select id="timePrestadorFinal" formControlName="finalHour">
       <option value="00:00">00:00</option>
       <option value="00:30">00:30</option>
       <option value="01:00">01:00</option>
@@ -166,7 +176,7 @@
       <option value="23:30">23:30</option>
     </select>
     <div class="optionsButtons">
-      <button class="final" (click)="close()">Finalizar</button>
+      <button class="final" (click)="createAgendaLivre()">Finalizar</button>
       <button (click)="close()">Cancelar</button>
     </div>
     <img class="oswald_image" src="/assets/icon/Oswald.png" />

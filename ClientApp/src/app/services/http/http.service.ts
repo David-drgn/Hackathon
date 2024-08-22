@@ -11,13 +11,23 @@ export class HttpService {
     private storage: StorageService
   ) {}
 
+  urlBase: string = location.origin.includes("localhost")
+    ? "http://localhost:3000"
+    : "";
+
   POST<T = any>(api: string, body: any = {}) {
     body.token = this.storage.token.getValue();
-    return this.httpClient.post<T>("http://localhost:3000/api/" + api, body);
+    return this.httpClient.post<T>(`${this.urlBase}/api/${api}`, body);
   }
 
   GET<T = any>(api: string, body: any = {}) {
     body.token = this.storage.token.getValue();
-    return this.httpClient.get<T>("http://localhost:3000/api/" + api, body);
+    return this.httpClient.get<T>(`${this.urlBase}/api/${api}`, body);
+  }
+
+  UpdateUser<T = any>(body: any = {}) {
+    body.token = this.storage.token.getValue();
+    body.email = this.storage.user.getValue().emailaddress1;
+    return this.httpClient.post<T>(this.urlBase + "/api/update", body);
   }
 }

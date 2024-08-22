@@ -18,11 +18,23 @@ class Token {
       let user;
       await jwt.verify(token, secretKey, function (err, decoded) {
         user = decoded.data.user;
+        user.expiresIn = decoded.exp;
+        user.createIn = decoded.iat;
       });
       return user;
     } catch {
       return null;
     }
+  }
+
+  async createTokenWithExpires(data, expires) {
+    return await jwt.sign(
+      {
+        data,
+      },
+      secretKey,
+      { expiresIn: expires }
+    );
   }
 }
 

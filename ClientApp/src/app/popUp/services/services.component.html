@@ -1,0 +1,60 @@
+<div class="background_service">
+  <div class="container_service">
+    <div class="search_div" id="search_text_service">
+      <mat-icon>search</mat-icon>
+      <input
+        type="text"
+        id="search_text_service"
+        placeholder="Pesquise por serviços possíveis"
+        [(ngModel)]="searchText"
+        (input)="search()"
+      />
+    </div>
+    <div class="service_wrapper">
+      <img
+        src="/assets/icon/excluir.png"
+        class="close_service"
+        (click)="close();"
+      />
+      <div class="your_services">
+        <span class="title_service">Serviços que você exercesse</span>
+        <div class="wrapper_service" id="yours_services">
+          <div
+            class="item_service service"
+            *ngFor="let item of filterMyServices()"
+          >
+            <span>{{item.new_name}}</span>
+            <button
+              class="service_button"
+              (click)="deleteServiceRelation(item.new_servicoid)"
+            >
+              Remover serviço
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="posible_services">
+        <span class="title_service">Serviços disponíveis</span>
+        <div class="wrapper_service" id="all_services">
+          <div class="item_service">
+            <input placeholder="Criar novo serviço" />
+            <button class="service_button">Criar</button>
+          </div>
+
+          <div
+            class="item_service service"
+            *ngFor="let item of filterServicesOff()"
+          >
+            <span>{{item.new_name}}</span>
+            <button
+              class="service_button"
+              (click)="createServiceRelation(item.new_servicoid)"
+            >
+              Adicionar esse serviço
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

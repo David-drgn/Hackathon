@@ -26,12 +26,13 @@
 }
 
 .image_perfil {
-  width: 40px;
-  height: 40px;
+  width: 40px !important;
+  height: 40px !important;
   border-radius: 100%;
-  background-color: #7f9bcd;
   background-color: white;
   cursor: pointer;
+  text-align: center;
+  font-size: 38px;
 }
 
 .menu_lateral {
@@ -53,7 +54,7 @@
   -webkit-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3);
   transition: all 1s;
-  z-index: 1111111111111;
+  z-index: 2;
   overflow: hidden;
 }
 

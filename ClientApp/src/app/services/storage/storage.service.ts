@@ -20,7 +20,7 @@ export class StorageService {
 
   search = new BehaviorSubject<string>('');
 
-  constructor(private router: Router) {
+  constructor() {
     this.token.next(localStorage.getItem('token'));
     this.token.subscribe((value) => {
       value

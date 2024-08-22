@@ -1,15 +1,36 @@
 <div class="profile_itens profile_info">
-  <img [src]="user.new_perfil ?
-  'data:image/png;base64,' + user.new_perfil : '/assets/icon/person.svg'" id="userImage"
-    title="Clique aqui para trocar a foto de perfil" />
+  <img
+    [src]="user.new_perfil ?
+  'data:image/png;base64,' + user.new_perfil : '/assets/icon/person.svg'"
+    id="userImage"
+    title="Clique aqui para trocar a foto de perfil"
+    (click)="fileInput.click()"
+  />
+  <input
+    type="file"
+    style="display: none;"
+    #fileInput
+    (change)="fileChange($event)"
+  />
   <span class="user_info_text" id="username">{{user.name}}</span>
-  <span class="user_info_text" id="usertype">{{user.new_tipodaconta == 0? 'Usuário' : 'Prestador'}}</span>
+  <span class="user_info_text" id="usertype"
+    >{{user.new_tipodaconta == 0? 'Usuário' : 'Prestador'}}</span
+  >
   <span class="user_info_text" id="usermail">{{user.emailaddress1}}</span>
-  <span class="user_info_text" id="userphone">{{user.telephone1}}</span>
-  <span class="user_info_text" id="userdocument">{{user.new_document}}</span>
-  <span class="user_info_text" id="userplan" *ngIf="user.new_tipodaconta == 1">{{user.new_Plano.new_name}}</span>
-  <button class="button_margin button" routerLink="/home/folder">
-    Ver meus arquivos
+  <span class="user_info_text" id="userphone">{{user.telephone1 | phoneMask}}</span>
+  <!-- <span class="user_info_text" id="userdocument">{{user.new_document}}</span> -->
+  <span class="user_info_text" id="userplan" *ngIf="user.new_tipodaconta == 1"
+    >{{user.new_Plano.new_name}}</span
+  >
+  <button class="button_margin button" (click)="openRedes()">
+    Gerenciar redes sociais
+  </button>
+  <button
+    class="button"
+    *ngIf="user.new_tipodaconta == 1"
+    (click)="openServices()"
+  >
+    Gerrenciar meus serviços
   </button>
   <button class="button" (click)="logout()">Sair</button>
 </div>

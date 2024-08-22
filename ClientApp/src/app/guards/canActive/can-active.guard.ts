@@ -17,7 +17,25 @@ export class canActiveGuard implements CanActivate {
     private dialog: MatDialog,
     private http: HttpService,
     private router: Router
-  ) {}
+  ) {
+    this.storage.token.subscribe((value) => {
+      this.http.POST("verifyToken").subscribe((res) => {
+        if (res) {
+          console.log(res);
+          this.storage.user.next(res);
+        } else {
+          this.openDialog(
+            "Realize o login",
+            "Por favor, realize o login para prosseguir"
+          )
+            .afterClosed()
+            .subscribe(() => {
+              this.router.navigate(["/"]);
+            });
+        }
+      });
+    });
+  }
 
   openDialog(title: string, message: string) {
     return this.dialog.open(DialogComponent, {
@@ -28,7 +46,6 @@ export class canActiveGuard implements CanActivate {
   canActivate() {
     return this.http.POST("verifyToken").pipe(
       tap((res) => {
-        console.log(res);
         if (res) {
           this.storage.user.next(res);
         } else {

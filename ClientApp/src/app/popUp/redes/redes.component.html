@@ -1,1 +1,45 @@
-<p>redes works!</p>
+<div class="background_rede">
+  <div class="container_rede">
+    <div class="search_div" id="search_text_rede">
+      <mat-icon>search</mat-icon>
+      <input
+        type="text"
+        id="search_text_rede"
+        placeholder="Pesquise por serviços possíveis"
+        [(ngModel)]="searchText"
+        (input)="search()"
+      />
+    </div>
+    <div class="rede_wrapper">
+      <img
+        src="/assets/icon/excluir.png"
+        class="close_rede"
+        (click)="close();"
+      />
+      <div class="posible_redes">
+        <span class="title_rede">Suas redes</span>
+        <div class="wrapper_rede" id="all_redes">
+          <div class="item_rede">
+            <input placeholder="Criar nova rede" [(ngModel)]="new_rede_name" />
+            <input placeholder="Url da rede" [(ngModel)]="new_rede_url" />
+            <button class="rede_button" (click)="createRede()">Criar</button>
+          </div>
+
+          <div
+            class="item_rede rede"
+            *ngFor="let item of redes"
+          >
+            <span>{{item.rede}}</span>
+            <a [href]="item.url" target="_blank">Ver rede</a>
+            <button
+              class="rede_button"
+              (click)="deleteRede(item)"
+            >
+              Remover rede
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,32 +4,46 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-} from '@angular/core';
+} from "@angular/core";
 
-import { HttpService } from 'src/app/services/http/http.service';
-import { StorageService } from 'src/app/services/storage/storage.service';
-import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Calendar, CalendarOptions } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
-import interactionPlugin from '@fullcalendar/interaction';
-import { EventComponent } from 'src/app/popUp/event/event.component';
+import { HttpService } from "src/app/services/http/http.service";
+import { StorageService } from "src/app/services/storage/storage.service";
+import { DialogComponent } from "src/app/popUp/dialog/dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { Calendar, CalendarOptions } from "@fullcalendar/core";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
+import interactionPlugin from "@fullcalendar/interaction";
+import { EventComponent } from "src/app/popUp/event/event.component";
 
 @Component({
-  selector: 'app-calendario',
-  templateUrl: './calendario.component.html',
-  styleUrls: ['./calendario.component.css'],
+  selector: "app-calendario",
+  templateUrl: "./calendario.component.html",
+  styleUrls: ["./calendario.component.css"],
 })
 export class CalendarioComponent {
   events: [] = [];
 
-  @ViewChildren('calendar') calendar!: QueryList<ElementRef>;
+  @ViewChildren("calendar") calendar!: QueryList<ElementRef>;
 
   viewCalendar: number = 1;
-  calendarView: string = 'dayGridMonth';
+  calendarView: string = "dayGridMonth";
   calendarObj!: Calendar;
+
+  isSameDayHtml(startDate: Date, endDate: Date): boolean {
+    return (
+      startDate.getFullYear() === endDate.getFullYear() &&
+      startDate.getMonth() === endDate.getMonth() &&
+      startDate.getDate() === endDate.getDate()
+    );
+  }
+
+  getEndDateMinusOneDay(date: Date): Date {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() - 1); // Subtrai 1 dia
+    return newDate;
+  }
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -38,106 +52,122 @@ export class CalendarioComponent {
     events: [],
     customButtons: {
       view: {
-        text: 'Trocar visualização',
+        text: "Trocar visualização",
         click: () => {
           this.changeCalendarView();
         },
       },
       today: {
-        text: 'Hoje',
+        text: "Hoje",
         click: () => {
           this.calendarObj.today();
         },
       },
       prox: {
-        text: 'Próximo',
-        icon: 'chevron-right',
+        text: "Próximo",
+        icon: "chevron-right",
         click: () => {
           this.calendarObj.next();
         },
       },
       ant: {
-        text: 'Anterior',
-        icon: 'chevron-left',
+        text: "Anterior",
+        icon: "chevron-left",
         click: () => {
           this.calendarObj.prev();
         },
       },
     },
-    locale: 'pt-br',
+    locale: "pt-br",
     selectable: true,
     headerToolbar: {
-      left: 'ant today prox',
-      center: 'title',
-      right: 'view',
+      left: "ant today prox",
+      center: "title",
+      right: "view",
     },
-    dateClick: (info) => {
-      if (info.date.getTime() > new Date().getTime()) {
-        let event = this.dialog.open(EventComponent, {
+    select: (info) => {
+      if (info.start.getTime() > new Date().getTime()) {
+        if (
+          this.storage.user.getValue().new_tipodaconta == 0 &&
+          !this.isSameDayHtml(this.getEndDateMinusOneDay(info.end), info.start)
+        ) {
+          return;
+        }
+        this.dialog.open(EventComponent, {
           data: {
             info,
             type: this.storage.user.getValue().new_tipodaconta,
           },
         });
-
-        event.afterClosed().subscribe((result) => {});
-
-        // alert("selected " + info.startStr + " to " + info.endStr)
-        // $("#event").empty();
-        // $(document).ready(function () {
-        //   debugger;
-        //   $("#event").load("/pages/PopUp/event/event.html", async function () {
-        //     document.getElementById("user").style.display = "none";
-        //     document.getElementById("enterprise").style.display = "none";
-        //     if (user.new_tipodaconta == 0) {
-        //       document.getElementById("user").style.display = "flex";
-        //     } else {
-        //       document.getElementById("enterprise").style.display = "flex";
-        //     }
-
-        //     if (info.dateStr.includes("T")) {
-        //       document.getElementById(
-        //         "dateSelect"
-        //       ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
-        //       document.getElementById("timePrestador").value = `${
-        //         info.dateStr.split("T")[1].split(":")[0]
-        //       }:${info.dateStr.split("T")[1].split(":")[1]}`;
-
-        //       document.getElementById(
-        //         "dateSelectMedico"
-        //       ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
-        //       document.getElementById("timePrestadorFinal").value = `${
-        //         info.dateStr.split("T")[1].split(":")[0]
-        //       }:30`;
-
-        //       next();
-        //     } else {
-        //       document.getElementById(
-        //         "dateSelect"
-        //       ).textContent = `${formatarData(info.dateStr)}`;
-
-        //       document.getElementById(
-        //         "dateSelectMedico"
-        //       ).textContent = `${formatarData(info.dateStr)}`;
-        //     }
-
-        //     let services = await getAllServices();
-
-        //     let selectElement = document.getElementById("selectOptions");
-
-        //     services.forEach((element) => {
-        //       let option = document.createElement("option");
-
-        //       option.value = element.new_servicoid;
-        //       option.title = element.new_descricao;
-        //       option.text = element.new_name;
-
-        //       selectElement.add(option);
-        //     });
-        //   });
-        // });
       }
     },
+    // dateClick: (info) => {
+    //   if (info.date.getTime() > new Date().getTime()) {
+    //     let event = this.dialog.open(EventComponent, {
+    //       data: {
+    //         info,
+    //         type: this.storage.user.getValue().new_tipodaconta,
+    //       },
+    //     });
+
+    //     event.afterClosed().subscribe((result) => {});
+
+    // alert("selected " + info.startStr + " to " + info.endStr)
+    // $("#event").empty();
+    // $(document).ready(function () {
+    //   debugger;
+    //   $("#event").load("/pages/PopUp/event/event.html", async function () {
+    //     document.getElementById("user").style.display = "none";
+    //     document.getElementById("enterprise").style.display = "none";
+    //     if (user.new_tipodaconta == 0) {
+    //       document.getElementById("user").style.display = "flex";
+    //     } else {
+    //       document.getElementById("enterprise").style.display = "flex";
+    //     }
+
+    //     if (info.dateStr.includes("T")) {
+    //       document.getElementById(
+    //         "dateSelect"
+    //       ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
+    //       document.getElementById("timePrestador").value = `${
+    //         info.dateStr.split("T")[1].split(":")[0]
+    //       }:${info.dateStr.split("T")[1].split(":")[1]}`;
+
+    //       document.getElementById(
+    //         "dateSelectMedico"
+    //       ).textContent = `${formatarData(info.dateStr.split("T")[0])}`;
+    //       document.getElementById("timePrestadorFinal").value = `${
+    //         info.dateStr.split("T")[1].split(":")[0]
+    //       }:30`;
+
+    //       next();
+    //     } else {
+    //       document.getElementById(
+    //         "dateSelect"
+    //       ).textContent = `${formatarData(info.dateStr)}`;
+
+    //       document.getElementById(
+    //         "dateSelectMedico"
+    //       ).textContent = `${formatarData(info.dateStr)}`;
+    //     }
+
+    //     let services = await getAllServices();
+
+    //     let selectElement = document.getElementById("selectOptions");
+
+    //     services.forEach((element) => {
+    //       let option = document.createElement("option");
+
+    //       option.value = element.new_servicoid;
+    //       option.title = element.new_descricao;
+    //       option.text = element.new_name;
+
+    //       selectElement.add(option);
+    //     });
+    //   });
+    // });
+    // }
+    // },
   };
 
   constructor(
@@ -182,19 +212,19 @@ export class CalendarioComponent {
   private changeCalendarView() {
     switch (this.viewCalendar) {
       case 0:
-        this.calendarView = 'dayGridMonth';
+        this.calendarView = "dayGridMonth";
         break;
       case 1:
-        this.calendarView = 'timeGridWeek';
+        this.calendarView = "timeGridWeek";
         break;
       case 2:
-        this.calendarView = 'listWeek';
+        this.calendarView = "listWeek";
         break;
       case 3:
-        this.calendarView = 'dayGridWeek';
+        this.calendarView = "dayGridWeek";
         break;
       case 4:
-        this.calendarView = 'timeGridDay';
+        this.calendarView = "timeGridDay";
         this.viewCalendar = -1;
         break;
     }

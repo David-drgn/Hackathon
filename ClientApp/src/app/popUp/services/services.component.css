@@ -1,4 +1,4 @@
-.background_rede {
+.background_service {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -13,15 +13,11 @@
   z-index: 1;
 }
 
-a {
-  color: var(--main-color);
-}
-
-#search_text_rede {
+#search_text_service {
   width: 100%;
 }
 
-.container_rede {
+.container_service {
   background: linear-gradient(145deg, var(--back-sec-color), var(--back-color));
   width: 70%;
   height: 80%;
@@ -55,7 +51,7 @@ input {
   padding: 5px;
 }
 
-.rede_wrapper {
+.service_wrapper {
   width: 100%;
   display: flex;
   gap: 10px;
@@ -63,7 +59,7 @@ input {
   height: 100%;
 }
 
-.your_redes {
+.your_services {
   width: 35%;
   display: flex;
   flex-direction: column;
@@ -75,8 +71,8 @@ input {
   border-right: 2px solid var(--main-color);
 }
 
-.posible_redes {
-  width: 100%;
+.posible_services {
+  width: 70%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -84,7 +80,7 @@ input {
   gap: 10px;
 }
 
-.title_rede {
+.title_service {
   font-size: 20px;
   text-align: center;
   display: block;
@@ -92,7 +88,7 @@ input {
   font-weight: 600;
 }
 
-.wrapper_rede {
+.wrapper_service {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -101,7 +97,7 @@ input {
   overflow: auto;
 }
 
-.item_rede {
+.item_service {
   display: flex;
   flex-direction: column;
   max-width: 300px;
@@ -112,12 +108,12 @@ input {
   width: inherit;
 }
 
-.item_rede.rede {
+.item_service.service {
   background-color: white;
   border-radius: 10px;
 }
 
-.rede_button {
+.service_button {
   border: 0px;
   width: 70%;
   padding: 5px;
@@ -127,7 +123,7 @@ input {
   cursor: pointer;
 }
 
-.close_rede {
+.close_service {
   position: absolute;
   top: -10px;
   right: -9px;

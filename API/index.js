@@ -218,14 +218,33 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/update", async (req, res) => {
-  const { userId, token, record } = req.body;
+  const { userId, token, record, email } = req.body;
   if (await tokenValid(token)) {
     return res.json({ erro: true, message: "token expires" });
   } else {
     try {
       const user = await new User((await getConnect()).token);
       const response = await user.update(record, userId);
-      return res.json({ erro: false, response });
+      if (response.erro) {
+        return res.json({ erro: true, response });
+      } else {
+        const userInfo = await user.getByEmail(email);
+
+        delete userInfo.new_salt;
+        delete userInfo.new_password;
+
+        const tokenUse = await new Token().verifyToken(token);
+
+        const currentTimestamp = Math.floor(Date.now() / 1000); // Tempo atual em segundos
+        const expiresIn = tokenUse.expiresIn - currentTimestamp; // Tempo restante até a expiração
+
+        const returnToken = await new Token().createTokenWithExpires(
+          { user: userInfo },
+          expiresIn
+        );
+
+        return res.json({ erro: false, response, newToken: returnToken });
+      }
     } catch (e) {
       return res.json({ erro: true });
     }
@@ -241,9 +260,13 @@ app.post("/api/service/createRelation", async (req, res) => {
       req.body.serviceId
     );
 
-    return res.json({ response });
+    if (response.erro) {
+      return res.json({ erro: true });
+    } else {
+      return res.json({ response });
+    }
   } catch (e) {
-    return res.json({ e });
+    return res.json({ erro: true });
   }
 });
 
@@ -256,9 +279,13 @@ app.post("/api/service/deleteRelation", async (req, res) => {
       req.body.serviceId
     );
 
-    return res.json({ response });
+    if (response.erro) {
+      return res.json({ erro: true });
+    } else {
+      return res.json({ response });
+    }
   } catch (e) {
-    return res.json({ e });
+    return res.json({ erro: true });
   }
 });
 
@@ -357,21 +384,6 @@ app.post("/api/events/livreRegister", async (req, res) => {
   } else {
     try {
       const user = await new User((await getConnect()).token);
-
-      function subtrairHoras(dataStr, horas) {
-        const data = new Date(dataStr); // Cria um objeto Date a partir da string
-        data.setUTCHours(data.getUTCHours() - horas); // Subtrai as horas
-        return data.toISOString(); // Retorna a data no formato ISO
-      }
-
-      req.body.record.new_data_agendada = subtrairHoras(
-        req.body.record.new_data_agendada,
-        3
-      );
-      req.body.record.new_dataterminoagenda = subtrairHoras(
-        req.body.record.new_dataterminoagenda,
-        3
-      );
 
       //   req.body.record.new_data_agendada = new Date("2024-08-21 16:48").toISOString(); // Date Time
       //   req.body.record.new_dataterminoagenda = new Date("2024-08-14 16:48").toISOString(); // Date Time

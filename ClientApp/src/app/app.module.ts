@@ -36,6 +36,8 @@ import { FilterPipe } from './pipes/filter/filter.pipe';
 import { PlansMainComponent } from './plans-main/plans-main.component';
 import { FormsModule } from "@angular/forms";
 import { EventComponent } from "./popUp/event/event.component";
+import { ServicesComponent } from './popUp/services/services.component';
+import { PhoneMaskPipe } from './pipes/phoneMask/phone-mask.pipe';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { EventComponent } from "./popUp/event/event.component";
     FilterPipe,
     PlansMainComponent,
     EventComponent,
+    ServicesComponent,
+    PhoneMaskPipe,
   ],
   imports: [
     BrowserModule,
