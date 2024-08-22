@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, filter, map, tap } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
+interface Chat {
+  role: string;
+  content: string;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -12,22 +14,18 @@ export class StorageService {
   user = new BehaviorSubject<any>(null);
   events = new BehaviorSubject<any>(null);
 
+  chat = new BehaviorSubject<Chat[]>([]);
+
   load = new BehaviorSubject<boolean>(false);
 
   search = new BehaviorSubject<string>('');
 
-  constructor(private dialog: MatDialog, private router: Router) {
+  constructor(private router: Router) {
     this.token.next(localStorage.getItem('token'));
     this.token.subscribe((value) => {
       value
         ? localStorage.setItem('token', value)
         : localStorage.removeItem('token');
-    });
-  }
-
-  openDialog(title: string, message: string) {
-    return this.dialog.open(DialogComponent, {
-      data: { message, title },
     });
   }
 }

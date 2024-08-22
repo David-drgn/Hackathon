@@ -68,3 +68,21 @@
   width: 40px;
   height: 40px;
 }
+
+.chat {
+  background-color: var(--back-color);
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  width: auto;
+  white-space: break-spaces;
+  word-wrap: break-word;
+}
+
+.bot {
+}
+
+.user {
+  background-color: var(--main-color);
+  margin-left: auto;
+}

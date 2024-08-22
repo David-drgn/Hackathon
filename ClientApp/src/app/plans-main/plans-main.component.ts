@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { StorageService } from '../services/storage/storage.service';
 import { HttpService } from '../services/http/http.service';
 import { Router } from '@angular/router';
+import { RegisterComponent } from '../popUp/register/register.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface Plano {
   beneficios: string;
@@ -25,7 +27,8 @@ export class PlansMainComponent {
   constructor(
     private storage: StorageService,
     private http: HttpService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.storage.load.next(true);
     this.getPlans();
@@ -45,5 +48,14 @@ export class PlansMainComponent {
         console.error(Error);
       }
     );
+  }
+
+  openDialogRegister(plan = 'none') {
+    return this.dialog.open(RegisterComponent, {
+      data: {
+        type: 1,
+        plan,
+      },
+    });
   }
 }

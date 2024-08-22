@@ -16,7 +16,9 @@ export class HomeHeaderComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) this.pathSelect = event.url;
     });
-    this.user = this.storage.user.getValue();
+    if (this.storage.user.getValue() != null) {
+      this.user = this.storage.user.getValue();
+    }
   }
 
   logout() {
@@ -26,6 +28,6 @@ export class HomeHeaderComponent {
 
   search(value: string) {
     this.storage.search.next(value);
-    console.log(value)
+    console.log(value);
   }
 }

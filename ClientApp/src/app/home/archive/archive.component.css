@@ -145,3 +145,19 @@
   flex-direction: column;
   gap: 10px;
 }
+
+@media only screen and (max-width: 1200px) {
+  :host {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: auto;
+  }
+  .archive_itens.filter {
+    height: 400px;
+    width: 100%;
+  }
+  .archive_itens.every {
+    height: auto;
+    width: 100%;
+  }
+}

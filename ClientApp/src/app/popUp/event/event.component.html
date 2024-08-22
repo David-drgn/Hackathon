@@ -1,37 +1,23 @@
 <div class="appointment">
-  <form class="appointment_container" *ngIf="data.type == 0">
+  <form class="appointment_container" *ngIf="data.type == 0" [formGroup]="formUser">
     <span class="title">Agendamento</span>
-    <span id="dateSelect" class="subtitle"
-      >{{data.info.date | date: 'dd/MM/yyyy'}}</span
-    >
+    <span id="dateSelect" class="subtitle">{{data.info.date | date: 'dd/MM/yyyy'}}</span>
 
     <div class="step one" *ngIf="step == 1">
       <span class="subtitle">Sua consulta médica seria para?</span>
-      <select
-        id="selectOptions"
-        #optonsType1
-        (change)="changeOptionService(optonsType1.value)"
-      >
+      <select id="selectOptions" #optonsType1 (change)="changeOptionService(optonsType1.value)"
+        formControlName="servico">
         <option value="none">Selecione uma opção</option>
-        <option
-          *ngFor="let item of services"
-          [value]="item.new_servicoid"
-          [title]="item.new_descricao == null ? '' : item.new_descricao"
-          >{{item.new_name}}</option
-        >
+        <option *ngFor="let item of services" [value]="item.new_servicoid"
+          [title]="item.new_descricao == null ? '' : item.new_descricao">{{item.new_name}}</option>
       </select>
     </div>
 
     <div class="step two" *ngIf="step == 2">
       <span class="subtitle">Selecione o responsável pela consulta</span>
-      <select
-        id="prestador"
-        #prestadorSelect
-        (change)="changeOptionPrestador(prestadorSelect.value)"
-      >
-        <option *ngFor="let item of accountsService" [value]="item.id"
-          >{{item.name}}</option
-        >
+      <select id="prestador" #prestadorSelect (change)="changeOptionPrestador(prestadorSelect.value)"
+        formControlName="prestador">
+        <option *ngFor="let item of accountsService" [value]="item.id">{{item.name}}</option>
       </select>
 
       <button class="prestadorSelecionado">
@@ -43,35 +29,23 @@
         disponível para o agendamento
       </span>
 
-      <select
-        id="dataDisponivel"
-        class="prestadorSelecionado"
-        [(ngModel)]="selectedDate"
-        (change)="onDateChange()"
-      >
+      <select id="dataDisponivel" class="prestadorSelecionado" formControlName="selectedDate" (change)="onDateChange()">
         <option value="none">Selecione uma data para o agendamento</option>
-        <option
-          [value]="item.livre + '|' + item.termino"
-          *ngFor="let item of getFilteredAgenda()"
-        >
+        <option [value]="item.livre + '|' + item.termino" *ngFor="let item of getFilteredAgenda()">
           {{formatDateToUTC(item.livre)}} - {{formatDateToUTC(item.termino)}}
         </option>
       </select>
 
       <select id="time" class="prestadorSelecionado">
-        <option *ngFor="let item of availableTimeSlots" [value]="item.start.toISOString() + '|' + item.end.toISOString()">
+        <option *ngFor="let item of availableTimeSlots"
+          [value]="item.start.toISOString() + '|' + item.end.toISOString()">
           {{formatHourToUTC(item.start.toISOString())}} -
           {{formatHourToUTC(item.end.toISOString())}}
         </option>
       </select>
 
-      <input
-        type="text"
-        class="initial prestadorSelecionado"
-        id="local"
-        [value]="prestadorSelected?.endereco"
-        *ngIf="prestadorSelected?.domicilio"
-      />
+      <input type="text" class="initial prestadorSelecionado" id="local" [value]="prestadorSelected?.endereco"
+        *ngIf="prestadorSelected?.domicilio" formControlName="local" />
       <span *ngIf="!prestadorSelected?.domicilio">
         Este prestador, não atende em domicílio, aqui está o endereço que a
         consulta será realizada
@@ -80,17 +54,15 @@
     </div>
 
     <div class="optionsButtons">
-      <button id="finalizarAgenda" (click)="close()" *ngIf="step == 2">Finalizar</button>
+      <button id="finalizarAgenda" (click)="createAgenda()" *ngIf="step == 2">Finalizar</button>
       <button (click)="close()">Cancelar</button>
     </div>
 
     <img class="oswald_image" src="/assets/icon/Oswald.png" />
   </form>
-  <div class="appointment_container" id="enterprise" *ngIf="data.type == 1">
+  <form class="appointment_container" id="enterprise" *ngIf="data.type == 1">
     <span class="title">Adicionar horário livre</span>
-    <span id="dateSelectMedico" class="subtitle"
-      >{{data.info.date | date: 'dd/MM/yyyy'}}</span
-    >
+    <span id="dateSelectMedico" class="subtitle">{{data.info.date | date: 'dd/MM/yyyy'}}</span>
     <span class="subtitle">Selecione o horário</span>
     <select id="timePrestador">
       <option value="00:00">00:00</option>
@@ -198,5 +170,5 @@
       <button (click)="close()">Cancelar</button>
     </div>
     <img class="oswald_image" src="/assets/icon/Oswald.png" />
-  </div>
+  </form>
 </div>

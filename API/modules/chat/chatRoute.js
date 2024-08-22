@@ -14,7 +14,7 @@ const { sessions } = require("../../src/sessions");
 
 chat.use(express.json());
 chat.use(cors());
-chat.use(bodyParser.json({ limit: '20mb' }));
+chat.use(bodyParser.json({ limit: "20mb" }));
 
 const sendBotMessage = async (message, chatId) => {
   const client = sessions.get("bot");
@@ -196,15 +196,22 @@ chat.post("/request", async (req, res) => {
 
     const chat = await Chat.chatQuery(chatWeb[req.body.id]);
 
-    chatWeb[req.body.id].push({
-      role: "system",
-      content: chat,
-    });
+    if (!chat) {
+      res.json({
+        erro: true,
+        anwser: "Algo deu errado, por favor, tente novamente",
+      });
+    } else {
+      chatWeb[req.body.id].push({
+        role: "system",
+        content: chat,
+      });
 
-    res.json({
-      erro: false,
-      anwser: chat,
-    });
+      res.json({
+        erro: false,
+        anwser: chat,
+      });
+    }
   } catch {
     res.json({
       erro: true,
@@ -522,7 +529,7 @@ chat.post("/realize", async (req, res) => {
                 data.mesage.from
               );
             } else {
-              sendBotMessage(data.mesage.from)
+              sendBotMessage(data.mesage.from);
             }
           }
         } catch (error) {

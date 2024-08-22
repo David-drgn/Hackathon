@@ -1,17 +1,17 @@
-import { Dialog } from "@angular/cdk/dialog";
-import { Component } from "@angular/core";
-import { DialogComponent } from "../popUp/dialog/dialog.component";
-import { MatDialog } from "@angular/material/dialog";
-import { RegisterComponent } from "../popUp/register/register.component";
-import { StorageService } from "../services/storage/storage.service";
-import { HttpService } from "../services/http/http.service";
-import { tap } from "rxjs";
-import { Router } from "@angular/router";
+import { Dialog } from '@angular/cdk/dialog';
+import { Component } from '@angular/core';
+import { DialogComponent } from '../popUp/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RegisterComponent } from '../popUp/register/register.component';
+import { StorageService } from '../services/storage/storage.service';
+import { HttpService } from '../services/http/http.service';
+import { tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "app-central",
-  templateUrl: "./central.component.html",
-  styleUrls: ["./central.component.css"],
+  selector: 'app-central',
+  templateUrl: './central.component.html',
+  styleUrls: ['./central.component.css'],
 })
 export class CentralComponent {
   sobreNumber: number = 1;
@@ -24,18 +24,18 @@ export class CentralComponent {
     private router: Router
   ) {
     if (this.storage.token.getValue()) {
-      this.http.POST("verifyToken").subscribe((res) => {
+      this.http.POST('verifyToken').subscribe((res) => {
         if (res) {
           this.storage.user.next(res);
-          this.router.navigate(["/home/calendar"]);
+          this.router.navigate(['/home/calendar']);
         } else {
           this.openDialog(
-            "Realize o login",
-            "O seu acesso expirou, por favor, realize o login novamente"
+            'Realize o login',
+            'O seu acesso expirou, por favor, realize o login novamente'
           )
             .afterClosed()
             .subscribe(() => {
-              this.router.navigate(["/"]);
+              this.router.navigate(['/']);
             });
         }
       });
@@ -58,7 +58,9 @@ export class CentralComponent {
 
   openDialogRegister() {
     return this.dialog.open(RegisterComponent, {
-      data: {},
+      data: {
+        type: 0,
+      },
     });
   }
 }

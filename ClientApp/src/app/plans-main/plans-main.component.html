@@ -17,7 +17,7 @@
                 <li *ngFor="let itemBeneficioDesc of item.beneficiosDesc.split(';')">{{itemBeneficioDesc}}</li>
             </ul>
             <hr />
-            <button class="button_add_plan">Adiquirir</button>
+            <button class="button_add_plan" (click)="openDialogRegister(item.id)">Assinar</button>
         </div>
     </div>
 </div>

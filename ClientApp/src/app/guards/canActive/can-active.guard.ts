@@ -28,8 +28,8 @@ export class canActiveGuard implements CanActivate {
   canActivate() {
     return this.http.POST("verifyToken").pipe(
       tap((res) => {
+        console.log(res);
         if (res) {
-          console.log(res);
           this.storage.user.next(res);
         } else {
           this.openDialog(

@@ -10,7 +10,7 @@ if (!baseWebhookURL) {
   console.error(
     "BASE_WEBHOOK_URL environment variable is not available. Exiting..."
   );
-  process.exit(1); // Terminate the application with an error code
+  process.exit(1);
 }
 
 require("dotenv").config();
@@ -69,8 +69,8 @@ async function tokenValid(token) {
   });
 }
 
-app.use("/", router);
-app.use("/chat", chat);
+// app.use("/", router);
+app.use("/api/chat", chat);
 app.use("", appWhatsapp);
 
 app.get("/:code", async (req, res) => {
@@ -140,7 +140,7 @@ app.post("/api/sendMail", async (req, res) => {
 
     const getUser = await user.getByEmail(email);
 
-    const mailer = new Mailler(connect.token);
+    const mailer = new Mailler((await getConnect()).token);
     if (!getUser && type == 0) {
       const mail = await mailer.sendMail(
         "Código de verificação para a criação da sua conta, lembre que o código só é válido por 5 minutos, após esse tempo, ele será anulado",
@@ -150,7 +150,9 @@ app.post("/api/sendMail", async (req, res) => {
         "Entrar na sua conta"
       );
       if (mail.erro) {
-        return res.redirect("/systemErro?erro=400");
+        return res.json({
+          erro: true,
+        });
       }
       verifyEmail.push({
         type: 1,
@@ -168,7 +170,9 @@ app.post("/api/sendMail", async (req, res) => {
         "Clique para trocar de senha"
       );
       if (mail.erro) {
-        return res.redirect("/systemErro?erro=400");
+        return res.json({
+          erro: true,
+        });
       }
       verifyEmail.push({
         type: 2,
@@ -178,7 +182,9 @@ app.post("/api/sendMail", async (req, res) => {
         createat: new Date().toISOString(),
       });
     } else {
-      return res.redirect("/systemErro?erro=400");
+      return res.json({
+        erro: true,
+      });
     }
     res.json({
       erro: false,
@@ -186,7 +192,9 @@ app.post("/api/sendMail", async (req, res) => {
         "Código enviado com sucesso!! Verifique a sua caixa de email, lembre que o acesso é permitido apenas após 5 minutos",
     });
   } catch {
-    return res.redirect("/systemErro?erro=400");
+    return res.json({
+      erro: true,
+    });
   }
 });
 
@@ -203,7 +211,9 @@ app.post("/api/login", async (req, res) => {
       token: login,
     });
   } catch (e) {
-    return res.redirect("/systemErro?erro=400");
+    return res.json({
+      erro: true,
+    });
   }
 });
 

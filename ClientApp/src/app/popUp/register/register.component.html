@@ -53,50 +53,73 @@
       </button>
     </div>
   </form>
-  <form class="wrapper" *ngIf="data.type == 1">
+  <form class="wrapper" *ngIf="data.type == 1" [formGroup]="formEnterprise">
     <div class="wrapper_header">
       <span class="title">Novo Prestador</span>
       <mat-icon class="close" (click)="close()">close</mat-icon>
     </div>
 
-    <input class="initial" id="nome" type="text" placeholder="Nome*" title="Coloque o nome do prestador" />
-    <span class="erro" id="span_nome">Por favor, coloque o nome</span>
+    <input class="initial" formControlName="nome" type="text" placeholder="Nome*" matTooltip="Coloque o seu nome" />
+    <span class="erro" *ngIf="formEnterprise.get('nome')?.invalid && formEnterprise.get('nome')?.touched">Por favor,
+      coloque o seu
+      nome</span>
 
-    <input class="initial" id="cpf" type="text" placeholder="CNPJ*" title="Digite o seu CNPJ" />
-    <span class="erro" id="span_cpf">Digite um CNPJ válido</span>
+    <input class="initial" formControlName="document" type="text" placeholder="CPF*"
+      matTooltip="Digite o seu documento de identificação" />
+    <span class="erro" *ngIf="formEnterprise.get('document')?.invalid && formEnterprise.get('document')?.touched">Digite
+      um CPF
+      válido</span>
 
-    <input class="initial" id="email" type="text" placeholder="Email*" title="Digite o seu email" />
-    <span class="erro" id="span_email">Coloque o seu email</span>
+    <input class="initial" formControlName="email" type="text" placeholder="Email*" matTooltip="Digite o seu email" />
+    <span class="erro" *ngIf="formEnterprise.get('email')?.invalid && formEnterprise.get('email')?.touched">Coloque o
+      seu
+      email</span>
 
-    <input class="initial" id="tel" type="text" placeholder="Telefone*" title="Digite o seu telefone" />
-    <span class="erro" id="span_tel">Coloque um telefone</span>
+    <input class="initial" formControlName="telephone" type="text" placeholder="Telefone*"
+      matTooltip="Digite o seu telefone" mask="(00) 00000-0000" />
+    <span class="erro"
+      *ngIf="formEnterprise.get('telephone')?.invalid && formEnterprise.get('telephone')?.touched">Coloque um
+      telefone</span>
 
     <div class="input_icon_div">
-      <input type="password" id="senha" placeholder="Senha*" title="Title da senha" />
-      <img src="/assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
+      <input [type]="viewPassword? 'password' : 'text'" formControlName="password" placeholder="Senha*"
+        matTooltip="Coloque uma senhas forte para você ter mais segurança" />
+      <img src="/assets/icon/eyeOpen.png" class="eye" (click)="viewPassword = false" *ngIf="viewPassword" />
+      <img src="/assets/icon/eyeClose.png" class="eye" (click)="viewPassword = true" *ngIf="!viewPassword" />
     </div>
-    <span class="erro" id="span_senha">Coloque a senha, com os requisitos pedidos</span>
+    <span class="erro"
+      *ngIf="formEnterprise.get('password')?.invalid && formEnterprise.get('password')?.touched">Coloque a senha,
+      com os requisitos pedidos: <br />- Letras maiúsculas e
+      minúsculas <br />- Números <br />- Caracteres especiais
+    </span>
 
-    <div class="input_icon_div" title="Coloque o confirmar senha com os mesmos valor que a senha">
-      <input type="password" id="senhaConfirm" placeholder="Confirme a senha*" />
-      <img src="/assets/icon/eyeOpen.png" class="eye" onclick="view(this)" />
+    <div class="input_icon_div" matTooltip="Coloque o confirmar senha com os mesmos valor que a senha">
+      <input [type]="viewPassword? 'password' : 'text'" formControlName="confirm" placeholder="Confirme a senha*" />
+      <img src="/assets/icon/eyeOpen.png" class="eye" (click)="viewPassword = false" *ngIf="viewPassword" />
+      <img src="/assets/icon/eyeClose.png" class="eye" (click)="viewPassword = true" *ngIf="!viewPassword" />
     </div>
-    <span class="erro" id="span_senhaConfirm">Coloque o confirmar senha com os dados pedidos</span>
+    <span class="erro" *ngIf="formEnterprise.get('confirm')?.invalid && formEnterprise.get('confirm')?.touched">Coloque
+      o confirmar
+      senha com os dados pedidos</span>
 
-    <select class="initial" title="Detalhes do plano selecionado: ">
-      <option>Free</option>
-      <option>Básico</option>
-      <option>Enterprise</option>
+    <span class="erro" id="alert_required">* sinaliza os campos obrigatórios</span>
+
+    <select class="initial" formControlName="plan">
+      <option value="">- Selecione uma opção de plano -</option>
+      <option [value]="item.id" [title]="item.descricao" *ngFor="let item of planos">{{item.plano}} -
+        R${{item.valorTotal |
+        number:'1.2-2'}} / Mês</option>
     </select>
-    <span class="erro" id="span_tel">Coloque um telefone</span>
+    <span class="erro" id="span_tel"
+      *ngIf="formEnterprise.get('plan')?.invalid && formEnterprise.get('plan')?.touched">Selecione um plano</span>
 
     <span class="erro" id="alert_required">* sinaliza os campos obrigatórios</span>
 
     <div class="button_group">
-      <button class="button" onclick="register()">
+      <button class="button" (click)="registerEnterprise()">
         Cadastrar
       </button>
-      <button class="button cancel_button" onclick="$('#dialog').empty()">
+      <button class="button cancel_button" (click)="close()">
         Cancelar
       </button>
     </div>

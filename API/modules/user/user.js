@@ -34,7 +34,7 @@ class User {
     this.token = token;
   }
 
-  async create(name, email, password, telephone, document) {
+  async create(name, email, password, telephone, document, plan = null) {
     try {
       let passwordObj = await HashPasword(password);
 
@@ -46,6 +46,11 @@ class User {
       record.new_salt = passwordObj.salt;
       record.telephone1 = telephone;
       record.new_document = document;
+
+      if (plan) {
+        record["new_Plano@odata.bind"] = `/new_planos(${plan})`;
+        record.new_tipodaconta = 1;
+      }
 
       return new Promise((resolve, reject) => {
         fetch(

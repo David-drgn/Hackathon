@@ -35,6 +35,7 @@ import { EventViewComponent } from './home/event-view/event-view.component';
 import { FilterPipe } from './pipes/filter/filter.pipe';
 import { PlansMainComponent } from './plans-main/plans-main.component';
 import { FormsModule } from "@angular/forms";
+import { EventComponent } from "./popUp/event/event.component";
 
 @NgModule({
   declarations: [
@@ -56,12 +57,9 @@ import { FormsModule } from "@angular/forms";
     PlansComponent,
     SettingsComponent,
     EventViewComponent,
-<<<<<<< HEAD
     FilterPipe,
     PlansMainComponent,
-=======
     EventComponent,
->>>>>>> 149619ffdfe9ead580bbcef3567759f95baa0941
   ],
   imports: [
     BrowserModule,

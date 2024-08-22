@@ -1,10 +1,12 @@
 <div class="chatContainer">
-    <div class="chatHeader">
-      <span>Oswald</span>
-    </div>
-    <div class="chatConversation" id="chatConversation"></div>
-    <div class="chatMessage">
-      <input type="text" id="inputUser" />
-      <img src="/assets/icon/send.svg" onclick="chatQuest()" />
-    </div>
+  <div class="chatHeader">
+    <span>Oswald</span>
   </div>
+  <div class="chatConversation" id="chatConversation">
+    <span *ngFor="let item of chatView" [class]="item.role == 'user'? 'user chat' : 'bot chat'">{{item.content}}</span>
+  </div>
+  <div class="chatMessage">
+    <input type="text" id="inputUser" [(ngModel)]="quest" />
+    <img src="/assets/icon/send.svg" (click)="chat()" />
+  </div>
+</div>
