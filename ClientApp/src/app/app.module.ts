@@ -31,13 +31,13 @@ import { ChatComponent } from './home/chat/chat.component';
 import { ArchiveComponent } from './home/archive/archive.component';
 import { PlansComponent } from './home/plans/plans.component';
 import { SettingsComponent } from './home/settings/settings.component';
-import { EventViewComponent } from './home/event-view/event-view.component';
 import { FilterPipe } from './pipes/filter/filter.pipe';
 import { PlansMainComponent } from './plans-main/plans-main.component';
 import { FormsModule } from "@angular/forms";
 import { EventComponent } from "./popUp/event/event.component";
 import { ServicesComponent } from './popUp/services/services.component';
 import { PhoneMaskPipe } from './pipes/phoneMask/phone-mask.pipe';
+import { AgendaComponent } from './popUp/agenda/agenda.component';
 
 @NgModule({
   declarations: [
@@ -58,12 +58,12 @@ import { PhoneMaskPipe } from './pipes/phoneMask/phone-mask.pipe';
     ArchiveComponent,
     PlansComponent,
     SettingsComponent,
-    EventViewComponent,
     FilterPipe,
     PlansMainComponent,
     EventComponent,
     ServicesComponent,
     PhoneMaskPipe,
+    AgendaComponent,
   ],
   imports: [
     BrowserModule,

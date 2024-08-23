@@ -217,6 +217,47 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.post("/api/createArchive", async (req, res) => {
+  //   record.documentbody = "o"; // Text
+  // record.mimetype = "mi"; // Text
+  // record.filename = "te"; // Text
+  // record["objectid_account@odata.bind"] = "/accounts(4d09d9fb-0061-ef11-a670-000d3a5d2a2c)"; // Lookup
+
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      const response = await user.createArquivo(req.body.record);
+      if (response.erro) {
+        return res.json({ erro: true });
+      } else {
+        return res.json({ erro: false });
+      }
+    } catch {
+      return res.json({ erro: true });
+    }
+  }
+});
+
+app.post("/api/getArchive", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      const response = await user.getFiles(req.body.id);
+      if (response.erro) {
+        return res.json({ erro: true });
+      } else {
+        return res.json({ erro: false, response });
+      }
+    } catch {
+      return res.json({ erro: true });
+    }
+  }
+});
+
 app.post("/api/update", async (req, res) => {
   const { userId, token, record, email } = req.body;
   if (await tokenValid(token)) {
@@ -260,13 +301,9 @@ app.post("/api/service/createRelation", async (req, res) => {
       req.body.serviceId
     );
 
-    if (response.erro) {
-      return res.json({ erro: true });
-    } else {
-      return res.json({ response });
-    }
+    return res.json({ response });
   } catch (e) {
-    return res.json({ erro: true });
+    return res.json({ e });
   }
 });
 
@@ -279,13 +316,9 @@ app.post("/api/service/deleteRelation", async (req, res) => {
       req.body.serviceId
     );
 
-    if (response.erro) {
-      return res.json({ erro: true });
-    } else {
-      return res.json({ response });
-    }
+    return res.json({ response });
   } catch (e) {
-    return res.json({ erro: true });
+    return res.json({ e });
   }
 });
 
@@ -385,6 +418,21 @@ app.post("/api/events/livreRegister", async (req, res) => {
     try {
       const user = await new User((await getConnect()).token);
 
+      function subtrairHoras(dataStr, horas) {
+        const data = new Date(dataStr); // Cria um objeto Date a partir da string
+        data.setUTCHours(data.getUTCHours() - horas); // Subtrai as horas
+        return data.toISOString(); // Retorna a data no formato ISO
+      }
+
+      req.body.record.new_data_agendada = subtrairHoras(
+        req.body.record.new_data_agendada,
+        3
+      );
+      req.body.record.new_dataterminoagenda = subtrairHoras(
+        req.body.record.new_dataterminoagenda,
+        3
+      );
+
       //   req.body.record.new_data_agendada = new Date("2024-08-21 16:48").toISOString(); // Date Time
       //   req.body.record.new_dataterminoagenda = new Date("2024-08-14 16:48").toISOString(); // Date Time
       //   req.body.record["new_Prestador@odata.bind"] = "/accounts(e157301c-c84d-ef11-accd-000d3a5cdd3c)"; // Lookup
@@ -393,6 +441,27 @@ app.post("/api/events/livreRegister", async (req, res) => {
       const response = await user.registerAgendaLivre(req.body.record);
       return res.json({ erro: false, response });
     } catch (e) {
+      return res.json({ erro: true });
+    }
+  }
+});
+
+app.post("/api/agenda/update", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      let response = await user.agendaSetState(
+        req.body.record,
+        req.body.idAgenda
+      );
+      if (response.erro) {
+        return res.json({ erro: true });
+      } else {
+        return res.json({ erro: false });
+      }
+    } catch {
       return res.json({ erro: true });
     }
   }
@@ -407,7 +476,7 @@ app.post("/api/events/agendaRegister", async (req, res) => {
 
       function subtrairHoras(dataStr, horas) {
         const data = new Date(dataStr); // Cria um objeto Date a partir da string
-        data.setUTCHours(data.getUTCHours() - horas); // Subtrai as horas
+        data.setUTCHours(data.getUTCHours() + horas); // Subtrai as horas
         return data.toISOString(); // Retorna a data no formato ISO
       }
 

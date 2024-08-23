@@ -1,17 +1,17 @@
-import { Component, Inject } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   MatDialog,
-} from "@angular/material/dialog";
-import { HttpService } from "src/app/services/http/http.service";
-import { StorageService } from "src/app/services/storage/storage.service";
-import { DialogComponent } from "../dialog/dialog.component";
+} from '@angular/material/dialog';
+import { HttpService } from 'src/app/services/http/http.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { DialogComponent } from '../dialog/dialog.component';
 
 interface Service {
   new_Account_new_Servico_new_Servico: AccountsService[] | undefined;
-  "new_Account_new_Servico_new_Servico@odata.nextLink": string;
+  'new_Account_new_Servico_new_Servico@odata.nextLink': string;
   new_descricao: string | null;
   new_name: string;
   new_servicoid: string;
@@ -37,9 +37,9 @@ interface AccountsService {
 }
 
 @Component({
-  selector: "app-event",
-  templateUrl: "./event.component.html",
-  styleUrls: ["./event.component.css"],
+  selector: 'app-event',
+  templateUrl: './event.component.html',
+  styleUrls: ['./event.component.css'],
 })
 export class EventComponent {
   step: number = 1;
@@ -47,19 +47,20 @@ export class EventComponent {
   accountsService: AccountsService[] | undefined = [];
   prestadorSelected: AccountsService | undefined;
 
-  selectedDate: string = "none";
+  selectedDate: string = 'none';
   availableTimeSlots: { start: Date; end: Date }[] = [];
 
   formUser = this.formBuilder.group({
-    servico: ["", Validators.required],
-    local: [""],
-    prestador: ["", [Validators.required]],
-    selectedDate: ["", Validators.required],
+    servico: ['', Validators.required],
+    local: [''],
+    prestador: ['', [Validators.required]],
+    selectedDate: ['', Validators.required],
+    selectHour: ['', Validators.required],
   });
 
   formEnterprise = this.formBuilder.group({
-    initiHour: ["", Validators.required],
-    finalHour: ["", Validators.required],
+    initiHour: ['', Validators.required],
+    finalHour: ['', Validators.required],
   });
 
   constructor(
@@ -77,10 +78,10 @@ export class EventComponent {
   }
 
   getService() {
-    this.http.POST("service/get").subscribe(
+    this.http.POST('service/get').subscribe(
       (res) => {
         if (res.erro) {
-          console.error("Erro na busca");
+          console.error('Erro na busca');
           this.getService();
         } else {
           this.services = res.response;
@@ -88,20 +89,20 @@ export class EventComponent {
         }
       },
       (Error) => {
-        console.error("Erro na busca");
+        console.error('Erro na busca');
         this.getService();
       }
     );
   }
 
   changeOptionService(value: string) {
-    if (value == "none") this.step = 1;
+    if (value == 'none') this.step = 1;
     else {
       this.step = 2;
       this.storage.load.next(true);
 
       this.http
-        .POST("service/getAccounts", {
+        .POST('service/getAccounts', {
           serviceId: value,
         })
         .subscribe((res: any) => {
@@ -111,8 +112,8 @@ export class EventComponent {
           if (res.response.length == 0) {
             this.step = 1;
             this.openDialog(
-              "Nenhum prestador encontrado",
-              "Nenhum prestador foi encontrado com a opção selecionada, sinto muito"
+              'Nenhum prestador encontrado',
+              'Nenhum prestador foi encontrado com a opção selecionada, sinto muito'
             );
           }
           this.accountsService = res.response;
@@ -231,16 +232,16 @@ export class EventComponent {
 
     // Formatar a data em dd/MM/yy HH:mm
     const options: Intl.DateTimeFormatOptions = {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
       hour12: false, // Usar 24 horas
-      timeZone: "UTC", // Garantir que a data está em UTC
+      timeZone: 'UTC', // Garantir que a data está em UTC
     };
 
-    const formatter = new Intl.DateTimeFormat("pt-BR", options);
+    const formatter = new Intl.DateTimeFormat('pt-BR', options);
     const formattedDate = formatter.format(date);
     return formattedDate;
   }
@@ -250,18 +251,18 @@ export class EventComponent {
 
     // Formatar a data em dd/MM/yy HH:mm
     const options: Intl.DateTimeFormatOptions = {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
       hour12: false, // Usar 24 horas
-      timeZone: "UTC", // Garantir que a data está em UTC
+      timeZone: 'UTC', // Garantir que a data está em UTC
     };
 
-    const formatter = new Intl.DateTimeFormat("pt-BR", options);
+    const formatter = new Intl.DateTimeFormat('pt-BR', options);
     const formattedDate = formatter.format(date);
-    return formattedDate.split(", ")[1];
+    return formattedDate.split(', ')[1];
   }
 
   changeOptionPrestador(value: string) {
@@ -271,9 +272,9 @@ export class EventComponent {
   onDateChange() {
     if (
       this.formUser.controls.selectedDate.value &&
-      this.formUser.controls.selectedDate.value !== "none"
+      this.formUser.controls.selectedDate.value !== 'none'
     ) {
-      const [start, end] = this.formUser.controls.selectedDate.value.split("|");
+      const [start, end] = this.formUser.controls.selectedDate.value.split('|');
       this.availableTimeSlots = this.getAllTimeSlots(start, end);
     } else {
       this.availableTimeSlots = [];
@@ -306,13 +307,53 @@ export class EventComponent {
       forms: this.formUser.value,
       local: this.prestadorSelected?.endereco,
     });
+    if (this.formUser.invalid) {
+      this.openDialog(
+        'Preencha os campos',
+        'Por favor, preencha os campos corretamente'
+      );
+    } else {
+      this.http
+        .POST('events/agendaRegister', {
+          record: {
+            new_data_agendada:
+              this.formUser.controls.selectHour.value?.split('|')[0],
+            new_dataterminoagenda:
+              this.formUser.controls.selectHour.value?.split('|')[1],
+            ['new_Cliente@odata.bind']: `/accounts(${
+              this.storage.user.getValue().accountid
+            })`,
+            ['new_Prestador@odata.bind']: `/accounts(${this.formUser.controls.prestador.value})`,
+            new_local: this.formUser.controls.local.value
+              ? this.formUser.controls.local.value
+              : this.prestadorSelected?.endereco,
+            new_tipohorario: 2,
+            ['new_Servico@odata.bind']: `/new_servicos(${this.formUser.controls.servico.value})`,
+          },
+        })
+        .subscribe((res) => {
+          this.storage.load.next(false);
+          if (res.erro) {
+            this.openDialog(
+              'Erro ao criar consulta',
+              'Pedão, porém ocorreu um erro ao criar a consulta, por favor, tente novamente mais tarde'
+            );
+          } else {
+            this.openDialog(
+              'Consulta',
+              'Sua agenda foi atalizada com sucesso, parebéns'
+            );
+            this.dialogRef.close();
+          }
+        });
+    }
   }
 
   createAgendaLivre() {
     if (this.formEnterprise.invalid) {
       this.openDialog(
-        "Preencha os campos",
-        "Por favor, preencha os campos corretamente"
+        'Preencha os campos',
+        'Por favor, preencha os campos corretamente'
       );
     } else {
       for (
@@ -322,19 +363,19 @@ export class EventComponent {
       ) {
         this.storage.load.next(true);
         this.http
-          .POST("events/livreRegister", {
+          .POST('events/livreRegister', {
             record: {
               new_data_agendada: new Date(
-                `${current.toISOString().split("T")[0]}T${
+                `${current.toISOString().split('T')[0]}T${
                   this.formEnterprise.controls.initiHour.value
                 }`
               ).toISOString(),
               new_dataterminoagenda: new Date(
-                `${current.toISOString().split("T")[0]}T${
+                `${current.toISOString().split('T')[0]}T${
                   this.formEnterprise.controls.finalHour.value
                 }`
               ).toISOString(),
-              ["new_Prestador@odata.bind"]: `/accounts(${
+              ['new_Prestador@odata.bind']: `/accounts(${
                 this.storage.user.getValue().accountid
               })`,
               new_tipohorario: 1,
@@ -344,13 +385,13 @@ export class EventComponent {
             this.storage.load.next(false);
             if (res.erro) {
               this.openDialog(
-                "Erro ao criar agenda livre",
-                "Pedão, porém ocorreu um erro ao criar a agenda livre, por favor, tente novamente mais tarde"
+                'Erro ao criar agenda livre',
+                'Pedão, porém ocorreu um erro ao criar a agenda livre, por favor, tente novamente mais tarde'
               );
             } else {
               this.openDialog(
-                "Agenda livre",
-                "Sua agenda foi atalizada com sucesso, parebéns"
+                'Agenda livre',
+                'Sua agenda foi atalizada com sucesso, parebéns'
               );
               this.dialogRef.close();
             }

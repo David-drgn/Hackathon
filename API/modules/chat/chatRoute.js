@@ -125,10 +125,7 @@ Qual seria o tipo da consulta que deseja realizar?
 
 Temos as opções:
 1. MÉDICO
-2. BARBEARIA
-3. RESTAURANTE
-4. DELIVERY PARA IDOSO
-5. FESTAS/EVENTOS
+(Outros tipos de consulta estão para serem feitos)
 
 0. Cancelar
 

@@ -2,7 +2,7 @@
   <form class="appointment_container" *ngIf="data.type == 0" [formGroup]="formUser">
     <span class="title">Agendamento</span>
     <span id="dateSelect" class="subtitle">
-      {{data.info.start | date: 'dd/MM/yyyy'}} 
+      {{data.info.start | date: 'dd/MM/yyyy'}}
       <ng-container *ngIf="!isSameDayHtml(data.info.start, getEndDateMinusOneDay(data.info.end))">
         - {{getEndDateMinusOneDay(data.info.end) | date: 'dd/MM/yyyy'}}
       </ng-container>
@@ -41,7 +41,7 @@
         </option>
       </select>
 
-      <select id="time" class="prestadorSelecionado">
+      <select id="time" class="prestadorSelecionado" formControlName="selectHour">
         <option *ngFor="let item of availableTimeSlots"
           [value]="item.start.toISOString() + '|' + item.end.toISOString()">
           {{formatHourToUTC(item.start.toISOString())}} -
@@ -68,7 +68,7 @@
   <form class="appointment_container" id="enterprise" *ngIf="data.type == 1" [formGroup]="formEnterprise">
     <span class="title">Adicionar horário livre</span>
     <span id="dateSelectMedico" class="subtitle">
-      {{data.info.start | date: 'dd/MM/yyyy'}} 
+      {{data.info.start | date: 'dd/MM/yyyy'}}
       <ng-container *ngIf="!isSameDayHtml(data.info.start, getEndDateMinusOneDay(data.info.end))">
         - {{getEndDateMinusOneDay(data.info.end) | date: 'dd/MM/yyyy'}}
       </ng-container>

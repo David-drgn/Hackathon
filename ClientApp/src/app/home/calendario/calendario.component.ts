@@ -4,31 +4,32 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-} from "@angular/core";
+} from '@angular/core';
 
-import { HttpService } from "src/app/services/http/http.service";
-import { StorageService } from "src/app/services/storage/storage.service";
-import { DialogComponent } from "src/app/popUp/dialog/dialog.component";
-import { MatDialog } from "@angular/material/dialog";
-import { Calendar, CalendarOptions } from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import interactionPlugin from "@fullcalendar/interaction";
-import { EventComponent } from "src/app/popUp/event/event.component";
+import { HttpService } from 'src/app/services/http/http.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Calendar, CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
+import { EventComponent } from 'src/app/popUp/event/event.component';
+import { AgendaComponent } from 'src/app/popUp/agenda/agenda.component';
 
 @Component({
-  selector: "app-calendario",
-  templateUrl: "./calendario.component.html",
-  styleUrls: ["./calendario.component.css"],
+  selector: 'app-calendario',
+  templateUrl: './calendario.component.html',
+  styleUrls: ['./calendario.component.css'],
 })
 export class CalendarioComponent {
   events: [] = [];
 
-  @ViewChildren("calendar") calendar!: QueryList<ElementRef>;
+  @ViewChildren('calendar') calendar!: QueryList<ElementRef>;
 
   viewCalendar: number = 1;
-  calendarView: string = "dayGridMonth";
+  calendarView: string = 'dayGridMonth';
   calendarObj!: Calendar;
 
   isSameDayHtml(startDate: Date, endDate: Date): boolean {
@@ -52,38 +53,45 @@ export class CalendarioComponent {
     events: [],
     customButtons: {
       view: {
-        text: "Trocar visualização",
+        text: 'Trocar visualização',
         click: () => {
           this.changeCalendarView();
         },
       },
       today: {
-        text: "Hoje",
+        text: 'Hoje',
         click: () => {
           this.calendarObj.today();
         },
       },
       prox: {
-        text: "Próximo",
-        icon: "chevron-right",
+        text: 'Próximo',
+        icon: 'chevron-right',
         click: () => {
           this.calendarObj.next();
         },
       },
       ant: {
-        text: "Anterior",
-        icon: "chevron-left",
+        text: 'Anterior',
+        icon: 'chevron-left',
         click: () => {
           this.calendarObj.prev();
         },
       },
     },
-    locale: "pt-br",
+    locale: 'pt-br',
     selectable: true,
     headerToolbar: {
-      left: "ant today prox",
-      center: "title",
-      right: "view",
+      left: 'ant today prox',
+      center: 'title',
+      right: 'view',
+    },
+    eventClick: (info) => {
+      this.dialog.open(AgendaComponent, {
+        data: {
+          id: info.event.id,
+        },
+      });
     },
     select: (info) => {
       if (info.start.getTime() > new Date().getTime()) {
@@ -212,19 +220,19 @@ export class CalendarioComponent {
   private changeCalendarView() {
     switch (this.viewCalendar) {
       case 0:
-        this.calendarView = "dayGridMonth";
+        this.calendarView = 'dayGridMonth';
         break;
       case 1:
-        this.calendarView = "timeGridWeek";
+        this.calendarView = 'timeGridWeek';
         break;
       case 2:
-        this.calendarView = "listWeek";
+        this.calendarView = 'listWeek';
         break;
       case 3:
-        this.calendarView = "dayGridWeek";
+        this.calendarView = 'dayGridWeek';
         break;
       case 4:
-        this.calendarView = "timeGridDay";
+        this.calendarView = 'timeGridDay';
         this.viewCalendar = -1;
         break;
     }

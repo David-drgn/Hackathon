@@ -1,17 +1,12 @@
 <div class="archive_itens filter">
-  <div class="search_input_files">
-    <input
-      type="text"
-      class="input_body"
-      placeholder="Pesquisar por arquivos"
-    />
+  <!-- <div class="search_input_files">
+    <input type="text" class="input_body" placeholder="Pesquisar por arquivos" />
     <img src="/assets/icon/search.svg" />
-  </div>
+  </div> -->
   <div class="files_view">
-    <span class="title_files" onclick="openSection('favorite_files')"
-      >Favoritos <img src="/assets/icon/arrow_drop.svg"
-    /></span>
-    <div class="category" id="favorite_files">
+    <!-- <span class="title_files" onclick="openSection('favorite_files')">Favoritos <img
+        src="/assets/icon/arrow_drop.svg" /></span> -->
+    <!-- <div class="category" id="favorite_files">
       <div class="archive">
         <div class="arhive_preview">
           <img src="/assets/icon/image_type.svg" />
@@ -47,12 +42,11 @@
           </div>
         </div>
       </div>
-    </div>
-    <span class="title_files" onclick="openSection('every_files')"
-      >Todos os arquivos<img src="/assets/icon/arrow_drop.svg"
-    /></span>
+    </div> -->
+    <!-- <span class="title_files" onclick="openSection('every_files')">Todos os arquivos<img
+        src="/assets/icon/arrow_drop.svg" /></span> -->
     <div class="category" id="every_files">
-      <div class="archive">
+      <!-- <div class="archive">
         <div class="arhive_preview">
           <img src="/assets/icon/image_type.svg" />
         </div>
@@ -68,38 +62,39 @@
             <img src="/assets/icon/delete.svg" />
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="archive">
+      <div class="archive" *ngFor="let item of documentos" (click)="viewAchive(item)">
         <div class="arhive_preview">
           <img src="/assets/icon/file_type.svg" />
         </div>
         <div class="archive_info">
-          <span>Nome.pdf</span>
+          <span>{{item.filename}}</span>
           <div class="archive_info_more">
-            <span>10/03/2005</span>
-            <span>9MB</span>
+            <!-- <span>10/03/2005</span>
+            <span>9MB</span> -->
           </div>
           <div class="options_file">
-            <img src="/assets/icon/favorite_fill.svg" />
-            <img src="/assets/icon/bookmark.svg" />
+            <!-- <img src="/assets/icon/favorite_fill.svg" />
+            <img src="/assets/icon/bookmark.svg" /> -->
             <img src="/assets/icon/delete.svg" />
           </div>
         </div>
       </div>
     </div>
   </div>
-  <button class="archive_anexer" onclick="enviarArquivo()">
+  <input type="file" style="display: none;" #fileInput (change)="fileChangeCreate($event)">
+  <button class="archive_anexer" (click)="fileInput.click()">
     Anexar arquivo
   </button>
 </div>
 <div class="archive_itens every">
   <div class="options_file_view">
-    <span>Nome arquivo.png</span>
-    <img src="/assets/icon/favorite_fill.svg" />
-    <img src="/assets/icon/bookmark.svg" />
+    <span>{{docSelect?.filename}}</span>
+    <!-- <img src="/assets/icon/favorite_fill.svg" />
+    <img src="/assets/icon/bookmark.svg" /> -->
     <img src="/assets/icon/delete.svg" />
   </div>
-  <iframe src="" id="iframe_view"></iframe>
+  <iframe [src]="pdfSrc" id="iframe_view"></iframe>
   <input type="file" style="display: none;" id="file_manager_input" />
 </div>

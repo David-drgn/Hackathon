@@ -1,17 +1,17 @@
-<div class="plan_item">
-  <span class="plan_title">Básico</span>
+<div class="plan_item" *ngFor="let item of planos">
+  <span class="plan_title">{{item.plano}}</span>
   <span class="plan_subtitle">
-    Este plano inclui a capacidade de armazenar até dois arquivos e oferece
-    acesso ao Oswald, nosso assistente virtual. Oswald está disponível para
-    responder dúvidas, resolvendo questões de forma eficiente.
+    {{item.descricao}}
   </span>
-  <b class="plan_value" style="margin-top: 20px;">R$100,00 / Mês</b>
-  <b class="plan_value">R$2400,00 / Ano</b>
+  <b class="plan_value" style="margin-top: 20px;">R${{item.valorTotal | number:'1.2-2'}} / Mês</b>
+  <b class="plan_value">R${{item.valorTotal * 12 | number:'1.2-2'}} / Ano</b>
+  <b class="plan_value" *ngIf="item.desconto != 0">Economize R${{item.desconto | number:'1.2-2'}}</b>
   <hr />
   <span class="plan_subtitle" style="font-weight: 600;">Benefícios</span>
   <ul>
-    <li>Integração com o ChatGpt</li>
+    <li *ngFor="let itemBeneficioDesc of item.beneficiosDesc.split(';')">{{itemBeneficioDesc}}</li>
   </ul>
   <hr />
-  <button class="button_add_plan">Adiquirir</button>
+  <button class="button_add_plan" [disabled]="userPlan(item.id)" (click)="updatePlan(item.id)">{{userPlan(item.id) ?
+    "Já adquirido" : "Assinar"}}</button>
 </div>

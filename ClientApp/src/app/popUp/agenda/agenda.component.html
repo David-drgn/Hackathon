@@ -1,0 +1,58 @@
+<div class="background_agenda">
+    <div class="container_agenda">
+        <span class="title_agenda">{{agenda?.local}} - Consulta com {{user.new_tipodaconta == 1?
+            "Cliente" : "Médico" }} - {{agenda?.tipoHorario}}</span>
+        <span class="title_agenda">Início: {{agenda?.dataAgendada | date: 'dd/MM/yyyy HH:mm'}} - Termino:
+            {{agenda?.dataTermino | date: 'dd/MM/yyyy HH:mm'}}</span>
+        <div class="service_wrapper">
+            <img src="/assets/icon/excluir.png" class="close_agenda" (click)="close();" />
+            <div class="your_agendas">
+                <span class="title_agenda">Você</span>
+                <div class="info">
+                    <img
+                        [src]="user.new_perfil ? 'data:image/png;base64,' + user.new_perfil : '/assets/icon/person.svg'">
+                    <span>{{user.name}}</span>
+                </div>
+            </div>
+            <div class="posible_agendas">
+                <span class="title_agenda">{{user.new_tipodaconta == 1? 'Cliente' : 'Prestador'}}</span>
+                <ng-container *ngIf="user.new_tipodaconta == 0">
+                    <div class="info">
+                        <img class="another"
+                            [src]="agenda?.prestador?.foto ? 'data:image/png;base64,' + agenda?.prestador?.foto : '/assets/icon/person.svg'">
+                        <span>{{agenda?.prestador?.nome}}</span>
+                        <a *ngFor="let item of redesAnother" [href]="item.url" target="_blank">Acesse o meu: {{item.rede}}</a>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="user.new_tipodaconta == 1">
+                    <div class="info">
+                        <img class="another"
+                            [src]="agenda?.cliente?.foto ? 'data:image/png;base64,' + agenda?.cliente?.foto : '/assets/icon/person.svg'">
+                        <span>{{agenda?.cliente?.nome}}</span>
+                        <a *ngFor="let item of redesAnother" [href]="item.url" target="_blank">{{item.rede}}</a>
+                    </div>
+                </ng-container>
+
+                <!-- <div class="wrapper_agenda" id="all_agendas">
+                    <div class="item_agenda">
+                        <input placeholder="Criar novo serviço" />
+                        <button class="service_button">Criar</button>
+                    </div>
+
+                    <div class="item_agenda service" *ngFor="let item of filterServicesOff()">
+                        <span>{{item.new_name}}</span>
+                        <button class="service_button" (click)="createServiceRelation(item.new_servicoid)">
+                            Adicionar esse serviço
+                        </button>
+                    </div>
+                </div> -->
+                <div class="divButtons">
+                    <button (click)="updateAgenda(4)">Cancelar consulta</button>
+                    <button (click)="updateAgenda(3)" *ngIf="user.new_tipodaconta == 1">Marcar como realizada</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

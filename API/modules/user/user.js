@@ -455,7 +455,7 @@ class User {
   async getEventsById(eventId) {
     return new Promise((resolve, reject) => {
       fetch(
-        `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario&$expand=new_Cliente($select=description,new_redessociais,new_document,emailaddress1,name,telephone1),new_Prestador($select=description,new_redessociais,new_document,emailaddress1,name,telephone1)&$filter=new_agendamentoid eq ${eventId}`,
+        `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos?$select=_new_cliente_value,new_data_agendada,new_dataterminoagenda,new_local,_new_prestador_value,new_tipohorario&$expand=new_Cliente($select=new_perfil,description,new_redessociais,new_document,emailaddress1,name,telephone1),new_Prestador($select=description,new_redessociais,new_document,emailaddress1,name,telephone1,new_perfil)&$filter=new_agendamentoid eq ${eventId}`,
         {
           method: "GET",
           headers: {
@@ -528,6 +528,7 @@ class User {
                 redes: result["new_Cliente"]["new_redessociais"],
                 nome: result["new_Cliente"]["name"],
                 telefone: result["new_Cliente"]["telephone1"],
+                foto: result["new_Cliente"]["new_perfil"],
               };
               // var new_Cliente_description =
               //   result["new_Cliente"]["description"]; // Multiline Text
@@ -550,6 +551,7 @@ class User {
                 redes: result["new_Prestador"]["new_redessociais"],
                 nome: result["new_Prestador"]["name"],
                 telefone: result["new_Prestador"]["telephone1"],
+                foto: result["new_Prestador"]["new_perfil"],
               };
               // var new_Prestador_description =
               //   result["new_Prestador"]["description"]; // Multiline Text
@@ -607,6 +609,120 @@ class User {
           .catch(function (error) {
             resolve({ erro: true });
             console.log(error.message);
+          });
+      } catch {
+        resolve({ erro: true });
+      }
+    });
+  }
+
+  async createArquivo(record) {
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(`${process.env.BASE_REQUEST_URL}/api/data/v9.2/annotations`, {
+          method: "POST",
+          headers: {
+            "OData-MaxVersion": "4.0",
+            "OData-Version": "4.0",
+            "Content-Type": "application/json; charset=utf-8",
+            Accept: "application/json",
+            Prefer: "odata.include-annotations=*",
+            Authorization: "Bearer " + this.token,
+          },
+          body: JSON.stringify(record),
+        })
+          .then(function success(response) {
+            if (response.ok) {
+              resolve({
+                erro: false,
+              });
+            } else {
+              resolve({ erro: true });
+            }
+          })
+          .catch(function (error) {
+            resolve({ erro: true });
+          });
+      } catch {
+        resolve({ erro: true });
+      }
+    });
+  }
+
+  async getFiles(id) {
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/annotations?$select=documentbody,filename,mimetype&$filter=_objectid_value eq ${id}`,
+          {
+            method: "GET",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Prefer: "odata.include-annotations=*",
+              Authorization: "Bearer " + this.token,
+            },
+          }
+        )
+          .then(function success(response) {
+            return response.json().then((json) => {
+              if (response.ok) {
+                return [response, json];
+              } else {
+                throw json.error;
+              }
+            });
+          })
+          .then(function (responseObjects) {
+            var response = responseObjects[0];
+            var responseBody = responseObjects[1];
+            var results = responseBody;
+            console.log(results);
+            resolve({
+              erro: false,
+              results: results.value,
+            });
+          })
+          .catch(function (error) {
+            resolve({ erro: true });
+          });
+      } catch {
+        resolve({ erro: true });
+      }
+    });
+  }
+
+  async agendaSetState(record, agendaId) {
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/new_agendamentos(${agendaId})`,
+          {
+            method: "PATCH",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Prefer: "odata.include-annotations=*",
+              Authorization: "Bearer " + this.token,
+            },
+            body: JSON.stringify(record),
+          }
+        )
+          .then(function success(response) {
+            if (response.ok) {
+              resolve({
+                erro: false,
+              });
+            } else {
+              resolve({ erro: true });
+            }
+          })
+          .catch(function (error) {
+            resolve({ erro: true });
           });
       } catch {
         resolve({ erro: true });
