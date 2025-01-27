@@ -1,1 +1,14 @@
-<p>forget works!</p>
+<div class="background_forget">
+    <div class="wrapper_forget">
+        <div class="wrapper_header_forget">
+            <span class="title_forget">Digite o seu email</span>
+            <img src="/assets/icon/excluir.png" class="close_forget" onclick="$('#dialog').empty();" />
+        </div>
+        <div class="input_icon_div">
+            <input id="email_forget" type="email" placeholder="Email" />
+            <img src="/assets/icon/email.svg" />
+        </div>
+        <span class="erro_forget">*Campo obrigatório</span>
+        <button class="button_forget" onclick="forgetSendMail()">Enviar</button>
+    </div>
+</div>

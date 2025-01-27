@@ -9,6 +9,7 @@ import { ArchiveComponent } from "./home/archive/archive.component";
 import { PlansComponent } from "./home/plans/plans.component";
 import { SettingsComponent } from "./home/settings/settings.component";
 import { PlansMainComponent } from "./plans-main/plans-main.component";
+import { ForgetComponentComponent } from "./forget-component/forget-component.component";
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     path: "plans",
     component: PlansMainComponent,
   },
+  { path: 'forget/:id', component: ForgetComponentComponent },
   {
     path: "home",
     component: HomeComponent,

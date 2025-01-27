@@ -4,6 +4,7 @@ import { HttpService } from '../services/http/http.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../popUp/register/register.component';
 import { MatDialog } from '@angular/material/dialog';
+import { canActiveGuard } from '../guards/canActive/can-active.guard';
 
 interface Plano {
   beneficios: string;
@@ -28,7 +29,8 @@ export class PlansMainComponent {
     private storage: StorageService,
     private http: HttpService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private canActive: canActiveGuard
   ) {
     this.storage.load.next(true);
     this.getPlans();
@@ -40,6 +42,7 @@ export class PlansMainComponent {
         this.storage.load.next(false);
         if (res.erro) {
           console.error('Erro ao realizar busca');
+          this.canActive.canActivate();
         } else {
           this.planos = res.response;
         }

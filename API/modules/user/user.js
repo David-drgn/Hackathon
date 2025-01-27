@@ -649,11 +649,45 @@ class User {
     });
   }
 
+  async deleteFiles(id) {
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/annotations(${id})`,
+          {
+            method: "DELETE",
+            headers: {
+              "OData-MaxVersion": "4.0",
+              "OData-Version": "4.0",
+              "Content-Type": "application/json; charset=utf-8",
+              Accept: "application/json",
+              Authorization: "Bearer " + this.token,
+            },
+          }
+        )
+          .then(function success(response) {
+            if (response.ok) {
+              resolve({
+                erro: false,
+              });
+            } else {
+              resolve({ erro: true });
+            }
+          })
+          .catch(function (error) {
+            resolve({ erro: true });
+          });
+      } catch {
+        resolve({ erro: true });
+      }
+    });
+  }
+
   async getFiles(id) {
     return new Promise((resolve, reject) => {
       try {
         fetch(
-          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/annotations?$select=documentbody,filename,mimetype&$filter=_objectid_value eq ${id}`,
+          `${process.env.BASE_REQUEST_URL}/api/data/v9.2/annotations?$select=documentbody,createdon,filesize,filename,mimetype&$filter=_objectid_value eq ${id}`,
           {
             method: "GET",
             headers: {

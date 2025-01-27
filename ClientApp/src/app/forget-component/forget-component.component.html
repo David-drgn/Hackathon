@@ -1,0 +1,20 @@
+<div class="background_main">
+</div>
+<div class="container">
+    <div class="wrapper">
+        <span class="title">Redefina a sua senha</span>
+        <div class="input_icon_div">
+            <input [type]="viewPassword? 'password' : 'text'" placeholder="Senha*"
+                matTooltip="Coloque uma senhas forte para você ter mais segurança" />
+            <img src="/assets/icon/eyeOpen.png" class="eye" (click)="viewPassword = false" *ngIf="viewPassword" />
+            <img src="/assets/icon/eyeClose.png" class="eye" (click)="viewPassword = true" *ngIf="!viewPassword" />
+        </div>
+        <div class="input_icon_div">
+            <input [type]="viewPassword? 'password' : 'text'" placeholder="Confirmar senha*"
+                matTooltip="Coloque uma senhas forte para você ter mais segurança" />
+            <img src="/assets/icon/eyeOpen.png" class="eye" (click)="viewPassword = false" *ngIf="viewPassword" />
+            <img src="/assets/icon/eyeClose.png" class="eye" (click)="viewPassword = true" *ngIf="!viewPassword" />
+        </div>
+        <button>Redefinir</button>
+    </div>
+</div>

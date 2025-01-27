@@ -38,6 +38,7 @@ import { EventComponent } from "./popUp/event/event.component";
 import { ServicesComponent } from './popUp/services/services.component';
 import { PhoneMaskPipe } from './pipes/phoneMask/phone-mask.pipe';
 import { AgendaComponent } from './popUp/agenda/agenda.component';
+import { ForgetComponentComponent } from './forget-component/forget-component.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { AgendaComponent } from './popUp/agenda/agenda.component';
     ServicesComponent,
     PhoneMaskPipe,
     AgendaComponent,
+    ForgetComponentComponent,
   ],
   imports: [
     BrowserModule,

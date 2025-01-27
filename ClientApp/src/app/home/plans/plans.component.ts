@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { canActiveGuard } from 'src/app/guards/canActive/can-active.guard';
 import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
 import { HttpService } from 'src/app/services/http/http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
@@ -28,7 +29,8 @@ export class PlansComponent {
     private storage: StorageService,
     private http: HttpService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private canActive: canActiveGuard
   ) {
     this.storage.load.next(true);
     this.getPlans();
@@ -40,6 +42,7 @@ export class PlansComponent {
         this.storage.load.next(false);
         if (res.erro) {
           console.error('Erro ao realizar busca');
+          this.canActive.canActivate();
         } else {
           this.planos = res.response;
         }

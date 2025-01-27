@@ -8,6 +8,7 @@ import {
 } from '@angular/material/dialog';
 import { HttpService } from 'src/app/services/http/http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { canActiveGuard } from 'src/app/guards/canActive/can-active.guard';
 
 interface Plano {
   beneficios: string;
@@ -75,7 +76,8 @@ export class RegisterComponent {
     private storage: StorageService,
     private http: HttpService,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private canActive: canActiveGuard
   ) {}
 
   ngAfterViewInit() {
@@ -201,6 +203,7 @@ export class RegisterComponent {
         this.storage.load.next(false);
         if (res.erro) {
           console.error('Erro ao realizar busca');
+          this.canActive.canActivate();
         } else {
           this.planos = res.response;
           this.formEnterprise.controls.plan.setValue(this.data.plan);

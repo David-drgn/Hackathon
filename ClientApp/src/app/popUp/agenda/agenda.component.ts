@@ -7,6 +7,7 @@ import {
 import { HttpService } from 'src/app/services/http/http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { canActiveGuard } from 'src/app/guards/canActive/can-active.guard';
 
 interface Appointment {
   cliente: {
@@ -54,7 +55,8 @@ export class AgendaComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private storage: StorageService,
     private http: HttpService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private canActive: canActiveGuard
   ) {
     this.getEvent();
     this.user = this.storage.user.getValue();
@@ -68,6 +70,7 @@ export class AgendaComponent {
       .subscribe((res) => {
         if (res.erro) {
           console.error('Erro na busca');
+          this.canActive.canActivate();
         } else {
           this.agenda = res.response[0];
           if (this.user.new_tipodaconta == 0) {
@@ -98,6 +101,7 @@ export class AgendaComponent {
         this.storage.load.next(false);
         if (res.erro) {
           console.error('Erro ao atualizar');
+          this.canActive.canActivate();
         } else {
           this.openDialog(
             'Sua agenda foi atualizada',

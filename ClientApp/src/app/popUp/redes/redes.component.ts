@@ -35,13 +35,20 @@ export class RedesComponent {
   ) {
     this.redes =
       JSON.parse(this.storage.user.getValue().new_redessociais) || [];
+    this.redesAux = this.redes;
   }
 
   close() {
     this.dialogRef.close();
   }
 
-  search() {}
+  search() {
+    if (this.searchText)
+      this.redes = this.redesAux.filter((e) =>
+        e.rede.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    else this.redes = this.redesAux;
+  }
 
   createRede() {
     if (!this.new_rede_name || !this.new_rede_url) {
@@ -93,9 +100,6 @@ export class RedesComponent {
   }
 
   deleteRede(item: Rede) {
-    console.log(item);
-    console.log(this.redesAux);
-
     this.redesAux = this.redesAux.filter((e) => e !== item);
     this.redes = this.redesAux;
 

@@ -66,6 +66,11 @@
   gap: 7.5px;
 }
 
+.title_files {
+  align-items: center;
+  display: flex;
+}
+
 .archive_info_more {
   display: flex;
   justify-content: space-between;
@@ -75,7 +80,7 @@
 
 .options_file {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .search_input_files {

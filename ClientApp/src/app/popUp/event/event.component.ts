@@ -8,6 +8,7 @@ import {
 import { HttpService } from 'src/app/services/http/http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { canActiveGuard } from 'src/app/guards/canActive/can-active.guard';
 
 interface Service {
   new_Account_new_Servico_new_Servico: AccountsService[] | undefined;
@@ -69,7 +70,8 @@ export class EventComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private storage: StorageService,
     private http: HttpService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private canActive: canActiveGuard
   ) {}
 
   ngAfterViewInit() {
@@ -82,6 +84,7 @@ export class EventComponent {
       (res) => {
         if (res.erro) {
           console.error('Erro na busca');
+          this.canActive.canActivate();
           this.getService();
         } else {
           this.services = res.response;
@@ -90,6 +93,7 @@ export class EventComponent {
       },
       (Error) => {
         console.error('Erro na busca');
+        this.canActive.canActivate();
         this.getService();
       }
     );
@@ -339,10 +343,6 @@ export class EventComponent {
               'Pedão, porém ocorreu um erro ao criar a consulta, por favor, tente novamente mais tarde'
             );
           } else {
-            this.openDialog(
-              'Consulta',
-              'Sua agenda foi atalizada com sucesso, parebéns'
-            );
             this.dialogRef.close();
           }
         });
@@ -389,10 +389,6 @@ export class EventComponent {
                 'Pedão, porém ocorreu um erro ao criar a agenda livre, por favor, tente novamente mais tarde'
               );
             } else {
-              this.openDialog(
-                'Agenda livre',
-                'Sua agenda foi atalizada com sucesso, parebéns'
-              );
               this.dialogRef.close();
             }
           });

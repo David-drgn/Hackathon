@@ -1,12 +1,13 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject } from '@angular/core';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   MatDialog,
-} from "@angular/material/dialog";
-import { HttpService } from "src/app/services/http/http.service";
-import { StorageService } from "src/app/services/storage/storage.service";
-import { DialogComponent } from "../dialog/dialog.component";
+} from '@angular/material/dialog';
+import { HttpService } from 'src/app/services/http/http.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { DialogComponent } from '../dialog/dialog.component';
+import { canActiveGuard } from 'src/app/guards/canActive/can-active.guard';
 
 interface ServiceItem {
   new_name: string;
@@ -21,15 +22,16 @@ interface AccountServiceRelation {
 }
 
 @Component({
-  selector: "app-services",
-  templateUrl: "./services.component.html",
-  styleUrls: ["./services.component.css"],
+  selector: 'app-services',
+  templateUrl: './services.component.html',
+  styleUrls: ['./services.component.css'],
 })
 export class ServicesComponent {
   services: ServiceItem[] = [];
   servicesAux: ServiceItem[] = [];
 
-  searchText: string = "";
+  searchText: string = '';
+  newService: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
@@ -42,21 +44,53 @@ export class ServicesComponent {
     this.getServices();
   }
 
+  createService() {
+    if (
+      this.newService == '' ||
+      this.servicesAux.some(
+        (e) => e.new_name.toLowerCase() === this.newService.toLowerCase()
+      )
+    ) {
+      this.openDialog(
+        'Por favor, preencha corretamente',
+        'Para a criação de um serviço, preencha corretamente o campo, não podendo colocar nenhum campo já existente ou vazio'
+      );
+    } else {
+      this.storage.load.next(true);
+      this.http
+        .POST('service/create', {
+          record: {
+            new_name: this.newService,
+          },
+          userId: this.storage.user.getValue().accountid,
+        })
+        .subscribe((res) => {
+          this.newService = '';
+          this.storage.load.next(false);
+          if (res.erro) {
+            console.error('Erro');
+          } else {
+            this.getServices();
+          }
+        });
+    }
+  }
+
   getServices() {
     this.http
-      .POST("service/get", {
+      .POST('service/get', {
         id: this.storage.user.getValue().accountid,
       })
       .subscribe((res) => {
         this.storage.load.next(false);
         if (res.erro) {
-          console.error("Erro");
+          console.error('Erro');
         } else {
           this.services = res.response.map((item: any) => {
             return {
               new_name: item.new_name,
               new_servicoid: item.new_servicoid,
-              new_descricao: item.new_descricao || "Descrição não disponível",
+              new_descricao: item.new_descricao || 'Descrição não disponível',
               accountsRelated: item.new_Account_new_Servico_new_Servico || null,
             };
           });
@@ -88,15 +122,15 @@ export class ServicesComponent {
   deleteServiceRelation(serviceId: string) {
     this.storage.load.next(true);
     this.http
-      .POST("service/deleteRelation", {
+      .POST('service/deleteRelation', {
         serviceId,
         accountId: this.storage.user.getValue().accountid,
       })
       .subscribe((res) => {
         if (res.erro) {
           this.openDialog(
-            "Ocorreu um erro",
-            "Não foi possível deletar o serviço das suas preferências, pro favor, tente novamente"
+            'Ocorreu um erro',
+            'Não foi possível deletar o serviço das suas preferências, pro favor, tente novamente'
           );
         } else {
           this.getServices();
@@ -107,15 +141,15 @@ export class ServicesComponent {
   createServiceRelation(serviceId: string) {
     this.storage.load.next(true);
     this.http
-      .POST("service/createRelation", {
+      .POST('service/createRelation', {
         serviceId,
         accountId: this.storage.user.getValue().accountid,
       })
       .subscribe((res) => {
         if (res.erro) {
           this.openDialog(
-            "Ocorreu um erro",
-            "Não foi possível adicionar o serviço das suas preferências, pro favor, tente novamente"
+            'Ocorreu um erro',
+            'Não foi possível adicionar o serviço das suas preferências, pro favor, tente novamente'
           );
         } else {
           this.getServices();

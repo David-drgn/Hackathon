@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+import { canActiveGuard } from 'src/app/guards/canActive/can-active.guard';
 import { DialogComponent } from 'src/app/popUp/dialog/dialog.component';
 import { HttpService } from 'src/app/services/http/http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
@@ -10,6 +11,8 @@ interface DocumentAnnotation {
   documentbody: string;
   filename: string;
   mimetype: string;
+  filesize: number;
+  createdon: Date;
 }
 
 @Component({
@@ -27,9 +30,36 @@ export class ArchiveComponent {
     private http: HttpService,
     private storage: StorageService,
     private dialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private canActive: canActiveGuard
   ) {
     this.getArchives();
+  }
+
+  convertToMB(bytes: number): string {
+    if (bytes <= 0) return '0 MB';
+    const mb = bytes / (1024 * 1024);
+    return `${mb.toFixed(2)} MB`;
+  }
+
+  deleteFiles(id: string) {
+    this.storage.load.next(true);
+    this.http
+      .POST('deleteArchive', {
+        id,
+      })
+      .subscribe((res) => {
+        this.storage.load.next(false);
+        if (res.erro) {
+          this.openDialog(
+            'O arquivo não foi deletado',
+            'Perdão, porém, ocorreu um erro ao deletar o arquivo'
+          );
+        } else {
+          this.getArchives();
+          this.pdfSrc = '';
+        }
+      });
   }
 
   fileChangeCreate(event: any) {
@@ -62,6 +92,7 @@ export class ArchiveComponent {
                     'Perdão, porém seu arquivo não foi salvo, por favor, tente novamente'
                   );
                 }
+                this.getArchives();
               },
               (Erro) => {
                 console.log(Erro);
@@ -97,6 +128,7 @@ export class ArchiveComponent {
       .subscribe((res) => {
         if (res.erro) {
           console.error('Erro na busca');
+          this.canActive.canActivate();
         } else {
           this.documentos = res.response.results;
           console.log(this.documentos);

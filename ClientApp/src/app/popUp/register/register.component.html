@@ -101,9 +101,7 @@
     <span class="erro" *ngIf="formEnterprise.get('confirm')?.invalid && formEnterprise.get('confirm')?.touched">Coloque
       o confirmar
       senha com os dados pedidos</span>
-
-    <span class="erro" id="alert_required">* sinaliza os campos obrigatórios</span>
-
+      
     <select class="initial" formControlName="plan">
       <option value="">- Selecione uma opção de plano -</option>
       <option [value]="item.id" [title]="item.descricao" *ngFor="let item of planos">{{item.plano}} -

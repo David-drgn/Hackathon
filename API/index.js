@@ -51,7 +51,9 @@ async function codeTrigger(select) {
 
     return response;
   } else if (select.type == 2) {
-    // if (!response.erro) verifyEmail = verifyEmail.filter((e) => e !== select);
+    return {
+      erro: false,
+    };
   }
 }
 
@@ -87,9 +89,14 @@ app.get("/:code", async (req, res) => {
     } else {
       let code = await codeTrigger(select);
       if (!code.erro) {
-        return res.json({
-          token: code.token,
-        });
+        if(code.token){
+          return res.json({
+            token: code.token,
+          });
+        }
+        else{
+          res.redirect("http://localhost:4200/forget/124123")
+        }
       } else {
         return res.redirect("/systemErro?erro=401");
       }
@@ -218,17 +225,30 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/createArchive", async (req, res) => {
-  //   record.documentbody = "o"; // Text
-  // record.mimetype = "mi"; // Text
-  // record.filename = "te"; // Text
-  // record["objectid_account@odata.bind"] = "/accounts(4d09d9fb-0061-ef11-a670-000d3a5d2a2c)"; // Lookup
-
   if (await tokenValid(req.body.token)) {
     return res.json({ erro: true, message: "token expires" });
   } else {
     try {
       const user = await new User((await getConnect()).token);
       const response = await user.createArquivo(req.body.record);
+      if (response.erro) {
+        return res.json({ erro: true });
+      } else {
+        return res.json({ erro: false });
+      }
+    } catch {
+      return res.json({ erro: true });
+    }
+  }
+});
+
+app.post("/api/deleteArchive", async (req, res) => {
+  if (await tokenValid(req.body.token)) {
+    return res.json({ erro: true, message: "token expires" });
+  } else {
+    try {
+      const user = await new User((await getConnect()).token);
+      const response = await user.deleteFiles(req.body.id);
       if (response.erro) {
         return res.json({ erro: true });
       } else {

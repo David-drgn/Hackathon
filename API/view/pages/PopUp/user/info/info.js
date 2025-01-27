@@ -1,3 +1,0 @@
-function closeInfo() {
-  $("#infoUser").empty();
-}
