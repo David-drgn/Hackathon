@@ -4,20 +4,20 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 
-const { baseWebhookURL } = require("./src/config");
+// const { baseWebhookURL } = require("./src/config");
 
-if (!baseWebhookURL) {
-  console.error(
-    "BASE_WEBHOOK_URL environment variable is not available. Exiting..."
-  );
-  process.exit(1);
-}
+// if (!baseWebhookURL) {
+//   console.error(
+//     "BASE_WEBHOOK_URL environment variable is not available. Exiting..."
+//   );
+//   process.exit(1);
+// }
 
 require("dotenv").config();
 
-const router = require("./modules/router/router.js");
-const chat = require("./modules/chat/chatRoute.js");
-const appWhatsapp = require("./src/app");
+// const router = require("./modules/router/router.js");
+// const chat = require("./modules/chat/chatRoute.js");
+// const appWhatsapp = require("./src/app");
 
 const { FileExcel, FileDocx } = require("./modules/files/fileParser.js");
 const Connect = require("./modules/crm/connect.js");
